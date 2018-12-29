@@ -1,0 +1,201 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<style>
+    .mbactivitySelect div {
+        text-indent: 2em;
+    }
+</style>
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff; top: 0;">
+    <div class="mbProjectMoreTitle" style="border-bottom: 1px solid #F2F2F2;background: white">
+        <a href="javascript:;" class="mbPrMoreBackBtn Activity" style="width: auto;">
+            {% if video_type %}
+            {% if category %}
+            {{ category }}
+            {% else %}
+            {{ video_type }}
+            {% end %}
+            {% else %}
+            分类
+            {% end %}
+        </a>
+        视频
+        {#        <a href="javascript:;" class="mbPrMoreSeacher"></a>#}
+    </div>
+    <div class="mbactivitySelect" style="top:42px;left: 0;width: 100%;">
+        <div style="font-weight:700;" onclick="location='/mobile/course'">全部</div>
+        {% for t in video_type_db %}
+        {% set c_db = category_db(t.get('id','')) %}
+        <div style="font-weight:700;"
+             onclick="location='/mobile/course{{ url_for({"video_type":t.get('name')}) }}'">
+            {{ t.get('name','') }}
+        </div>
+        {% for c in c_db %}
+        <div style="text-indent: 3em;"
+             onclick="location='/mobile/course{{ url_for({"video_type":t.get('name'),"category":c.get('name','')}) }}'">
+            {{ c.get('name','') }}
+        </div>
+        {% end %}
+        {% end %}
+
+    </div>
+</div>
+
+<div>
+    <br>
+    {#        <div class="class_banner">#}
+    {#        <span class="class_activity"><img src="../static/imges/class_activity.png"#}
+    {#                                          onclick="window.location.href='mb_classdetails'"></span>#}
+    {#        </div>#}
+    <!--class_banner-->
+    <div class="class_bifbox" id="wrapper" style="background: #fff;">
+        <ul class="data_insert">
+            {% for c in courses %}
+{#            {% if c.get('video_type')=='创业攻略' %}#}
+            <li>
+                {% if c.get('image') %}
+                {% set course_image='../static/media/course_img/'+c.get('image') %}
+                {% else %}
+                {% set course_image='../static/img/course/course2.jpg' %}
+                {% end %}
+                <div class="class_openclass">
+                    <img src="{{ course_image }}" onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                         onclick="window.location.href='/mb_classdetails?id={{ c['id'] }}'">
+
+                    <p class="class_biaoti">{{ c['title'] }}</p>
+                                <span class="zhujiang">
+                                    主讲：{{ speak_info(c.get('speaker',0)) }}
+                                </span>
+                                <span class="liulanliang">
+                                    浏览量：{{ c.get("visit",0) }}
+                                </span>
+                                <span class="shijian">
+                                    {{ c['time'] }}
+                                </span>
+                </div>
+                <div class="class_tingk" onclick="window.location.href='/mb_classdetails?id={{ c['id'] }}'">进去听课
+                </div>
+            </li>
+{#            {% else %}#}
+{#            // 这里放置其他类型视频#}
+{#            {% end %}#}
+            {% end %}
+
+            {% if courses.count()==0 %}
+            很遗憾,没有找到该条件下的视频。
+            {% end %}
+            {% if courses.count()<2 %}
+            <script>
+                $(document).ready(function () {
+                    $('.pullUp').hide();
+                })
+
+            </script>
+            {% end %}
+            <!--class_openclass-->
+        </ul>
+    </div>
+</div>
+
+{% end %}
+<!--big_class-->
+{% block script %}
+<script>
+    $('.mbFooterDiv a').eq(1).addClass('selected');
+    $('.mbPrMoreBackBtn.Activity').click(function () {
+        $('.mbactivitySelect').slideToggle('fast');
+    });
+    $('.mbactivitySelect div').click(function () {
+        $('.mbactivitySelect').slideUp('fast');
+    });
+
+    <!--加载更多-->
+    $(document).ready(function () {
+
+    });
+    refresher.init({
+        id: "wrapper", //初始化
+        pullDownAction: Refresh,
+        pullUpAction: Load
+    });
+    function Refresh() {
+        setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
+            var el, li, i;
+            el = document.querySelector("#wrapper ul");
+            //这里写你的刷新代码
+            document.getElementById("wrapper").querySelector(".pullDownIcon").style.display = "none";
+            document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML = "<img src='/static/img/refresher2/ok.png'/>刷新成功";
+            setTimeout(function () {
+                wrapper.refresh();
+                document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML = "";
+            }, 1000);//模拟qq下拉刷新显示成功效果
+            /****remember to refresh after  action completed！ ---yourId.refresh(); ----| ****/
+        }, 1000);
+        location.reload();
+    }
+
+    var page = {{ page }};
+    function Load() {
+        var Request = new Object();
+        var data = {};
+        var list_box = $(".data_insert");
+        var html = '';
+        Request = getRequest();
+        data['_xsrf'] = getCookie("_xsrf");
+        data['page'] = page;
+        data['category'] = Request['category'];
+        data['video_type'] = Request['video_type'];
+        jQuery.ajax({
+            url: "/mobile/course/ajax/more",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                if (jsons.status == "ok") {
+                    if (parseInt(jsons.num) > 0) {
+                        $.each(jsons.list, function (k, v) {
+{#                            if (v.video_type == '创业攻略') {#}
+                                html += '<li>';
+                                html += '   <div class="class_openclass">';
+                                html += '       <img src=\"../static/media/course_img/' + v.image + '"onerror="javascript:this.src=\'{{ static_url('img/error.png') }}\';" onclick="window.location.href=\'/mb_classdetails?id='+ v.id +'\'">';
+                                html += '       <p class="class_biaoti">';
+                                html +=             v.title;
+                                html += '       </p>';
+                                html += '       <span class="zhujiang">';
+                                html += '           主讲人：'+ v.speaker;
+                                html += '       </span>';
+                                html += '       <span class="liulanliang">';
+                                html += '           浏览量：'+ v.visit;
+                                html += '       </span>';
+                                html += '       <span class="shijian">';
+                                html +=             v.time;
+                                html += '       </span>';
+                                html += '   </div>';
+                                html += '   <div class="class_tingk" onclick="window.location.href=\'/mb_classdetails?id='+ v.id+'\'">进去听课</div>';
+                                html += '</li>';
+{#                            }#}
+{#                            // 其他类型视频html代码拼接#}
+{#                            else{#}
+{##}
+{#                            }#}
+
+                        });
+                        list_box.append(html);
+                        wrapper.refresh();
+                        /****remember to refresh after action completed！！！   ---id.refresh(); --- ****/
+                        return page += 10;
+                    }
+                    else {
+                        wrapper.refresh();
+{#                        alert("没有更多了");#}
+                        return false; //没有更多
+                    }
+                }
+                else {
+                    alert(jsons.msg);
+                }
+            }
+        })
+    }
+</script>
+{% end %}

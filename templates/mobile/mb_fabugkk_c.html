@@ -1,0 +1,70 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    所属专辑
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_class_course" method="post" enctype="multipart/form-data" name="issueCourseSpecialForm"
+          id="issueCourseSpecialForm">
+        {% module xsrf_form_html() %}
+        <input type="hidden" name="id" value="{{ course_id }}">
+
+        <div class="xmliche_a">
+		   	 
+		   	<span class="xmwz_biao">
+		   	  	<p>专辑</p>
+		   	  	<input type="text" name="special"/>
+		   	  </span>  
+		   	
+		<span class="xmwz_biao xmwz_xiangmu">
+		   	  	<p>专辑介绍</p>
+		   	  <textarea type="text" name="desc"></textarea>
+		   	  </span>
+
+
+            <div class="xiayibu xiayibuA">完成</div>
+
+
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+    $('.xiayibu').click(function () {
+        $("#issueCourseSpecialForm").validate({
+            rules: {
+                special: {
+                    required: true,
+                    maxlength: 25,
+                },
+                desc: {
+                    required: true,
+                    maxlength: 200
+                },
+            },
+            messages: {
+                special: {
+                    required: '专辑名不能为空！',
+                    maxlength: '不多于25个字符!',
+                },
+                desc: {
+                    required: '专辑介绍不能为空！',
+                    maxlength: '不多于200个字符!',
+                },
+            },
+     });
+      $("#issueCourseSpecialForm").submit();
+    });
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}
+
+
+
+

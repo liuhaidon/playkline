@@ -1,0 +1,243 @@
+{% extends "../base.html" %}
+{% block page_title %}消息中心|创业孵化平台{% end %}
+
+{% block content %}
+
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+
+            <div class="fbdcy item0 {% if type=='notice' %}fbdcy2{% end %}" onclick="location='?type=notice'">&emsp;&emsp;通知&emsp;
+
+            </div>
+            {% if unread_notices.count()>0 %}
+                <sup style="color:#ffffff;background: red;border-radius: 50%;padding: 0px 5px;position: relative;right: 30px">{{ unread_notices.count() }}</sup>
+            {% end %}
+            <div class="fbdcy item1 pldcy {% if type=='message' %}fbdcy2{% end %}"
+                 onclick="location='?type=message'">&emsp;&emsp;私信&emsp;
+
+            </div>
+             {% if unread_messages.count()>0 %}
+                <sup style="color:#ffffff;background: red;border-radius: 50%;padding: 0px 5px;position: relative;right: 30px">{{ unread_messages.count() }}</sup>
+             {% end %}
+        </div>
+        <!--<style>*{border:1px dashed red}</style>-->
+        <div class="xiaoxi-center">
+            <div class="xiaoxi-sixin">
+                {% if unread_messages.count()>0 %}
+                <div class="xiaoxi-list Direct">
+                    <img src="/static/img/startup/message_dft.png" border="none" align="absmiddle">
+
+                    <div class="div-inline">Hi，您收到{{ unread_messages.count() }}条未读私信，请注意查看。</div>
+                </div>
+                {% end %}
+                {% for m in messages %}
+                {% module messageTpl(m) %}
+                {% end %}
+                {% if messages.count() !=0 %}
+                <div class="Login-record">
+                    <div class="Login-record-page">
+                        {{ messages.count() }}条记录&emsp;{{ current_page }}/{{ messages_counts }}页&emsp;
+
+                        {% set start=start_index %}
+                        {% set end=start + 7 if current_page<messages_counts-7 else messages_counts %}
+                        {% if current_page>1 %}
+                        <a href="?type=message&page=1" class="">首页</a>
+                        <a href="?type=message&page={{ current_page - 1 }}" class="">上一页</a>
+                        {% end %}
+                        {% for i in range(start,int(end) + 1) %}
+                        <a href="?type=message&page={{ i }}" class="{% if current_page==i %}lrpage{% end %}">{{ i }}</a>
+                        {% end %}
+                        {% if end <messages_counts %}
+                        <a href="?type=message&page={{ end }}" class="{% if current_page==end %}{% end %}">...</a>
+                        <a href="?type=message&page={{ current_page + 1 }}" class="">下一页</a>
+                        {% end %}
+                        {% if current_page>1 %}
+                        <a href="?type=message&page={{ messages_counts }}"
+                           class=" {% if current_page ==messages_counts %}lrpage{% end %}">末页</a>
+                        {% end %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="no-infomation">
+                    <div>
+                        <img src="/static/img/startup/notice_dft.png" alt="" border="none"/>
+
+                        <p>暂无私信</p>
+                    </div>
+                </div>
+                {% end %}
+            </div>
+        </div>
+    </div>
+    <p class="clear"></p>
+</div>
+<!--mask-->
+<div class="_mask"></div>
+<div class="_alert">
+    <div class="parkHatchTitle">面试邀请</div>
+    <form action="javascript:;" method="post" enctype="multipart/form-data" name="parkHatch" id="parkHatch">
+        {% module xsrf_form_html() %}
+        <table class="parkHatch">
+            <tr>
+                <td>时间：</td>
+                <td><input class="input270" name="time" readonly onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                </td>
+            </tr>
+            <tr>
+                <td>地点：</td>
+                <td><input class="input100" name="address"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <a href="javascript:;" class="abtn button button-primary button-small" id="submit">提交</a>
+                    <a href="javascript:;" class="abtn button button-primary button-small" id="_cancel">取消</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<style>
+    ._mask {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.6);
+        bottom: 0;
+        display: none;
+    }
+
+    ._alert {
+        position: fixed;
+        z-index: 100;
+        width: 655px;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 8px;
+        box-shadow: -1px 1px 15px rgba(0, 0, 0, 0.5) inset;
+        top: 30%;
+        margin-top: -154px;
+        left: 50%;
+        margin-left: -327px;
+        padding: 30px 40px;
+        display: none;
+    }
+</style>
+
+<script>
+    $(function () {
+        $('.fbdcy').click(function () {
+            $(this).addClass('fbdcy2').siblings().removeClass('fbdcy2');
+        });
+
+        var a = $('.xiaoxi-tongzhi')[0].style.display == 'block' ? true : false;
+        var b = $('.xiaoxi-sixin')[0].style.display == 'block' ? true : false;
+        $('.fbdcy.item0').click(function () {
+            if (a) return false;
+            if (!a) {
+                $('.xiaoxi-sixin')[0].style.display = 'none';
+                $('.xiaoxi-tongzhi').fadeIn();
+            }
+        });
+
+        $('.fbdcy.item1').click(function () {
+            if (b) return false;
+            if (!b) {
+                $('.xiaoxi-tongzhi')[0].style.display = 'none';
+                $('.xiaoxi-sixin').fadeIn();
+            }
+        });
+
+
+        $('.notice11').click(function () {
+            var Arr = new Array();
+            $('.notice2').each(function (k, v) {
+                if ($(v).is(':checked')) {
+                    Arr.push($(v).attr('data-id'));
+                }
+            });
+
+            $.ajax({
+                type: 'post',
+                url: '/user/notice/delete',
+                data: {'ids': Arr},
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    console.log(data);
+                    console.log(json);
+                    if (json.status == 'ok') {
+                        for (var i in Arr) {
+                            $('.notice2').each(function (k, v) {
+                                if ($(v).attr('data-id') == Arr[i]) {
+                                    $(v).parent().slideUp('slow').remove();
+                                }
+                            });
+                        }
+                        alert(json.msg);
+                    }
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    var select;
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    $('.invite_interview').click(function () {
+        select=$(this);
+        $('body').css('overflow', 'hidden');
+        $('._mask').fadeIn('fast');
+        $('._alert').slideDown('fast');
+    });
+
+    $('#_cancel,#submit').click(function () {
+        $('body').css('overflow', 'auto');
+        $('._mask').fadeOut('fast');
+        $('._alert').slideUp('fast');
+    });
+
+    // 邀请面试
+    $("#submit").click(function () {
+        //job_id TODO
+        var that = $('.invite_interview');
+        var data = {};
+        data['message_id'] = select.data("id");
+        data['receiver_id'] = select.data("uid");
+        data['interview_time'] = $("input[name='time']").val();
+        data['address'] = $("input[name='address']").val();
+        data['_xsrf'] = getCookie("_xsrf");
+        jQuery.ajax({
+            url: "/postLetter/inviteInterview",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                if (jsons.status == "ok") {
+                    console.log(jsons);
+                    select.text("已发送邀请");
+                    $('body').css('overflow', 'auto');
+                    $('._mask').fadeOut('fast');
+                    $('._alert').slideUp('fast');
+                }
+                else {
+                    alert(jsons.msg);
+                }
+            }
+        })
+    });
+
+</script>
+
+
+{% end %}
+
+

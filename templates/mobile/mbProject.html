@@ -1,0 +1,134 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectDiv">
+    <div class="mbIndexSearch">
+        <a href="javascript:;" class="mbSearchABtn"></a>
+        <input type="text" placeholder="输入关键字搜索" class="mbSearchInput">
+    </div>
+
+</div>
+
+<div class="mbPrShufflingDevice">{#轮播器#}</div>
+<div class="mbPrIcon" id="mbPrIcon">
+    <a href="javascript:;" class="mbPrIcon1" data-url="{{ url_for({"tag":"设计"}) }}">设计</a>
+    <a href="javascript:;" class="mbPrIcon2" data-url="{{ url_for({"tag":"科技"}) }}">科技</a>
+    <a href="javascript:;" class="mbPrIcon3" data-url="{{ url_for({"tag":"生活"}) }}">生活</a>
+    <a href="javascript:;" class="mbPrIcon4" data-url="{{ url_for({"tag":"公益"}) }}">公益</a>
+    <a href="javascript:;" class="mbPrIcon5" data-url="{{ url_for({"tag":"社交"}) }}">社交</a>
+    <a href="javascript:;" class="mbPrIcon6" data-url="{{ url_for({"tag":"运动"}) }}">运动</a>
+    <a href="javascript:;" class="mbPrIcon7" data-url="{{ url_for({"tag":"音乐"}) }}">音乐</a>
+    <a href="javascript:;" class="mbPrIcon8" data-url="{{ url_for({"tag":"电影"}) }}">电影</a>
+
+    <p class="clear"></p>
+</div>
+<div class="mbPrPublicWelfare">
+    <a class="mbPrPublicWelfareList">
+        <div class="mbPrfloatRightDiv">公益</div>
+        <img src="../../static/mobile/img/mbProject/img1.png" alt="">
+    </a>
+    <a class="mbPrPublicWelfareList">
+        <img src="../../static/mobile/img/mbProject/img2.png" alt="">
+    </a>
+
+    <p class="clear"></p>
+</div>
+<div class="mbProjectList">
+    <div class="mbProjectListTitle">
+        <div class="mbProjectListTitleLeft">热门项目</div>
+        <a class="mbProjectListTitleRight">更多 <span>&rsaquo;</span></a>
+
+        <p class="clear"></p>
+    </div>
+    <div class="idea-count" id="project_list">
+        {% for p in projects %}
+        {% set i=interest_plan(p['id']) %}
+        {% if i %}
+        {# 有融资计划 #}
+        <div class="mbProjectListDiv" onclick="location='/mbProjectDetail?id={{ p['id'] }}'">
+            <img src="../static/media/project_img/{{ p.get('image','') }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';" alt=""
+                 class="mbProjectListDivImg">
+
+            <div class="mbProjectListDivRight">
+                <div class="mbProjectListDivRightTitle">
+                    {% if len(p['name'])>10 %}
+                    {{ p['name'][:10]+"..." }}
+                    {% else %}
+                    {{ p['name'] }}
+                    {% end %}
+                </div>
+                {% if i.get('status','')=='online' %}
+                {% set get_amount=i.get("progress",0) %}
+                {% set left_amount= i['info']['total_amount'] %}
+                {% set current_percent=percent(get_amount,left_amount) *100 /10000 %}
+                <div class="mbPrLiDivRightBar"><p class="mbPrLiDivRightBarP"></p></div>
+                <div class="mbPrLiDivRightBottom">
+                    已筹：{{ get_amount }}元
+                    剩余时间：{{ left_days(i['time'],i['info']['days']) }}天
+                    <br>
+                    已达：{{ current_percent }}%
+                </div>
+                {% end %}
+            </div>
+            <p class="clear"></p>
+        </div>
+        {% else %}
+        {# 无融资计划 #}
+        <div class="mbProjectListDiv" onclick="location='/mbProjectDetail?id={{ p['id'] }}'">
+            {#        <img src="../static/media/project_img/{{ p.get('image','') }}" alt="" class="mbProjectListDivImg">#}
+            <img src="../static/media/project_img/{{ p.get('image','') }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';" alt=""
+                 class="mbProjectListDivImg">
+
+            <div class="mbProjectListDivRight">
+                <div class="mbProjectListDivRightTitle">
+                    {% if len(p['name'])>10 %}
+                    {{ p['name'][:10]+"..." }}
+                    {% else %}
+                    {{ p['name'] }}
+                    {% end %}
+                </div>
+                <div class="mbPrLiDivRightBar"><p class="mbPrLiDivRightBarP"></p></div>
+                <div class="mbPrLiDivRightBottom">
+                    {% set list = render(p['id']) %}
+                    投资指数：{{ list[0] }}
+                    关注度：{{ list[1] }}
+                    科技指数：{{ list[2] }}
+                    总得分：{{ list[3] }}
+                </div>
+            </div>
+            <p class="clear"></p>
+        </div>
+        {% end %}
+        {% end %}
+        {% if projects.count()==0 %}
+        <p>无</p>
+        {% end %}
+    </div>
+</div>
+<script>
+
+    $(".mbPrIcon a,.mbSearchABtn").click(function () {
+        var args = $(this).data("url");
+        var search = $(".mbSearchInput").val();
+        if (search!="") {
+            args = '{{ url_for({}) }}'.replace("search=", "search=" + search);
+        }
+        location.href = '/mbProject' + args;
+    })
+
+    $(".mbProjectListTitleRight").click(function () {
+        var src = window.location.href;
+        if(location.href.indexOf("?status=")>-1) {
+            var I = src.substr(src.indexOf("?status="));
+        }
+        else{
+            var I="";
+        }
+        location.href = '/mobile/projectmore' + I
+
+    })
+</script>
+{% end %}
+

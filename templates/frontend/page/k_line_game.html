@@ -1,0 +1,162 @@
+{% extends "../base.html" %}
+<title>{% block page_title %}玩转K线{% end %}</title>
+{% block other_css %}
+{% end %}
+
+{% block head %}
+{% end %}
+
+{% block content %}
+		<div class="k_line_bigbox">
+			<div class="k_line_box bisai_box">			
+				<div class="k_line_flebox">
+					<div class="k_line_topbox">
+						<div class="topbox_left">
+							<p>9.83</p>
+							<p>9.26</p>
+							<p>9.26</p>
+							<p>8.68</p>
+							<p>8.11</p>
+							<p>7.34</p>
+							<p>6.22</p>
+							<p>5.34</p>
+							<p>4.22</p>
+							<p>4.14</p>
+							<p>3.22</p>
+						</div>
+						<div class="topbox_right">
+							<p class="kline_text">
+								<span class="KLINE">KLINE(120)</span>
+								<span class="MA5">MA5:7.81</span>
+								<span class="MA10">MA10:7.98(120)</span>
+								<span class="MA20">MA20:8.39</span>
+							</p>
+							<ul>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li>1</li>
+								<li>1</li>
+								<li>1</li>
+							</ul>
+							<ul class="mengban" id="div1" style=" width:100%;">
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li>1</li>
+								<li>1</li>
+								<li>1</li>
+							</ul>
+							<div class="kline_tu_yellow">
+								<!--黄色k线-->
+								<!--<canvas  id="yellow_canvas"></canvas>-->
+								<svg width="100%" height="100%" version="1.1"  xmlns="http://www.w3.org/2000/svg">
+									<path fill="freeze" d="M0 100 L4 90 L8 110 L12 106 L16 120 L20 110 L24 102 L28 100 L32 99 L36 96 L40 100 L44 98 L48 92 L52 88 L56 90 L60 105 L64 110 L68 114 L72 98 L76 100 L80 94 L84 90 L88 88 L92 78 L96 84 L100 93 L104 96 L108 100 L112 102 L116 110 L120 112 L124 110 L128 116 L132 120 L136 128 L140 121 L144 119 L148 100 L150 89 L154 93 L158 86 L162 90 L166 92 L170 100 L174 102 L178 99 L182 106 L186 110 L190 112 L194 120 L198 116 L204 111 L208 99 L212 100 L216 89 L220 110 L224 111 L228 120 L232 90 L236 70 L240 111 L244 110 L248 112 L252 100 L256 114 L260 120 L264 110 L268 119 L272 100 L276 90 L280 80 L284 86 L288 100 L292 111 L294 80 L298 100 L302 110 L306 120 L310 80 L314 70 L318 60 L322 90" style="stroke: yellow;fill: none;" class="path"></Path>											
+								</svg>
+							</div>
+							
+							
+								<!--黄色k线-->							
+							<div id="content" style="position:absolute; top: 20%;z-index:16;"></div>
+							
+							<div class="kline_tu_green">								
+								<!--绿色k线-->
+								<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+									<path d="M0 101 L4 90 L8 110 L12 106 L16 121 L20 112 L24 105 L28 108 L32 96 L36 95 L40 109 L44 99 L48 92 L52 88 L56 90 L60 105 L64 110 L68 114 L72 98 L76 100 L80 94 L84 90 L88 90 L92 99 L96 96 L100 88 L104 89 L108 100 L112 102 L116 110 L120 112 L124 110 L128 120 L132 111 L136 120 L140 111 L144 112 L148 100 L150 89 L154 93 L158 86 L162 90 L166 92 L170 100 L174 102 L178 99 L182 106 L186 110 L190 112 L186 120 L198 90 L204 86 L208 70 L212 80 L216 89 L220 100 L224 120 L228 88 L232 70 L236 60 L240 50 L244 60 L248 80 L252 90 L256 110 L260 100 L264 110 L268 111 L272 90 L276 100 L280 90 L284 96 L288 112 L292 80 L294 70 L298 60 L302 70 L306 100 L310 98 L314 80 L318 110 L322 80" style="stroke: green;fill: none;" class="path"></Path>												
+								</svg>
+							</div>
+							<div class="kline_tu_perpu">
+								
+								<!--紫色k线-->
+								<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+									<path d="M0 111 L4 90 L8 100 L12 106 L16 114 L20 111 L24 102 L28 100 L32 99 L36 96 L40 100 L44 98 L48 86 L52 96 L56 98 L60 88 L64 100 L68 114 L72 98 L76 100 L80 100 L84 90 L88 98 L92 78 L96 84 L100 98 L104 96 L108 100 L112 100 L116 110 L120 112 L124 108 L128 116 L132 120 L136 120 L140 121 L144 111 L148 100 L150 89 L154 88 L158 86 L162 90 L166 100 L170 86 L174 88 L178 99 L182 106 L186 90 L190 112 L194 120 L198 108 L204 120 L208 110 L212 80 L216 60 L220 120 L224 130 L228 140 L232 150 L236 140 L240 130 L244 150 L248 120 L252 100 L256 130 L260 140 L264 110 L268 90 L272 89 L276 80 L280 110 L284 100 L288 89 L292 99 L294 100 L298 120 L302 80 L306 90 L310 100 L314 112 L318 98 L322 100" style="stroke: purple;fill: none;" class="path"></Path>
+								</svg>
+							</div>
+							<div id="sixaoji">
+								60
+							</div>
+						</div>
+
+					</div>
+					<div class="k_line_bottbox" id="tt">
+						<div class="bottbox_vol">
+							<div class="bottbox_left">
+								<p>115 </p>
+								<p>7892</p>
+							</div>
+							<div class="bottbox_right">
+								<p class="kline_text">
+									<span class="KLINE">KLINE(120)</span>
+									<span class="MA5">MA5:7.81</span>
+									<span class="MA10">MA10:7.98(120)</span>
+									<span class="MA20">MA20:8.39</span>
+								</p>
+								
+								<div class="bottbox_rightone">
+									<!--黄色k线-->
+									<div id="volume"></div>
+ 
+								</div>												
+							</div>
+						</div>
+					</div><!--k_line_bottbox-->
+					
+					<div class="k_line_bottbox" id="dd" style="display: none;">
+						<div class="bottbox_vol">
+							<div class="bottbox_left">
+								<p>5728</p>
+								<p>7892</p>
+							</div>
+							<div class="bottbox_right">
+								<p class="kline_text">
+									<span class="KLINE">KLINE(120)</span>
+									<span class="MA5">MA5:7.81</span>
+									<span class="MA10">MA10:7.98(120)</span>
+									<span class="MA20">MA20:8.39</span>
+								</p>															
+								<div class="bottbox_righttwo">
+									<!--绿色k线-->
+									<div id="greenrece"></div>
+								</div>								
+							</div>
+						</div>
+					</div><!--k_line_bottbox-->
+					
+					<div class="k_line_bottbox" id="ff" style="display: none;">
+						<div class="bottbox_vol">
+							<div class="bottbox_left">
+								<p>115728</p>
+								<p>7892</p>
+							</div>
+							<div class="bottbox_right">
+								<p class="kline_text">
+									<span class="KLINE">KLINE(120)</span>
+									<span class="MA5">MA5:7.81</span>
+									<span class="MA10">MA10:7.98(120)</span>
+									<span class="MA20">MA20:8.39</span>
+								</p>																								
+								<div class="bottbox_righttheer">
+									<!--绿色k线-->
+									<div id="macd" ></div>
+								</div>
+							</div>
+						</div>
+					</div><!--k_line_bottbox-->
+
+				</div>
+				
+			</div>
+			<!--k_line_box-->
+
+		</div>
+		<!--k_line_bigbox-->
+
+
+
+{% end %}

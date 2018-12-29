@@ -1,0 +1,211 @@
+{% extends "../base2.html" %}
+<title>{% block page_title %}玩转K线{% end %}</title>
+{% block content %}
+<div class="cen cen_ClassicMode">
+    <p class="gonggao">
+        <marquee scrollamount="4" scrolldelay="100" direction="left" width="75%" height="100%">
+            11获得了2015-11-22,16:00开始的30元话费争夺赛 12获得了2015-11-22,18:00开始的40元话费争夺赛
+        </marquee>
+    </p>
+
+    <p class="jianbianxian"></p>
+
+    <div class="ClassicMode_box">
+        <!--tab-->
+        <div class="ClassicMode_boxkuan">
+            <div class="ClassicMode_box_nav">
+                <div id="tiaozhansai" class="selected" style="border-right:1px solid #c4aa1b ;">
+                    <img src="{{ static_url('img/tiaozhansai.png') }}">
+                </div>
+                <div id="dajiangsai" style="border-right:1px solid #c4aa1b ;border-left:1px solid #f4d04c;">
+                    <img src="{{ static_url('img/dajiangsai.png') }}">
+                </div>
+                <div id="huafeisai" style="border-left:1px solid #f4d04c;">
+                    <img src="{{ static_url('img/huafeisai.png') }}">
+                </div>
+            </div>
+        </div>
+
+        <!--tiaozhansai_box-->
+        <div class="tiaozhansai_box">
+            <div class="list_box">
+                 <ul>
+                     <li>
+                         <div class="list_l">
+                             <div class="lis_img"><img src="/static/imgs/avatar/1.png?v=c71387236678d5f8c1d094090db5338f"></div>
+                             <div class="lis_text">
+                                 <p class="l_title">九阳电磁炉大奖赛</p>
+                                 <p class="l_number">1000（人）</p>
+                             </div>
+                             <div class="lis_time">
+                                 <p>今天</p>
+                                 <p>20:20</p>
+                             </div>
+                             <div style="clear: both;"></div>
+                         </div>
+                         <div class="list_r">
+                             <img src="/static/img/baoming.png">
+                             <p>(需3500金)</p>
+                         </div>
+                         <div style="clear: both;"></div>
+                     </li>
+                     <li>
+                         <div class="list_l">
+                             <div class="lis_img"><img src="/static/imgs/avatar/1.png?v=c71387236678d5f8c1d094090db5338f"></div>
+                             <div class="lis_text">
+                                 <p class="l_title">九阳电磁炉大奖赛</p>
+                                 <p class="l_number">1000（人）</p>
+                             </div>
+                             <div class="lis_time">
+                                 <p>今天</p>
+                                 <p>20:20</p>
+                             </div>
+                             <div style="clear: both;"></div>
+                         </div>
+                         <div class="list_r">
+                             <img src="/static/img/baoming.png">
+                             <p>(需3500金)</p>
+                         </div>
+                         <div style="clear: both;"></div>
+                     </li>
+                     <li>
+                         <div class="list_l">
+                             <div class="lis_img"><img src="/static/imgs/avatar/1.png?v=c71387236678d5f8c1d094090db5338f"></div>
+                             <div class="lis_text">
+                                 <p class="l_title">超级大奖赛</p>
+                                 <p class="l_number">1000（人）</p>
+                             </div>
+                             <div class="lis_time">
+                                 <p>今天</p>
+                                 <p>20:20</p>
+                             </div>
+                             <div style="clear: both;"></div>
+                         </div>
+                         <div class="list_r">
+                             <img src="/static/img/baoming.png">
+                             <p>(需3500金)</p>
+                         </div>
+                         <div style="clear: both;"></div>
+                     </li>
+                 </ul>
+            </div>
+        </div>
+
+        <!--dajiangsai_box-->
+        <div class="dajiangsai_box">
+           <div class="list_box">
+                 <ul>
+                     <li>
+                         <div class="list_l">
+                             <div class="lis_img"><img src="/static/imgs/avatar/1.png?v=c71387236678d5f8c1d094090db5338f"></div>
+                             <div class="lis_text">
+                                 <p class="l_title">九阳电饭锅大奖赛</p>
+                                 <p class="l_number">1000（人）</p>
+                             </div>
+                             <div class="lis_time">
+                                 <p>今天</p>
+                                 <p>20:20</p>
+                             </div>
+                             <div style="clear: both;"></div>
+                         </div>
+                         <div class="list_r">
+                             <img src="/static/img/baoming.png">
+                             <p>(需3500金)</p>
+                         </div>
+                         <div style="clear: both;"></div>
+                     </li>
+                     <li>
+                         <div class="list_l">
+                             <div class="lis_img"><img src="/static/imgs/avatar/1.png?v=c71387236678d5f8c1d094090db5338f"></div>
+                             <div class="lis_text">
+                                 <p class="l_title">超级大奖赛</p>
+                                 <p class="l_number">1000（人）</p>
+                             </div>
+                             <div class="lis_time">
+                                 <p>今天</p>
+                                 <p>20:20</p>
+                             </div>
+                             <div style="clear: both;"></div>
+                         </div>
+                         <div class="list_r">
+                             <img src="/static/img/baoming.png">
+                             <p>(需3500金)</p>
+                         </div>
+                         <div style="clear: both;"></div>
+                     </li>
+                 </ul>
+            </div>
+
+        </div>
+
+        <!--huafeisai_box-->
+        <div class="huafeisai_box">
+            <div class="list_box">
+                 <ul>
+                     <li>
+                         <div class="list_l">
+                             <div class="lis_img"><img src="/static/imgs/avatar/1.png?v=c71387236678d5f8c1d094090db5338f"></div>
+                             <div class="lis_text">
+                                 <p class="l_title">10元话费</p>
+                                 <p class="l_number">1000（人）</p>
+                             </div>
+                             <div class="lis_time">
+                                 <p>今天</p>
+                                 <p>20:20</p>
+                             </div>
+                             <div style="clear: both;"></div>
+                         </div>
+                         <div class="list_r">
+                             <img src="/static/img/baoming.png">
+                             <p>(需3500金)</p>
+                         </div>
+                         <div style="clear: both;"></div>
+                     </li>
+                     <li>
+                         <div class="list_l">
+                             <div class="lis_img"><img src="/static/imgs/avatar/1.png?v=c71387236678d5f8c1d094090db5338f"></div>
+                             <div class="lis_text">
+                                 <p class="l_title">20元话费</p>
+                                 <p class="l_number">1000（人）</p>
+                             </div>
+                             <div class="lis_time">
+                                 <p>今天</p>
+                                 <p>20:20</p>
+                             </div>
+                             <div style="clear: both;"></div>
+                         </div>
+                         <div class="list_r">
+                             <img src="/static/img/baoming.png">
+                             <p>(需3500金)</p>
+                         </div>
+                         <div style="clear: both;"></div>
+                     </li>
+                     <li>
+                         <div class="list_l">
+                             <div class="lis_img"><img src="/static/imgs/avatar/1.png?v=c71387236678d5f8c1d094090db5338f"></div>
+                             <div class="lis_text">
+                                 <p class="l_title">超级大奖赛</p>
+                                 <p class="l_number">1000（人）</p>
+                             </div>
+                             <div class="lis_time">
+                                 <p>今天</p>
+                                 <p>20:20</p>
+                             </div>
+                             <div style="clear: both;"></div>
+                         </div>
+                         <div class="list_r">
+                             <img src="/static/img/baoming.png">
+                             <p>(需3500金)</p>
+                         </div>
+                         <div style="clear: both;"></div>
+                     </li>
+                 </ul>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% end %}
+

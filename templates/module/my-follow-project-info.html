@@ -1,0 +1,11 @@
+<tr>
+    <td><a href="/project/{{project['id'] }}">
+       <img src="../static/media/project_img/{{ project['image'] }}"
+            onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+            border="none" align="absmiddle" style="width:50px;">
+        </a>
+    </td>
+    <td><a href="/project/{{ project['id'] }}">{{project['name'] }}</a></td>
+    <td><a href="javascript:;" class="unfollow-project" data-id="{{ project['id'] }}">取消关注</a></td>
+    <td><a href="javascript:;" class="ckxqq">查看详情</a></td>
+</tr>

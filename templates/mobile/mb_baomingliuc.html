@@ -1,0 +1,171 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<style>
+    .yzbtu {
+        height: 26px;
+        width: 60%;
+        margin-left: 10px;
+        font-size: 1em;
+        border-radius: 4px;
+        border: none;
+        border: 1px solid #E5E5E5;
+        color: #999999;
+    }
+    .biaozhong .piaoshu{display: block;width:80%;height: auto;border: 1px solid  #00A0E9;padding: 20px;margin:20px auto;text-align: center;border-radius:4px ;overflow: hidden;}
+</style>
+<div class="mbProjectMoreTitle">
+    <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+    报名详情
+
+</div>
+<div class="nbig_box">
+    <div class="xmliche_a">
+        <span class="xmwz_biao">
+            <p>姓名</p>
+            <input type="text" name="name"/>
+        </span>
+		   	
+        <span class=" danxuan">
+            <input class="men" type="radio" name="sex" checked="male" value="male"/>
+            <input class="women" type="radio" name="sex" value="female"/>
+        </span>
+
+        <span class="xmwz_biao yzsjge">
+            <p>电话号码</p>
+            <input type="text" id="new_phone" style="" onfocus="$('#new_phone').val('').css({color:'#999'});"
+                   name="phone"/>
+        </span>
+		   	  
+        <span class="xmwz_biao">
+            <p>验证码</p>
+            <button type="button" class="yzbtu" style="width: 60%; height: 26px;" id="send_phone_code"
+                    href="javascript:;">
+                发送验证码
+            </button>
+            </span>
+            <span class="xmwz_biao">
+		   	  	<p>验证码填写</p>
+		   	  	<input type="text" name="msgcode"/>
+		   	  </span>
+
+            <span class="biaozhong">
+                <span>票种</span><br/>
+                {% for t in activity.get('ticket',{}) %}
+		   	    <div class="piaoshu">
+                   <span>
+                       {% if t['amount'] =='0' %}
+                       免费票
+                       {% else %}
+                       收费票
+                       {% end %}
+                   </span><br/>
+                    <span><a>金额：{{ t.get('amount') }}元</a><a>剩余票数：{{ t.get('places') }}</a></span>
+                </div>
+                {% end %}
+            </span>
+
+        <div class="xiayibu xiayibuA" data-id="{{ activity['id'] }}">确定</div>
+    </div>
+</div><!--nbig_box-->
+{% end %}
+
+{% block footer %}
+<script>
+    var wait;
+    $("#send_phone_code").click(function () {
+        wait = 60;
+        var data = {};
+        var mobile_number = $("#new_phone").val();
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        if (!myreg.test(mobile_number)) {
+            $('#new_phone').val("手机号码格式不正确！").css({color: "red"});
+            return false;
+        }
+        else {
+            $('#new_phone').attr("disabled", "disabled");
+            $(this).removeAttr("disabled").text("等待" + wait + "秒");
+            time1($(this));
+            data['mobile_number'] = mobile_number;
+            $.ajax({
+                type: 'post',
+                url: '/attend-activity/smscode',
+                data: data,
+                success: function (data) {
+                    var jsons = jQuery.parseJSON(data);
+                    if (jsons.error == "") {
+                    }
+                    else {
+                        alert(jsons.msg);
+                    }
+                }
+            });
+        }
+    });
+    function time1(o) {
+        if (wait == 0) {
+            o.removeAttr("disabled");
+            wait = 60;
+            o.text("重新获取");
+        } else {
+            o.attr("disabled", "true");
+            o.text("等待" + wait + "秒");
+            wait--;
+            setTimeout(function () {
+                        time1(o)
+                    },
+                    1000)
+        }
+    }
+
+    //活动报名
+    $(".xiayibu").click(function () {
+        wait = 60;
+        var data = {};
+        var number = $("input[name='phone']").val();
+        var name = $("input[name='name']").val();
+        var msgcode = $("input[name='msgcode']").val();
+        var chkObjs = null;
+        var obj = document.getElementsByName("sex")
+        for (var i = 0; i < obj.length; i++) {     //遍历sex
+            if (obj[i].checked) {
+                chkObjs = obj[i].value;
+            }
+        }
+        var sex = chkObjs;
+
+        data['activity_id'] = $(this).data("id");
+        data['realname'] = name;
+        data['mobile_number'] = number;
+        data['msgcode'] = msgcode;
+        data['ticket'] = 1;
+        data['sex'] = sex;
+        $.ajax({
+            type: 'get',
+            url: '/attend-activity/submit',
+            data: data,
+            success: function (data) {
+                var jsons = jQuery.parseJSON(data);
+                if (jsons.status == 'error') {
+                    alert(jsons.msg);
+                }
+                else {
+                    alert(jsons.msg);
+                    location.href='/mb_huodongxiangqing/{{ activity['id'] }}';
+                }
+            }
+        });
+    });
+
+
+
+    $(function () {
+        $('.piaoshu').click(function () {
+            $('.biaozhong .piaoshu').css({border:"2px solid #00A0E9"});
+        });
+    })
+</script>
+
+{% end %}
+
+

@@ -1,0 +1,532 @@
+{% extends "../base.html" %}
+{% block page_title %}项目中心|创业孵化平台{% end %}
+
+{% block content %}
+<script>
+    $(function () {
+        $('.delete').click(function () {
+            var list = $(this).parent();
+            var id = $(this).data('id');
+            var name = $(this).parent().find('h1#projectName').text();
+            if (confirm('确定要删除名称为  ' + name + '  的项目吗？')) {
+                $.ajax({
+                    type: 'get',
+                    url: '/user/project/delete/' + id,
+                    data: {},
+                    success: function (data) {
+                        var obj = JSON.parse(data);
+                        if (obj.status == 'ok') {
+                            $(list).fadeOut('slow').remove();
+                            alert(name + obj.msg);
+                        }
+                        else if (obj.status == 'error') {
+                            alert(name + obj.msg);
+                        }
+                    },
+                    error: function () {
+                        alert('error!');
+                    }
+                });
+            }
+        });
+    })
+</script>
+<style>
+    .delete {
+        padding: 0;
+        cursor: pointer;
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 50px;
+        line-height: 30px;
+        color: #00A0EA;
+    }
+
+    .person-idea-list {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .person-idea-list:hover .delete {
+        display: block;
+    }
+</style>
+
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        {% set r= role()%}
+        {% if r.get("role","") == "jury" %}
+        <div>
+            <div class="fbdcy jhclick" id="project-issued">需要评审的项目</div>
+        </div>
+
+        <div class="project-issued">
+            {% for p in review_project %}
+            <div class="person-idea-list">
+                <div class="p-i-l-l" style="position: relative;">
+                    <a href="/project/{{ p.get('_id') }}?arg=zjpy" class="ckxq-a">
+                        <img src="../static/media/project_img/{{ p.get('image','') }}"
+                             onerror="javascript:this.src='{{ static_url('img/error.png') }}'"
+                             style="width:260px;height: 186px;">
+                    </a>
+
+                    <div class="items">
+                        {% if not interest_info(p.get('_id')) %}
+                        <!-- <a href="/issue-plan/funding?from=project&id={{ p.get('_id') }}">
+                                                发起
+                                            </a> -->
+                        {% else %}
+                        {% set interest_status=interest_info(p.get('_id'))['status'] %}
+                        {% if interest_status=='editing' %}
+                        <a style="background: #333; color:#fff;"
+                           href="/issue-plan/funding?from=project&id={{ p.get('_id') }}&plan_id={{ interest_info(p.get('_id'))['id'] }}">待完善</a>
+                        {% elif interest_status=='confirmed' %}
+                        <a href="#">审核中</a>
+                        {% elif interest_status=='preheating' %}
+                        <a href="#">预热中</a>
+                        {% elif interest_status=='online' %}
+                        <a href="/project/subscribe_detail?id={{ p.get('_id') }}&">认购详情</a>
+                        {% end %}
+                        {% end %}
+                    </div>
+                </div>
+                <div class="p-i-l-r">
+                    <h1 id="projectName">{{ p['name'][0:20] }}
+                        <span class="text" style="float:right;font-size: 20px">
+                            {% if p['status']=='editing' %}
+                            <a href="/project/issue?id={{ p.get('_id') }}">编辑项目</a>
+                            {% elif p['status']=='online' %}
+                                <a href="/user/project-management?id={{ p.get('_id') }}">项目管理</a>
+                             {% end %}
+
+                        </span>
+                    </h1>
+                    <ul class="per-idea-ul">
+                        <li>项目进度：{{ status.get(p['status'], '') }}</li>
+                        <li>标签：{{ ','.join([t for t in p['tag']]) }}</li>
+                        <li>地区：广东深圳</li>
+                    </ul>
+                    <div>
+                        <div class="per-idea-item2">
+                            {% set index=progress_dict.get(p['status']) %}
+                            <div class="per-idea-item2-div1">
+                                <div class="piidd  {% if index>=1 %}pil-focus{% end %}"
+                                     {% if index==1 %}style="background-color:#fff"{% end %}>
+                                    {% if index>=2 %}✔{% end %}
+                                </div>
+                                <div class="piidd-line {% if index>=2 %}pil-focus{% end %}"></div>
+
+                                <div class="piidd {% if index>=2 %}pil-focus{% end %}"
+                                     {% if index==2 %}style="background-color:#fff"{% end %}>
+                                    {% if index>=4 %}✔{% end %}
+                                </div>
+                                <div class="piidd-line {% if index>4 %}pil-focus{% end %}"></div>
+
+                                <div class="piidd {% if index>=3 %}pil-focus{% end %}"
+                                     {% if index==5 %}style="background-color:#fff"{% end %}>
+                                    {% if index>=6 %}✔{% end %}
+                                </div>
+                                <div class="piidd-line {% if index>6 %}pil-focus{% end %}"></div>
+                                <div class="piidd {% if index==7 %}pil-focus{% end %}"
+                                     {% if index==6 %}style="background-color:#fff"{% end %}>
+                                    {% if index==7 %}✔{% end %}
+                                </div>
+                                <p class="clear"></p>
+                            </div>
+                            <div class="per-idea-item2-div2">
+                                <div class="font-color-blue">发布项目</div>
+                                <div>项目审核</div>
+                                <div>项目评审</div>
+                                <div>项目上架</div>
+                            </div>
+                        </div>
+                        <div class="per-idea-item3">
+                            <ul>
+                                {% if  p['status'] in ['online','complete'] %}
+                                <li>
+                                    <span class="text"><a href="/user/project-management?id={{ p.get('_id') }}&type=gqjh">股权计划</a></span>
+                                    <span class="line"></span>
+
+                                </li>
+                                <li>
+                                    <span class="text"><a href="/user/project-management?id={{ p.get('_id') }}&type=cdjh">入孵计划</a></span>
+                                    <span class="line"></span>
+                                    {#                                    <div class="item">#}
+                                    {#                                        {% if not place_plan_info(p.get('_id')) %}#}
+                                    {#                                        <a href="/issue-plan/place?from=project&id={{ p.get('_id') }}">发布</a>#}
+                                    {#                                        {% else %}#}
+                                    {#                                        <a href="/issue-plan/place?from=project&id={{ p.get('_id') }}&plan_id={{ place_plan_info(p.get('_id'))['id'] }}">编辑</a>#}
+                                    {#                                          <a href="/user/project-management?id={{ p.get('_id') }}&type=cdjh">管理</a>#}
+                                    {#                                        <a href="/user/receive_place_invite?id={{ p.get('_id') }}">收到的邀请</a>#}
+                                    {#                                        {% end %}#}
+                                    {#                                    </div>#}
+                                </li>
+                                <li>
+                                    <span class="text"> <a href="/user/project-management?id={{ p.get('_id') }}&type=zpjh">招聘计划</a></span>
+                                    <span class="line"></span>
+                                    {##}
+                                    {#                                    <div class="item">#}
+                                    {#                                        <a href="/issue-plan/hiring?from=project&from_id={{ p.get('_id') }}">发布职位</a>#}
+                                    {#                                        <a href="/user/project-management?id={{ p.get('_id') }}&type=zpjh">管理职位</a>#}
+                                    {#                                        <a href="/user/receive_resume?id={{ p.get('_id') }}">收到的简历</a>#}
+                                    {#                                    </div>#}
+                                </li>
+
+                                <li>
+                                    <span class="text"><a href="/user/project-management?id={{ p.get('_id') }}&type=xmdt">项目动态</a></span>
+
+                                    {#                                    <div class="item">#}
+                                    {#                                        <a href="/user/project-dynamic?id={{ p.get('_id') }}#publish">发布动态</a>#}
+                                    {#                                        <a href="/user/project-management?id={{ p.get('_id') }}&type=xmdt">发布动态</a>#}
+                                    {#                                        <a href="/user/project-management?id={{ p.get('_id') }}&type=xmdt">动态管理</a>#}
+                                    {#                                    </div>#}
+                                </li>
+                                {% end %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% end %}
+            {% if review_project.count()==0 %}
+            <div class="person-idea-list-none">
+                您还没有需要评审的项目，赶快邀请好友发布项目吧<a href="/project/issue" style="color:#00A0EA ">发布</a>吧
+            </div>
+            {% end %}
+        </div>
+        {# project-review.less #}
+
+        {% else %}
+        <div>
+            <div class="fbdcy jhclick" id="project-issued">发布的项目</div>
+            <div class="fbdcy pldcy" id="project-subscription">认购的项目</div>
+            <div class="fbdcy pldcy" id="deliveryResume">已投简历的项目</div>
+            <div class="fbdcy pldcy" id="InvitedHatch">邀请入孵的项目</div>
+        </div>
+
+        <div class="project-issued">
+            {% for p in projects %}
+            <div class="person-idea-list">
+                {% if p['status'] not in ['online'] %}
+                <div class="delete" data-id="{{ p.get('_id') }}">×</div>
+                {% end %}
+                <div class="p-i-l-l" style="position: relative;">
+                    <a href="/project/{{ p.get('_id') }}" class="ckxq-a">
+                        <img src="../static/media/project_img/{{ p.get('image','') }}"
+                             onerror="javascript:this.src='{{ static_url('img/error.png') }}'"
+                             style="width:260px;height: 186px;">
+                    </a>
+
+                    <div class="items">
+                        {% if not interest_info(p.get('_id')) %}
+                        <!-- <a href="/issue-plan/funding?from=project&id={{ p.get('_id') }}">
+                                                发起
+                                            </a> -->
+                        {% else %}
+                        {% set interest_status=interest_info(p.get('_id'))['status'] %}
+                        {% if interest_status=='editing' %}
+                        <a style="background: #333; color:#fff;"
+                           href="/issue-plan/funding?from=project&id={{ p.get('_id') }}&plan_id={{ interest_info(p.get('_id'))['id'] }}">待完善</a>
+                        {% elif interest_status=='confirmed' %}
+                        <a href="#">审核中</a>
+                        {% elif interest_status=='preheating' %}
+                        <a href="#">预热中</a>
+                        {% elif interest_status=='online' %}
+                        <a href="/project/subscribe_detail?id={{ p.get('_id') }}">认购详情</a>
+                        {% end %}
+                        {% end %}
+                    </div>
+                </div>
+                <div class="p-i-l-r">
+                    <h1 id="projectName">{{ p['name'][0:20] }}
+                        <span class="text" style="float:right;font-size: 20px">
+                            {% if p['status']=='editing' %}
+                            <a href="/project/issue?id={{ p.get('_id') }}">编辑项目</a>
+                            {% elif p['status']=='online' %}
+                                <a href="/user/project-management?id={{ p.get('_id') }}">项目管理</a>
+                             {% end %}
+
+                        </span>
+                    </h1>
+                    <ul class="per-idea-ul">
+                        <li>项目进度：{{ status.get(p['status'], '') }}</li>
+                        <li>标签：{{ ','.join([t for t in p['tag']]) }}</li>
+                        <li>地区：广东深圳</li>
+                    </ul>
+                    <div>
+                        <div class="per-idea-item2">
+                            {% set index=progress_dict.get(p['status']) %}
+                            <div class="per-idea-item2-div1">
+                                <div class="piidd  {% if index>=1 %}pil-focus{% end %}"
+                                     {% if index==1 %}style="background-color:#fff"{% end %}>
+                                    {% if index>=2 %}✔{% end %}
+                                </div>
+                                <div class="piidd-line {% if index>=2 %}pil-focus{% end %}"></div>
+
+                                <div class="piidd {% if index>=2 %}pil-focus{% end %}"
+                                     {% if index==2 %}style="background-color:#fff"{% end %}>
+                                    {% if index>=4 %}✔{% end %}
+                                </div>
+                                <div class="piidd-line {% if index>4 %}pil-focus{% end %}"></div>
+
+                                <div class="piidd {% if index>=3 %}pil-focus{% end %}"
+                                     {% if index==5 %}style="background-color:#fff"{% end %}>
+                                    {% if index>=6 %}✔{% end %}
+                                </div>
+                                <div class="piidd-line {% if index>6 %}pil-focus{% end %}"></div>
+                                <div class="piidd {% if index==7 %}pil-focus{% end %}"
+                                     {% if index==6 %}style="background-color:#fff"{% end %}>
+                                    {% if index==7 %}✔{% end %}
+                                </div>
+                                <p class="clear"></p>
+                            </div>
+                            <div class="per-idea-item2-div2">
+                                <div class="font-color-blue">发布项目</div>
+                                <div>项目审核</div>
+                                <div>项目评审</div>
+                                <div>项目上架</div>
+                            </div>
+                        </div>
+                        <div class="per-idea-item3">
+                            <ul>
+                                {% if  p['status'] in ['online','complete'] %}
+                                <li>
+                                    <span class="text"><a href="/user/project-management?id={{ p.get('_id') }}&type=gqjh">股权计划</a></span>
+                                    <span class="line"></span>
+
+                                </li>
+                                <li>
+                                    <span class="text"><a href="/user/project-management?id={{ p.get('_id') }}&type=cdjh">入孵计划</a></span>
+                                    <span class="line"></span>
+                                    {#                                    <div class="item">#}
+                                    {#                                        {% if not place_plan_info(p.get('_id')) %}#}
+                                    {#                                        <a href="/issue-plan/place?from=project&id={{ p.get('_id') }}">发布</a>#}
+                                    {#                                        {% else %}#}
+                                    {#                                        <a href="/issue-plan/place?from=project&id={{ p.get('_id') }}&plan_id={{ place_plan_info(p.get('_id'))['id'] }}">编辑</a>#}
+                                    {#                                          <a href="/user/project-management?id={{ p.get('_id') }}&type=cdjh">管理</a>#}
+                                    {#                                        <a href="/user/receive_place_invite?id={{ p.get('_id') }}">收到的邀请</a>#}
+                                    {#                                        {% end %}#}
+                                    {#                                    </div>#}
+                                </li>
+                                <li>
+                                    <span class="text"> <a href="/user/project-management?id={{ p.get('_id') }}&type=zpjh">招聘计划</a></span>
+                                    <span class="line"></span>
+                                    {##}
+                                    {#                                    <div class="item">#}
+                                    {#                                        <a href="/issue-plan/hiring?from=project&from_id={{ p.get('_id') }}">发布职位</a>#}
+                                    {#                                        <a href="/user/project-management?id={{ p.get('_id') }}&type=zpjh">管理职位</a>#}
+                                    {#                                        <a href="/user/receive_resume?id={{ p.get('_id') }}">收到的简历</a>#}
+                                    {#                                    </div>#}
+                                </li>
+
+                                <li>
+                                    <span class="text"><a href="/user/project-management?id={{ p.get('_id') }}&type=xmdt">项目动态</a></span>
+
+                                    {#                                    <div class="item">#}
+                                    {#                                        <a href="/user/project-dynamic?id={{ p.get('_id') }}#publish">发布动态</a>#}
+                                    {#                                        <a href="/user/project-management?id={{ p.get('_id') }}&type=xmdt">发布动态</a>#}
+                                    {#                                        <a href="/user/project-management?id={{ p.get('_id') }}&type=xmdt">动态管理</a>#}
+                                    {#                                    </div>#}
+                                </li>
+                                {% end %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% end %}
+            {% if projects.count()==0 %}
+            <div class="person-idea-list-none">
+                您还没有发布的项目哦，赶快去<a href="/project/issue" style="color:#00A0EA ">发布</a>吧
+            </div>
+            {% end %}
+        </div>
+        {# project-subscription.less #}
+
+        <div class="project-subscription" style="display: none">
+            {% if subscribe_record.count()>0 %}
+            {% for s in subscribe_record %}
+            <div class="subscription-list">
+                <div class="subscription-img">
+                    <img src="../static/media/project_img/{{ project_info(s['pid']).get("image") }}" width="100"
+                         onerror="javascript:this.src='{{ static_url('img/error.png') }}'" alt=""/>
+                </div>
+                {% set i =interest_info(s['pid']) %}
+                {% set progress=i.get("progress",0) %}
+                <div class="subscription-content">
+                    <div class="subContent1">
+                        {{ project_info(s['pid'])['name'] }}
+                        <a href="javascript:;" class="subContent11">众筹中</a>
+
+                        <a href="/project/{{ s['pid'] }}" target="_blank" class="subContent12">查看详情</a>
+                    </div>
+
+                    <div class="subContent2">
+                        <div class="subContent22">
+                            <p>{{ percent(progress,i['info']['total_amount']) *100 /10000 }}%</p>
+                            {% set p_status=plan_status.get(interest_info(s['pid'])['status'],'无') %}
+                            <p class="subContent222">{{ p_status }}</p>
+                        </div>
+                        <p class="subRightLine"></p>
+
+                        <div class="subContent22">
+                            <p class="subContent221">￥{{ interest_info(s['pid']).get('progress','') }}</p>
+
+                            <p class="subContent222">已筹资</p>
+                        </div>
+                        <p class="subRightLine"></p>
+
+                        <div class="subContent22">
+                            <p>{{ left_days(i['time'],i['info']['days']) }}天</p>
+
+                            <p class="subContent222">剩余时间</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="subscription-content1">
+                    <p class="subscription-content11">认购份数</p>
+
+                    <p class="subscription-content12">{{ s['paid_piece'] }}份({{ s['unit_price']* s['paid_piece'] }}元)</p>
+
+                </div>
+
+                <div class="subscription-content1">
+                    <p class="subscription-content11">认购状态</p>
+
+                    <p class="subscription-content12">
+                        {% if s['status']=='confirmed' %}
+                        等待确认
+                        {% elif s['status']=='paid' %}
+                        已支付
+                        {% end %}
+                    </p>
+                </div>
+                 <div class="subscription-content1">
+                    <p class="subscription-content11">认购时间</p>
+
+                    <p class="subscription-content12">{{ s['time'] }}</p>
+                </div>
+            </div>
+            {% end %}
+            {% else %}
+            <div class="subscription-list">
+                还没有认购的项目噢~
+            </div>
+            {% end %}
+        </div>
+
+        <div class="project-subscription deliveryResume" style="display: none">
+            {% if send_jd_messages.count()>0 %}
+            {% for m in send_jd_messages %}
+            {% if  m['content'].get('pid') %}
+            {# TODO 这里取出的信息有None记录，检查一下 #}
+            {% set p=project_info(m['content'].get("pid",0)) %}
+            {% if p %}
+            <div class="subscription-list">
+                <div class="subscription-img">
+                    <img src="../static/media/project_img/{{ p.get("image") }}"
+                         onerror="javascript:this.src='{{ static_url('img/error.png') }}'" width="100" alt="">
+                </div>
+                <div class="subscription-content">
+                    <div class="subContent1">
+                        <a href="/project/{{ p.get('_id') }}" target="_blank">{{ p['name'] }}</a>
+                        <span style="margin-left: 50px;float: left"><label style="float: left;">投递岗位:</label>
+                            <a href="javascript:;" class="subContent11">{{ m['content']['job'] }}</a>
+                        </span>
+                        <span style="margin-left: 50px;float: left"><label style="float: left;">投递时间:</label>
+                            <a href="javascript:;" class="subContent11">{{ m['time'] }}</a>
+                        </span>
+                        <a href="/resumeView/{{ myuser['uid'] }}" target="_blank" class="subContent12"
+                           style="margin-left: 30px;">我的简历</a>
+                    </div>
+                </div>
+            </div>
+            {% end %}
+            {% end %}
+            {% end %}
+            {% else %}
+            <div class="subscription-list">
+                还没有已投递简历的项目噢~
+            </div>
+            {% end %}
+        </div>
+        <div class="project-subscription InvitedHatch" style="display: none">
+            {% if invite_settle_messages.count()>0 %}
+            {% for m in invite_settle_messages %}
+            {# TODO 同样的情况，有None记录 #}
+            {% set p=project_info(m['content']['pid']) %}
+            {% if p %}
+            <div class="subscription-list">
+                <div class="subscription-img">
+                    <img src="../static/media/project_img/{{ p.get('image') }}"
+                         onerror="javascript:this.src='{{ static_url('img/error.png') }}'" width="100" alt="">
+                </div>
+                <div class="subscription-content">
+                    <div class="subContent1">
+                        <span style="float: left;">{{ p['name'] }}</span>
+                        <span style="margin-left: 50px; float: left;">
+
+                        <a href="javascript:;" class="subContent11">{{ m['content'].get('park_name',"") }}</a>
+                        <a href="/park/{{ m['content']['park_id'] }}" target="_blank" class="subContent12">查看创业园</a>
+                        <span style="float: left;">邀请时间:</span><span class='subContent11' style="float: left;">{{ m['time'] }}</span>
+                        </span>
+
+
+                    </div>
+                </div>
+            </div>
+            {% end %}
+            {% end %}
+            {% else %}
+            <div class="subscription-list">
+                还没有邀请入孵的项目噢~
+            </div>
+            {% end %}
+        </div>
+        {% end %}
+    </div>
+    <p class="clear"></p>
+</div>
+<script>
+    (function ($) {
+        var a = $('#project-issued'),
+                b = $('#project-subscription'),
+                c = $('#deliveryResume'),
+                d = $('#InvitedHatch'),
+                e = $('.project-issued'),
+                f = $('.project-subscription').not('.project-subscription.deliveryResume,.project-subscription.InvitedHatch'),
+                g = $('.project-subscription.deliveryResume'),
+                h = $('.project-subscription.InvitedHatch'),
+
+                i = function (x, y) {
+                    var t = this;
+                    x.click(function () {
+                        e.hide();
+                        f.hide();
+                        g.hide();
+                        h.hide();
+                        y.show();
+                    });
+                };
+        i(a, e);
+        i(b, f);
+        i(c, g);
+        i(d, h);
+
+        $(".per-idea-item3 .text").hover(function () {
+            $(this).parent().find(".item").show();
+        }, function () {
+            $(this).parent().find(".item").hide();
+        });
+        $(".per-idea-item3 .item").hover(function () {
+            $(this).parent().find(".item").show();
+        }, function () {
+            $(this).parent().find(".item").hide();
+        });
+    })(jQuery);
+</script>
+
+{% end %}

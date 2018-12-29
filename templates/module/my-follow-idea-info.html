@@ -1,0 +1,12 @@
+<tr>
+    <td><a href="/idea/{{ idea['id'] }}">
+        <img src="../static/media/idea_img/{{ idea['image'] }}"
+             onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+             border="none" align="absmiddle" style="width:50px;">
+    </a>
+    </td>
+    <td><a href="/idea/{{ idea['id'] }}">{{ idea['name'] }}</a></td>
+
+    <td><a href="javascript:;" class="unfollow-idea" data-id="{{ idea['id'] }}">取消关注</a></td>
+    <td><a href="/idea/{{ idea['id'] }}" class="ckxqq">查看详情</a></td>
+</tr>

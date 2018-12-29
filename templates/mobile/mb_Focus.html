@@ -1,0 +1,78 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        我的关注
+
+    </div>
+</div>
+<div class="nbig_box" id="bigbox" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 onclik">
+            <p><a href="mb_Focus.html">关注的用户</a></p>
+        </div>
+
+        <div class="box3">
+            <p><a href="/mb_guanzhudexiangmu">关注的项目</a></p>
+        </div>
+        <div class="box4">
+            <p><a href="/mb_guangzhuhuodong">关注的活动</a></p>
+        </div>
+    </div>
+    {% set handle={"0":"发布", "1":"删除", "2":"审核通过"} %}
+    {% set type={"0": "项目", "1": "活动", "2": "创业园", "3": "公开课"} %}
+    {% if follow_users.count()>0 %}
+    {% for f in follow_users %}
+    {% set user=follow_userInfo(f['ref']) %}
+    {% set d=trends(user['uid']) %}
+    <div class="pro_pro focus_pro" id="bigboxa">
+        <div class=" focus">
+            <div class="imgbox">
+                <img src="{{ static_url('img/person-center/14.png') }}"
+                     onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                     onclick="window.location.href='mb_peoxiangqi'">
+
+			   	<span class="peo_name">
+			   			<p class="peo_namen">{{ user.get("name","") }}</p>
+			   			<p class="peo_namet">{{ d.get("time","") }}</p>
+			   			</span>
+
+                <p class="zuixindt">
+                    最新动态：{{ handle.get(d.get("handle",""),"") }}了{{ type.get(d.get("type",""),"") }}：{{ d.get("object_name","") }}</p>
+            </div>
+            <div class="anniu">
+                <span class="sixin">私信</span>
+                <span class="quxiao" data-id="{{ user['uid'] }}">取消关注</span>
+            </div>
+        </div>
+
+    </div>
+    <!--pro_pro-->
+    {% end %}
+    {% else %}
+    <br>
+    您还没有关注的用户
+    {% end %}
+
+</div><!--nbig_box-->
+<script>
+    $('.quxiao').click(function () {
+        var data = {};
+        data['uid'] = $(this).data("id");
+        data['handle'] = 'remove';
+        $.ajax({
+            type: 'post',
+            url: '/follow/user',
+            data: data,
+            success: function (re) {
+                alert("取消关注成功");
+            }
+        });
+    });
+</script>
+
+
+</div><!--nbig_box-->
+{% end %}

@@ -1,0 +1,76 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    修改支付密码
+</div>
+<div class="nbig_box">
+
+    <div class="xmliche_a">
+		   	  <span class="xmwz_biao">
+		   	  	<p>原来密码： </p>
+		   	  	<input type="text" name='old_pay_pwd'/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao">
+		   	  	<p>修改密码： </p>
+		   	  	<input type="text" name='new_pay_pwd'/>
+		   	  </span>
+		   	  
+		   	   <span class="xmwz_biao">
+		   	  	<p>确认密码： </p>
+		   	  	<input type="text" name='new_pay_pwd2'/>
+				<input name="tip" type="hidden" value="phone">
+		   	  </span>
+
+        <div class="xiayibu xiayibuA">确定修改</div>
+
+
+    </div>
+
+</div><!--nbig_box-->
+<script>
+	function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+	$(".xiayibu").click(function () {
+        var data = {};
+        var new_pay_pwd2 = $("input[name='new_pay_pwd2']").val();
+        data["old_pay_pwd"] = $("input[name='old_pay_pwd']").val();
+        data["new_pay_pwd"] = $("input[name='new_pay_pwd']").val();
+        data['tip'] = $("input[name='tip']").val();
+		data['_xsrf'] = getCookie("_xsrf");
+        if (data["new_pay_pwd"] != new_pay_pwd2) {
+            alert("新密码不一致");
+            return false;
+        }
+        jQuery.ajax({
+            url: "/user/safe-setting?type=pay_pwd",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                if (jsons.status == "ok") {
+                    alert(jsons.msg);
+                    location.reload();
+                }
+                else {
+                    alert(jsons.msg);
+                }
+            }
+        });
+        return false;
+    });
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}
+
+
+
+

@@ -1,0 +1,181 @@
+{% set notice_type={0:'登陆注册',1:'创意审核',2:'项目发布',3:'活动发布',4:'创意评审',5:'项目评审',
+               6:'创意上线',7:'项目上线', 8:'创意股权计划',9:'项目股权计划',10:'邀请参与项目评审',11:"股权计划认购完成",
+               13:"创业园审核",14:"视频审核",15:"入孵创业园",16:"资讯发布",17:"申请资讯发布者"} %}
+{% if n.get('type',0)==1 %}
+
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    {% if n.get('handle') =='pass' %}
+    <div>您发布的创意<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>已通过审核,正在评审中...</div>
+    {% else %}
+    <div>很遗憾，您发布的创意<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>没有通过审核,请查看如下可能存在的原因：</div>
+    <ul>
+        <li>信息不完整</li>
+        <li>存在虚假信息</li>
+        <li>其他</li>
+    </ul>
+    {% end %}
+</div>
+{% elif n.get('type') ==2 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    {% if n.get('handle') =='pass' %}
+    <div>您发布的项目<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>已通过审核,正在评审中...</div>
+    {% else %}
+    <div>很遗憾，您发布的项目<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>没有通过审核,请查看如下可能存在的原因：</div>
+    <ul>
+        <li>信息不完整</li>
+        <li>存在虚假信息</li>
+        <li>其他</li>
+    </ul>
+    {% end %}
+</div>
+{% elif n.get('type') ==3 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    {% if n.get('handle') =='pass' %}
+    <div>您发布的活动<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>已通过审核,去查看<a
+            href="/activity/{{ n.get('type_id') }}">活动详情</a>吧!
+    </div>
+    {% else %}
+    <div>很遗憾，您发布的活动<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>没有通过审核,请查看如下可能存在的原因：</div>
+    <ul>
+        <li>信息不完整</li>
+        <li>存在虚假信息</li>
+        <li>其他</li>
+    </ul>
+    {% end %}
+</div>
+{% elif n.get('type') ==4 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    <div>您发布的创意<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>已完成评审,成功上线，赶紧去发布<a
+            href="/issue-plan?type=idea&id={{ n.get('type_id') }}">筹集计划</a>吧!
+    </div>
+</div>
+{% elif n.get('type') ==5 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    <div>您发布的项目<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>已完成评审,成功上线，赶紧去发布<a
+            href="/issue-plan?type=project&id={{ n.get('type_id') }}">筹集计划</a>吧!
+    </div>
+</div>
+{% elif n.get('type') ==8 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    {% if n.get('handle') =='pass' %}
+    <div>您发布的"创意-<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>"股权计划已通过审核,去查看<a
+            href="/idea/{{ n.get('type_id') }}">详情</a>吧!
+    </div>
+    {% else %}
+    <div>很遗憾，您发布的"创意-<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>"股权计划没有通过审核,请查看如下可能存在的原因：</div>
+    <ul>
+        <li>股权比例不合理</li>
+        <li>投资收益协议不完善</li>
+        <li>其他</li>
+    </ul>
+    {% end %}
+</div>
+{% elif n.get('type') ==9 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    {% if n.get('handle') =='pass' %}
+    <div>您发布的"项目-<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>"股权计划已通过审核,去查看<a
+            href="/project/{{ n.get('type_id') }}">详情</a>吧!
+    </div>
+    {% else %}
+    <div>很遗憾，您发布的"项目-<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>"股权计划没有通过审核,请查看如下可能存在的原因：</div>
+    <ul>
+        <li>股权比例不合理</li>
+        <li>投资收益协议不完善</li>
+        <li>其他</li>
+    </ul>
+    {% end %}
+</div>
+{% elif n.get('type') ==10 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知</div>
+    <div>项目<span style="color: #0055cc">"{{ n.get('title')[0:20] }}"...</span>需要您<a href="/user/review-center">评审</a></div>
+</div>
+{% elif n.get('type') ==11 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    <div>恭喜您，您发布的项目<span style="color: #0055cc">"{{ n.get('title') }}"的股权计划认购完成!等待管理员与您联系</span></div>
+</div>
+
+{% elif n.get('type') ==13 %}
+<div class="div-inline">
+    {% if n.get('handle') =='pass' %}
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    <div>恭喜您，您发布的创业园<span style="color: #0055cc">"{{ n.get('title') }}",现在可以邀请去好项目邀请入驻了!</span></div>
+    {% else %}
+    <div>很遗憾，您发布的"创业园-<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>没有通过审核,请查看如下可能存在的原因：</div>
+    <ul>
+        <li>要求不明确</li>
+        <li>费用不合理</li>
+        <li>其他</li>
+    </ul>
+    {% end %}
+</div>
+{% elif n.get('type') ==14 %}
+<div class="div-inline">
+    {% if n.get('handle') =='pass' %}
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    <div>恭喜您，您发布的视频<span style="color: #0055cc">"{{ n.get('title') }}"审核通过了,现在可以去观看了!</span></div>
+    {% else %}
+    <div>很遗憾，您发布的"视频-<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>没有通过审核,请查看如下可能存在的原因：</div>
+    {% end %}
+</div>
+{% elif n.get('type') ==15 %}
+<div class="div-inline">
+    {% if n.get('handle') =='agree' %}
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    <div>恭喜您，您申请入孵的创业园-<span style="color: #0055cc">"{{ n.get('title') }}"</span>已同意您的申请</div>
+    {% else %}
+    <div>很遗憾，您申请入孵的创业园-<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>没有通过园主审核,原因如下：</div>
+    <div>
+        {{ n.get('content') }}
+    </div>
+    {% end %}
+</div>
+{% elif n.get('type') ==16 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    {% if n.get('handle') =='pass' %}
+    <div>您发布的资讯<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>已通过审核,去查看<a
+            href="/information/{{ n.get('type_id') }}">资讯详情</a>吧!
+    </div>
+    {% else %}
+    <div>很遗憾，您发布的资讯<span style="color: #0055cc">{{ n.get('title')[0:20] }}...</span>没有通过审核,请查看如下可能存在的原因：</div>
+    <ul>
+        {% if n.get('content','')!='' %}
+        <li>{{ n.get('content','') }}</li>
+        {% else %}
+        <li>信息不完整</li>
+        <li>存在虚假信息</li>
+        <li>其他</li>
+        {% end %}
+    </ul>
+    {% end %}
+</div>
+{% elif n.get('type') ==17 %}
+<div class="div-inline">
+    <div>{{ notice_type.get(n.get('type')) }}通知<span style="float:right">{{ n.get('time') }}</span></div>
+    {% if n.get('handle') =='pass' %}
+    <div>您申请成功资讯发布者<span style="color: #0055cc"></span>已通过审核,去查看<a
+            href="/information/issue">发布资讯</a>吧!
+    </div>
+    {% else %}
+    <div>很遗憾，您申请成功资讯发布者<span style="color: #0055cc"></span>没有通过审核,请查看如下可能存在的原因：</div>
+    <ul>
+        {% if n.get('content','')!='' %}
+        <li>{{ n.get('content','') }}</li>
+        {% else %}
+        <li>信息不完整</li>
+        <li>存在虚假信息</li>
+        <li>其他</li>
+        {% end %}
+    </ul>
+    {% end %}
+</div>
+{% end %}

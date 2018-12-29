@@ -1,0 +1,48 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbprojeDetailHead" style="border-bottom: 1px solid #EAEAEA;">
+    <table class="mbprojeDetailTab">
+        <tr class="mbprojeDetailTabTR">
+            <td class="mbprojeDetailTabTD1">
+                <img src="../../static/mobile/img/mbProjectMore/001.png" alt="" onclick="javascript:history.back(-1);">
+            </td>
+            <td>招聘计划</td>
+            <td class="mbprojeDetailTabTD2">
+                {#                    <img src="../../static/mobile/img/mbProjectMore/0022.png" alt="" onclick="location='javascript:;'">#}
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="big_box">
+    <!--zhaopin-->
+    {% set degree={"0":"不限","1":'大专',"2":"本科","3":"博士","4":"硕士"} %}
+    {% set work_duration={"1":'应届毕业生',"2":"一年以下","3":"1~3年","4":"3~5年","5":"5~10年","6":"10年以上"} %}
+    {% if hiring_plan %}
+    {% for  h in hiring_plan %}
+    <div class="zhaopin">
+        <span class="fudong">
+            <p>{{ h['job'] }}：</p>
+        </span>
+        <span>
+            岗位职责：<br/>
+            {{ h['duty'] }}<br/>
+            任职要求：<br/>
+            {{ h['demand'] }}<br/>
+            工作经验:{{ work_duration.get(h["experience"]) }}<br/>
+            学历要求:{{ degree.get(h['degree']) }}<br/>
+            薪资：{{ h['lowest'] }}k-{{ h['highest'] }}k<br/>
+        </span>
+
+        <div class="zhiweishenqin">
+            <a class="huodong_touxi_guanzhu ">申请职位</a>
+            <a class="yihuodong_touxi_guanzhu">审核中</a>
+        </div>
+    </div>
+    {% else %}
+    无
+    {% end %}
+    {% end %}
+</div><!--big_class-->
+{% end %}
+

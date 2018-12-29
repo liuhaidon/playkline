@@ -1,0 +1,680 @@
+{% extends "../base.html" %}
+{% block page_title %}编辑简历|我的账户|创业孵化平台{% end %}
+{% block content %}
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            {% include 'account_nav.html' %}
+            <script>
+                $('.fbdcy').eq(1).addClass('jhclick').siblings().removeClass('jhclick');
+            </script>
+        </div>
+        <div class="uesr-zhanghu">
+            <form action="" method="post" enctype="multipart/form-data" name="resume_setting_form"
+                  id="resume_setting_form">
+                {% module xsrf_form_html() %}
+                <div class="myResume">
+                    <div class="myRbdiv">
+                        <img src="/static/img/startup/account_header.png" onerror="javascript:this.src='/static/img/startup/account_header.png'" class="headBannr"/>
+                        <img src="/static/media/avatar/{{ myuser.get('avatar') }}" onerror="javascript:this.src='{{ static_url('img/startup/avatar_sample.png') }}'" class="headLogo"/>
+                    </div>
+                    <div class="myReTitle">
+                        <div class="myReTitle1">{{ myuser.get('name',"无") }}</div>
+                        <div class="myReTitle3">男&emsp;{{ age }}&emsp;广东深圳</div>
+                        <div class="myReTitle4">
+                            <p class="myReTitl41">{{ myuser.get("mobile", {"0":""}).values()[0]}}</p>
+                            <p class="myReTitl42">{{ myuser.get("email", {"0":""}).values()[0] }}</p>
+                        </div>
+                        <div class="myReTitle2">{{ my_resume.get('brief',"") }}</div>
+                    </div>
+                    <script>
+                        $(function () {
+                            $('.qwgzLine .qwgzTitle').click(function () {
+                                $('div#showInfo', $(this).parents('div.qwgz')).slideToggle('fast');
+                            });
+                            $('table.showInfo .qwgzpding .qwgz5,.add_work_expect, ' +
+                                    '.add_education, .add_experience, .add_self_desc').click(function () {
+                                prepare_data_to_modify($(this).attr("id"));
+                                $(this).parents('div#showInfo').slideUp('fast');
+                                $('div#editor', $(this).parents('div#qwgzList')).slideDown('fast');
+                            });
+                            $('div#qwgzList table.showInfo .qwgzpding .qwgz6').click(function () {
+                                $(this).parents('div#showInfo').slideUp('slow').remove();
+                            });
+                            $('div#qwgzList table.editor .but').click(function () {
+                                $(this).parents('div#editor').slideUp('fast');
+                                $('div#showInfo', $(this).parents('div#qwgzList')).slideDown('fast');
+                            });
+                        })
+                    </script>
+                    <style>
+                        div#showInfo, div#editor {
+                            display: none;
+                        }
+                    </style>
+                    <div class="myReBody">
+                        <div class="qwgz">
+                            <div class="qwgzLine">
+                                <div class="qwgzTitle">期望工作</div>
+                            </div>
+
+                            <div id="qwgzList">
+                                <div id="showInfo">
+                                    <div id="expect_job" {% if not my_resume.get("job_expected") %}
+                                         style="display:none" {% end %}>
+                                        <table class="showInfo">
+                                            <tr>
+                                                <td class="qwgz1 job">{{ my_resume.get("job_expected",{}).get('job',"")  }}
+                                                </td>
+                                                <td class="qwgz2 salary">
+                                                    <span>{{ my_resume.get("job_expected",{}).get('min_salary',"") }}</span>k~
+                                                    <span>{{ my_resume.get("job_expected",{}) .get('max_salary',"") }}</span>k
+                                                </td>
+                                                <td class="qwgz3 work_city">{{ my_resume.get("job_expected",{}).get('work_city',"")  }}</td>
+                                                <td class="qwgz4 work_duration">{{ my_resume.get("job_expected",{}).get('work_duration',"")  }}</td>
+
+                                                <td class="qwgzpding alinleft">
+                                                    <a id="expect_work_edit" href="javascript:;" class="qwgz5">编辑</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" height="0"></td>
+                                            </tr>
+{#                                            <tr>#}
+{#                                                <td colspan="4" class="qwgzpding">#}
+{#                                                    <a id="expect_work_edit" href="javascript:;" class="qwgz5">编辑</a>#}
+{#                                                </td>#}
+{#                                            </tr>#}
+                                        </table>
+                                    </div>
+                                    {% if not my_resume.get("job_expected") %}
+                                    <div><a href="javascript:;" class="add_work_expect">添加</a></div>
+                                    {% end %}
+                                </div>
+
+                                <div id="editor">
+                                    <table class="editor">
+                                        <tr>
+                                            <td>
+                                                <p>期望岗位：</p>
+                                                <p>
+                                                    <input type="text" name="job" placeholder="请输入您期望的岗位"/>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>期望月薪：</p>
+                                                <p>
+                                                    <label>最低：</label>
+                                                    <input type="text" name="min_salary" style="width:25%;"/>k
+                                                    <label>最高：</label>
+                                                    <input type="text" name="max_salary" style="width:25%"/>k
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>期望城市：</p>
+                                                <p>
+                                                    <select name="work_city">
+                                                        <option value="北京" data-id="1">北京</option>
+                                                        <option value="上海" data-id="2">上海</option>
+                                                        <option value="广州" data-id="3">广州</option>
+                                                        <option value="深圳" data-id="4">深圳</option>
+                                                        <option value="成都" data-id="5">成都</option>
+                                                        <option value="其他" data-id="6">其他</option>
+                                                    </select>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>工作年限：</p>
+                                                <p>
+                                                    <select name="work_duration">
+                                                        <option value="1" data-id="1">应届毕业生</option>
+                                                        <option value="2" data-id="2">一年以下</option>
+                                                        <option value="3" data-id="3">1~3年</option>
+                                                        <option value="4" data-id="4">3~5年</option>
+                                                        <option value="5" data-id="5">5~10年</option>
+                                                        <option value="6" data-id="6">10年以上</option>
+                                                    </select>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="padding-top: 0">
+                                                <input type="button" value="保存" class="but work_expire_submit">&nbsp;
+                                                <input type="button" value="取消" class="but">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="qwgz">
+                            <div class="qwgzLine">
+                                <div class="qwgzTitle">教育经历</div>
+                            </div>
+                            <div id="qwgzList">
+                                <div id="showInfo">
+                                    <div id="education" {% if not my_resume.get("education") %}
+                                         style="display:none" {% end %}>
+                                        <table class="showInfo">
+                                            <tr>
+                                                <td width="300">
+                                                <span id="edu_school">{{ my_resume.get('education',{}).get('school','') }}</span>-
+                                                <span id="edu_major">{{ my_resume.get('education',{}).get('major','') }}</span>
+                                                </td>
+                                                <td width="100"><span
+                                                        id="edu_degree">{{ my_resume.get('education',{}).get('degree','') }}</span>
+                                                </td>
+                                                <td><span
+                                                        id="edu_graduate_at">{{ my_resume.get('education',{}).get('graduate_at') }}</span>年毕业
+                                                </td>
+
+                                                <td class="qwgzpding alinleft">
+                                                    <a id="education_edit" href="javascript:;" class="qwgz5">编辑</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"></td>
+                                            </tr>
+{#                                            <tr>#}
+{#                                                <td colspan="3" class="qwgzpding">#}
+{#                                                    <a id="education_edit" href="javascript:;" class="qwgz5">编辑</a>#}
+{#                                                </td>#}
+{#                                            </tr>#}
+                                        </table>
+                                    </div>
+                                    {% if not my_resume.get("education") %}
+                                    <div><a href="javascript:;" class="add_education">添加</a></div>
+                                    {% end %}
+                                </div>
+                                <div id="editor">
+                                    <table class="editor">
+                                        <tr>
+                                            <td colspan="2">
+                                                <p>学校名称：</p>
+                                                <p>
+                                                    <input type="text" name="school" placeholder="请输入您学校的名称"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p>所学专业：</p>
+                                                <p>
+                                                    <input type="text" name="major" placeholder="请输入您的专业"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>学历：</p>
+                                                <p>
+                                                    <select name="degree">
+                                                        <option value="1" data-id="1">专科</option>
+                                                        <option value="2" data-id="2">本科</option>
+                                                        <option value="3" data-id="3">硕士</option>
+                                                        <option value="4" data-id="4">博士</option>
+                                                        <option value="5" data-id="5">其它</option>
+                                                    </select>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>毕业时间：</p>
+                                                <p>
+                                                    <select name="graduate_at">
+                                                        {% for y in range(year, 1980,-1) %}
+                                                        <option value="{{ y }}" data-id={{ y }}>{{ y }}</option>
+                                                        {% end %}
+                                                    </select>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="padding-top: 0">
+                                                <input type="button" value="保存" class="but education">&nbsp;
+                                                <input type="button" value="取消" class="but">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="qwgz">
+                            <div class="qwgzLine">
+                                <div class="qwgzTitle">项目经验</div>
+                            </div>
+
+                            <div id="qwgzList">
+                                <div id="showInfo">
+                                    <div id="experience" {% if not my_resume.get("experience") %} style="display:none" {% end %}>
+                                        <table class="showInfo">
+                                            <tr>
+                                                <td>
+                                                    <span id="exp_begin">{{ my_resume.get('experience',{}).get('begin','') }}</span> ~ <span id="exp_end">{{ my_resume.get('experience',{}).get('end','至今') }}</span>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        id="exp_title">{{ my_resume.get('experience',{}).get('title','') }}
+                                                    </span>
+                                                </td>
+                                                <td  id="exp_desc" class="xmjy">{{ my_resume.get('experience',{}).get('desc','') }}</td>
+                                                <td class="qwgzpding alinleft">
+                                                    <a id="experience_edit" href="javascript:;" class="qwgz5">编辑</a>
+                                                    <!-- <a href="javascript:;" class="qwgz6">删除此条</a> -->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    {% if not my_resume.get("experience") %}
+                                    <div><a href="javascript:;" class="add_experience">添加</a></div>
+                                    {% end %}
+                                </div>
+                                <div id="editor">
+                                    <table class="editor edcation">
+                                        <tr>
+                                            <td>
+                                                <p>开始时间：</p>
+                                                <p>
+                                                    <input placeholder="开始日期" id="begin" onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd'})"
+                                                           name="begin" readonly="readonly">
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>结束时间：</p>
+                                                <p>
+                                                    <input placeholder="截止日期" id="end"
+                                                           onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd'});" name="end" readonly="readonly">
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p>项目名称：</p>
+                                                <p>
+                                                    <input type="text" name="title" placeholder="请输入您的作品名称"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p>项目经验：</p>
+                                                <p>
+                                                    <textarea name="desc" placeholder="请输入您的职责+项目描述"></textarea>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="padding-top: 0">
+                                                <input type="button" value="保存" class="but experience_submit">&nbsp;
+                                                <input type="button" value="取消" class="but">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        {#                        <div class="qwgz">#}
+                        {#                            <div class="qwgzLine">#}
+                        {#                                <div class="qwgzTitle">作品展示</div>#}
+                        {#                            </div>#}
+                        {##}
+                        {#                            <div id="qwgzList">#}
+                        {#                                <div id="showInfo">#}
+                        {#                                    <table class="showInfo">#}
+                        {#                                        <tr>#}
+                        {#                                            <td class="xmjy">#}
+                        {#                                                <p>作品链接：<a href="http://www.advent-in.com:8000">www.kd.com</a></p>#}
+                        {##}
+                        {#                                                <p style="font-size: 18px;">《创业攻略》</p>#}
+                        {##}
+                        {#                                                <p>#}
+                        {#                                                    项目结构上分为表现层、业务层和数据访问层，层次间的依赖关系自下到上。#}
+                        {#                                                    <br>采用的技术有Struts，Spring，Hibernate#}
+                        {#                                                </p>#}
+                        {#                                                <img src="../static/img/myAccount/20.jpg" alt="" width="100%"/>#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {#                                        <tr>#}
+                        {#                                            <td></td>#}
+                        {#                                        </tr>#}
+                        {#                                        <tr>#}
+                        {#                                            <td class="qwgzpding alinleft">#}
+                        {#                                                <a href="javascript:;" class="qwgz7">添加作品</a>#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {#                                        <tr>#}
+                        {#                                            <td class="qwgzpding alinleft">#}
+                        {#                                                <a href="javascript:;" class="qwgz5">编辑</a>#}
+                        {#                                                <a href="javascript:;" class="qwgz6">删除此条</a>#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {#                                    </table>#}
+                        {#                                </div>#}
+                        {#                                <div id="editor">#}
+                        {#                                    <table class="editor edcation">#}
+                        {#                                        <tr>#}
+                        {#                                            <td>#}
+                        {#                                                <p>作品链接：</p>#}
+                        {##}
+                        {#                                                <p>#}
+                        {#                                                    <input type="text" placeholder="请输入您的作品链接地址"/>#}
+                        {#                                                </p>#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {#                                        <tr>#}
+                        {#                                            <td>#}
+                        {#                                                <div class="demoImg">#}
+                        {#                                                    {% for i in range(100) %}#}
+                        {#                                                    <img src="">#}
+                        {#                                                    {% end %}#}
+                        {#                                                    <p class="clear"></p>#}
+                        {#                                                </div>#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {#                                        <tr>#}
+                        {#                                            <td class="qwgzpding alinleft">#}
+                        {#                                                <a href="javascript:;" class="qwgz7"#}
+                        {#                                                   onclick="document.getElementById('uploadFile').click()">添加图片</a>#}
+                        {#                                                <input type="file" id="uploadFile" style="display: none;">#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {##}
+                        {#                                        <tr>#}
+                        {#                                            <td>#}
+                        {#                                                <p>作品标题：</p>#}
+                        {##}
+                        {#                                                <p>#}
+                        {#                                                    <input type="text" placeholder="请输入您的作品标题"/>#}
+                        {#                                                </p>#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {#                                        <tr>#}
+                        {#                                            <td>#}
+                        {#                                                <p>作品描述：</p>#}
+                        {##}
+                        {#                                                <p>#}
+                        {#                                                    <textarea placeholder="作品描述"></textarea>#}
+                        {#                                                </p>#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {#                                        <tr>#}
+                        {#                                            <td style="padding-top: 0">#}
+                        {#                                                <input type="button" value="保存" class="but works_submit">&nbsp;#}
+                        {#                                                <input type="button" value="取消" class="but">#}
+                        {#                                            </td>#}
+                        {#                                        </tr>#}
+                        {#                                    </table>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {##}
+                        {#                        </div>#}
+                        <div class="qwgz">
+                            <div class="qwgzLine">
+                                <div class="qwgzTitle">自我描述</div>
+                            </div>
+
+                            <div id="qwgzList">
+                                <div id="showInfo">
+                                    <div id="self_desc" {% if not my_resume.get("brief") %}
+                                         style="display:none" {% end %}>
+                                        <table class="showInfo">
+                                            <tr>
+                                                <td class="xmjy">
+                                                    <p id="self_desc_p">
+                                                        {{ my_resume.get('brief',"")  }}
+                                                    </p>
+                                                </td>
+                                               <td class="qwgzpding alinleft">
+                                                    <a id="self_desc_edit" href="javascript:;" class="qwgz5">编辑</a>
+                                                    <!-- <a href="javascript:;" class="qwgz6">删除此条</a> -->
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    {% if not my_resume.get("brief") %}
+                                    <div><a href="javascript:;" class="add_self_desc">添加</a></div>
+                                    {% end %}
+                                </div>
+                                <div id="editor">
+                                    <table class="editor edcation">
+                                        <tr>
+                                            <td>
+                                                <p>自我描述：</p>
+                                                <p>
+                                                    <textarea placeholder="自我描述" name="self_desc"></textarea>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-top: 0">
+                                                <input type="button" value="保存" class="but self_desc_submit">&nbsp;
+                                                <input type="button" value="取消" class="but">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<p class="clear"></p>
+</div>
+<script type="text/javascript">
+    $(".submit-zhanghu").click(function () {
+        $("#self_info_form").submit()
+    });
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    $(function () {
+        $("select[name='work_duration']").children().each(function () {
+            if ($(this).attr("data-id") == $(".qwgz .work_duration").text()) {
+                $(".qwgz .qwgz4").text($(this).html());
+            }
+        })
+        $("select[name='degree']").children().each(function () {
+            if ($(this).attr("data-id") == $("#edu_degree").text()) {
+                $("#edu_degree").text($(this).html());
+            }
+        })
+    });
+
+
+    function prepare_data_to_modify(element_id) {
+        if (element_id == "expect_work_edit") {
+            $("input[name='job']").val($(".qwgz .job").text());
+            $("input[name='min_salary']").val($(".qwgz .salary>span").first().text());
+            $("input[name='max_salary']").val($(".qwgz .salary>span").last().text());
+            var work_city = $(".qwgz .work_city").text();
+            $("select[name='work_city']").children().each(function () {
+                if ($(this).html() == work_city) {
+                    $(this).attr("selected", "selected");
+                }
+            });
+
+            var work_duration = $(".qwgz .work_duration").text();
+            $("select[name='work_duration']").children().each(function () {
+                if ($(this).html() == work_duration) {
+                    $(this).attr("selected", "selected");
+                }
+            });
+        }
+        else if (element_id == "education_edit") {
+            $("input[name='school']").val($("#edu_school").text());
+            $("input[name='major']").val($("#edu_major").text());
+            $("input[name='graduate_at']").val($("#edu_graduate_at").text());
+            var degree = $("#edu_degree").text();
+            $("select[name='degree']").children().each(function () {
+                if ($(this).html() == degree) {
+                    $(this).attr("selected", "selected");
+                }
+            });
+
+            var graduate_at = $("#edu_graduate_at").text();
+            $("select[name='graduate_at']").children().each(function () {
+                if ($(this).attr("data-id") == graduate_at) {
+                    $(this).attr("selected", "selected");
+                }
+            });
+        }
+        else if (element_id == "experience_edit") {
+            $("input[name=begin]").val($("#exp_begin").text());
+            $("input[name=end]").text($("#exp_end").text());
+            $("input[name=title]").val($("#exp_title").text());
+            $("textarea[name=desc]").text($("#exp_desc").text());
+        }
+        else if (element_id == "self_desc_edit") {
+            $("textarea[name=self_desc]").text($("#self_desc_p").text());
+        }
+    }
+
+
+    //期望的工作
+    $(".work_expire_submit").click(function () {
+        var data = {};
+        data['job'] = $("input[name='job']").val();
+        data['min_salary'] = $("input[name='min_salary']").val();
+        data['max_salary'] = $("input[name='max_salary']").val();
+        data['work_city'] = $("select[name='work_city']").val();
+        data['work_duration'] = $("select[name='work_duration']").val();
+        data['_xsrf'] = getCookie("_xsrf");
+        $.ajax({
+            url: '/user/resume/job_expected',
+            type: 'post',
+            data: data,
+            success: function (response) {
+                var jsons = jQuery.parseJSON(response);
+                $(".qwgz .qwgz1").text(jsons.job_expected.job);
+                $(".qwgz .qwgz2>span").first().text(jsons.job_expected.min_salary);
+                $(".qwgz .qwgz2>span").last().text(jsons.job_expected.max_salary);
+                $(".qwgz .qwgz3").text(jsons.job_expected.work_city);
+                $("select[name='work_duration']").children().each(function () {
+                    if ($(this).attr("data-id") == jsons.job_expected.work_duration) {
+                        $(".qwgz .qwgz4").text($(this).html());
+                    }
+                })
+                $("#expect_job").css("display", "block");
+                $(".add_work_expect").css("display", "none");
+            },
+            error: function () {
+                // alert('error');
+            }
+        });
+    });
+
+    //教育情况
+    $(".education").click(function () {
+        var data = {};
+        data['school'] = $("input[name='school']").val();
+        data['major'] = $("input[name='major']").val();
+        data['degree'] = $("select[name='degree']").val();
+        data['graduate_at'] = $("select[name='graduate_at']").val();
+        data['_xsrf'] = getCookie("_xsrf");
+        $.ajax({
+            url: '/user/resume/education',
+            type: 'post',
+            data: data,
+            success: function (response) {
+                var jsons = $.parseJSON(response);
+                $("#edu_school").text(jsons.education.school);
+                $("#edu_major").text(jsons.education.major);
+                $("#edu_graduate_at").text(jsons.education.graduate_at);
+                $("select[name='degree']").children().each(function () {
+                    if ($(this).attr("data-id") == jsons.education.degree) {
+                        $("#edu_degree").text($(this).html());
+                    }
+                });
+                $("#education").css("display", "block");
+                $(".add_education").css("display", "none");
+            },
+            error: function () {
+                // alert('error');
+            }
+        });
+    });
+
+    //工作经历
+    $(".experience_submit").click(function () {
+        var data = {};
+        data['title'] = $("input[name=title]").val();
+        data['desc'] = $("textarea[name=desc]").val();
+        data['begin'] = $("input[name=begin]").val();
+        data['end'] = $("input[name=end]").val();
+        data['_xsrf'] = getCookie("_xsrf");
+        $.ajax({
+            url: '/user/resume/job_experience',
+            type: 'post',
+            data: data,
+            success: function (response) {
+                var jsons = $.parseJSON(response);
+                $("#exp_begin").text(jsons.experience.begin);
+                $("#exp_end").text(jsons.experience.end);
+                $("#exp_title").text(jsons.experience.title);
+                $("#exp_desc").text(jsons.experience.desc);
+                $("#experience").css("display", "block");
+                $(".add_experience").css("display", "none");
+            },
+            error: function () {
+                // alert('error');
+            }
+        });
+    });
+    //作品展示
+    $(".works_submit").click(function () {
+        var data = {};
+
+        data['_xsrf'] = getCookie("_xsrf");
+        $.ajax({
+            url: '/user/resume/works',
+            type: 'post',
+            data: data,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function () {
+                // alert('error');
+            }
+        });
+    });
+    //自我描述
+    $(".self_desc_submit").click(function () {
+        var data = {};
+        data['_xsrf'] = getCookie("_xsrf");
+        data['self_desc'] = $("textarea[name='self_desc']").val();
+        $.ajax({
+            url: '/user/resume/introduce',
+            type: 'post',
+            data: data,
+            success: function (response) {
+                var jsons = $.parseJSON(response);
+                $("#self_desc_p").text(jsons.brief);
+                $(".myReTitle2").text(jsons.brief);
+                $("#self_desc").css("display", "block");
+                $(".add_self_desc").css("display", "none");
+            },
+            error: function () {
+                // alert('error');
+            }
+        });
+    });
+</script>
+
+{% end %}

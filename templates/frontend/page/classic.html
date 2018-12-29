@@ -1,0 +1,103 @@
+{% extends "../base2.html" %}
+
+{% block content %}
+<div class="cen cen_ClassicMode">
+    <p class="gonggao">
+        <marquee scrollamount="4" scrolldelay="100" direction="left" width="75%" height="100%">
+            11获得了2015-11-22,16:00开始的30元话费争夺赛
+        </marquee>
+    </p>
+
+    <p class="jianbianxian"></p>
+
+    <div class="ClassicMode_box">
+        <div class="ClassicMode_boxkuan">
+            <div class="ClassicMode_box_nav">
+                <div id="danren" class="selected" style="border-right:1px solid #c4aa1b ;">
+                    <img src="{{ static_url('img/danrensai.png') }}">
+                </div>
+                <div id="duikang" style="border-right:1px solid #c4aa1b ;border-left:1px solid #f4d04c;">
+                    <img src="{{ static_url('img/duikangsai.png') }}">
+                </div>
+                <div id="hunzhan" style="border-left:1px solid #f4d04c;">
+                    <img src="{{ static_url('img/hunzhaosai.png') }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="darensai_box">
+            <div class="ClassicMode_cen">
+                <div onclick="javascript:window.location.href='/play?type=single&field=1'">
+                    <img src="{{ static_url('img/standard.png') }}">
+
+                    <p>低分10（1~30金币）</p>
+                </div>
+                <div onclick="javascript:window.location.href='/play?type=single&field=2'">
+                    <img src="{{ static_url('img/ShortSelling.png') }}">
+
+                    <p>低分10（1~30金币）</p>
+                </div>
+                <div onclick="javascript:window.location.href='/play?type=single&field=3'">
+                    <img src="{{ static_url('img/professional.png') }}">
+
+                    <p>低分10（1~30金币）</p>
+                </div>
+            </div>
+            <!--ClassicMode_cen-->
+            <div class="kuaisukaishi">
+                <img src="{{ static_url('img/kuaisukaishi.png') }}">
+            </div>
+        </div>
+        <!--darensai_box-->
+        <div class="duikangsai_box">
+            <div class="ClassicMode_cen">
+                <div onclick="javascript:window.location.href='/play?type=fight&field=1'">
+                    <img src="{{ static_url('img/chuji.png') }}">
+
+                    <p>低分10（1~30金币）</p>
+                </div>
+                <div onclick="javascript:window.location.href='/play?type=fight&field=2'">
+                    <img src="{{ static_url('img/zhongji.png') }}">
+
+                    <p>低分10（1~30金币）</p>
+                </div>
+                <div onclick="javascript:window.location.href='/play?type=fight&field=3'">
+                    <img src="{{ static_url('img/gaoji.png') }}">
+
+                    <p>低分10（1~30金币）</p>
+                </div>
+            </div>
+            <!--ClassicMode_cen-->
+            <div class="kuaisukaishi">
+                <img src="{{ static_url('img/kuaisukaishi.png') }}">
+            </div>
+        </div>
+        <!--duikangsai_box-->
+        <div class="hunzhansai_box">
+            <div class="ClassicMode_cen">
+                <div onclick="javascript:window.location.href='/play?type=dogfight&field=1'">
+                    <img src="{{ static_url('img/hunchuji.png') }}">
+                    <p>低分10（1~30金币）</p>
+                </div>
+                <div onclick="javascript:window.location.href='/play?type=dogfight&field=2'">
+                    <img src="{{ static_url('img/hunzhongji.png') }}">
+
+                    <p>低分10（1~30金币）</p>
+                </div>
+                <div onclick="javascript:window.location.href='/play?type=dogfight&field=3'">
+                    <img src="{{ static_url('img/hungaoji.png') }}">
+
+                    <p>低分10（1~30金币）</p>
+                </div>
+            </div>
+            <!--ClassicMode_cen-->
+            <div class="kuaisukaishi">
+                <img src="{{ static_url('img/kuaisukaishi.png') }}">
+            </div>
+        </div>
+        <!--hunzhansai_box-->
+    </div>
+</div>
+
+{% end %}
+

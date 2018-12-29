@@ -1,0 +1,193 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<script type="text/javascript" src="{{ static_url('js/jquery-1.7.2.min.js') }}"></script>
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    团队成员
+
+</div>
+
+<div class="nbig_box">
+    <form action="/mb_xiangmuliucheng_c" method="post" enctype="multipart/form-data" name="project_team_form"
+          id="project_team_form">
+        {% module xsrf_form_html() %}
+        <input name="id" type="hidden" value="{{ id }}">
+
+        <div class="xmliche_b">
+            <div class="xmliche_box">
+                <div class="cd">
+                    <span class="xmwz_biao">
+                        <p>项目成员</p>
+                        <img src="../static/img/startup/avatar_sample.png"/>
+                        <input type="file">
+                    </span>
+                    {% if not project.get("team") %}
+                        <span class="xmliche_b_name">
+                            <input type="text" placeholder="姓名：" name="name"/>
+                            <select name="age">
+                                <option value="0">年龄：</option>
+                                <option value="1">18-22</option>
+                                <option value="2">23-29</option>
+                                <option value="3">>=30</option>
+                                <option value="4">其他</option>
+                            </select>
+                            <select name="education">
+                                <option value="0">学历：</option>
+                                <option value="1">大专</option>
+                                <option value="2">本科</option>
+                                <option value="3">硕士</option>
+                                <option value="4">博士</option>
+                                <option value="5">其他</option>
+                            </select>
+                        <input type="text" placeholder="职务：" name="job"/>
+                        </span>
+
+                    <div style="clear: both;"></div>
+                        <span class="xmwz_biao xmwz_xiangmu">
+                            <p>成员介绍</p>
+                            <div class="teamInfo">
+                                <textarea class="wenben" rows=6 name="teamInfo" placeholder="成员简介："
+                                          onpropertychange='this.style.posHeight=this.scrollHeight'
+                                          onfocus='textarea.style.posHeight=this.scrollHeight'>
+                                </textarea>
+                            </div>
+                        </span>
+                    <a class="shanchu">删除</a>
+                    {% else %}
+                    {% set age={"1":"18-22","2":"23-29","3":">=30","4":"其他"} %}
+                    {% set degree={"1":"大专","2":"本科","3":"博士","4":"硕士","5":"其他"} %}
+                    {% for p  in project.get("team") %}
+                        <span class="xmliche_b_name">
+                            <input type="text" placeholder="姓名：" name="name" value="{{ p.get('name',"") }}"/>
+                            <select name="age">
+                                <option value="0">年龄：</option>
+                                {% for key,value in age.items() %}
+                                <option value="{{ key }}"
+                                        {% if p.get("age")==key %}selected{% end %}>{{ value }}</option>
+                                {% end %}
+                            </select>
+                            <select name="education">
+                                <option value="0">学历：</option>
+                                {% for key,value in degree.items() %}
+                                <option value="{{ key }}"
+                                        {% if p.get("education")==key %}selected{% end %}>{{ value }}</option>
+                                {% end %}
+                            </select>
+                        <input type="text" placeholder="职务：" value="{{ p.get('job',"") }}" name="job"/>
+                        </span>
+
+                    <div style="clear: both;"></div>
+                        <span class="xmwz_biao xmwz_xiangmu">
+                            <p>成员介绍</p>
+                            <textarea class="wenben" rows=6 name="teamInfo" placeholder="成员简介："
+                                      onpropertychange='this.style.posHeight=this.scrollHeight'
+                                      onfocus='textarea.style.posHeight=this.scrollHeight'>
+                                {{ p.get('desc',"无") }}
+                            </textarea>
+                        </span>
+                    <a class="shanchu">删除</a>
+                    {% end %}
+                    {% end %}
+
+                </div>
+            </div>
+            <div class="xmliche_b_tianjia">+添加成员</div>
+            <div class="tuanyuan">
+                <p class="xin">团队信息</p>
+		   	    <span class="ymwz_biao">
+		   	  	<p>人数</p>
+		   	  	<input name="member_count" type="number" value="{{ project.get('teaminfo',{}).get('member_count',0) }}"/>
+		   	    </span>
+		   	    <span class="ymwz_biao">
+		   	  	<p>团队介绍</p>
+                    <div class="teamInfo">
+		   	  	        <textarea name="desc" placeholder="团队介绍：" class="wenben" rows=6
+                           onpropertychange='this.style.posHeight=this.scrollHeight' id=textarea
+                           onfocus='textarea.style.posHeight=this.scrollHeight'>
+                            {{ project.get('teaminfo',{}).get('desc','') }}
+		   	  	        </textarea>
+                    </div>
+		   	    </span>
+            </div>
+            <div class="xiayibu xiayibuA">下一步</div>
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+    //添加及删除
+    $(function () {
+        $(".xmliche_b_tianjia").click(function () {
+            var html = '<div class="cd">' +
+                    '<span class="xmwz_biao">' +
+                    '<img  src="../static/img/startup/avatar_sample.png"  />' +
+                    '<input  type="file" onchange="previewImage(this)" style="top: 0;"/>' +
+                    '</span>' +
+                    '<span class="xmliche_b_name"><input type="text" placeholder="姓名：" name="name" />' +
+                    '<select name="age"><option value="0">年龄：</option><option value="1">18-22</option><option value="2">23-29</option><option value="3">>=30</option><option value="4">其他</option></select>' +
+                    '<select name="education"><option value="0">学历：</option><option value="1">大专</option><option value="2">本科</option><option value="3">硕士</option><option value="4">博士</option><option value="5">其他</option></select>' +
+                    '<input type="text" placeholder="职务：" name="job"/>' +
+                    '</span><div style="clear: both;"></div>' +
+                    '<span class="xmwz_biao xmwz_xiangmu">' +
+                    '<p>成员介绍</p><textarea class="wenben" rows=6 name="teamInfo" placeholder="成员简介："></textarea></span>' +
+                    '<a class="shanchu">删除</a>' +
+                    '</div>';
+            $('.xmliche_box').append(html);
+
+        });
+        $('.shanchu').live('click', function () {
+            $(this).parent().hide().remove();
+        });
+
+    })
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    $(".xiayibu").click(function () {
+        // 表单数据处理
+        var Leader = {};
+        Leader['member_count'] = $('input[name="member_count"]').val();
+        Leader['desc'] = $('textarea[name="desc"]').val();
+        var arr = [];
+        var project_id = $("input[name='id']").val();
+        $('.cd').each(function (k, v) {
+            var name = $("input[name='name']", $(v)).val();
+            var job = $("input[name='job']", $(v)).val();
+            if (name != "" && job != "") {
+                arr.push({
+                    name: name,
+                    age: $("select[name='age']", $(v)).val(),
+                    education: $("select[name='education']", $(v)).val(),
+                    job: job,
+                    desc: $("textarea[name='teamInfo']", $(v)).val()
+                });
+            }
+
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/mb_xiangmuliucheng_c",
+            data: {
+                "leader": JSON.stringify(Leader),
+                "req": JSON.stringify(arr),
+                "id": project_id,
+                "_xsrf": getCookie("_xsrf")
+            },
+            success: function (json) {
+                console.log(json);
+                window.location = '/mb_xiangmuliucheng_c?id=' + project_id;
+            },
+            error: function () {
+                alert('error');
+            }
+        });
+    });
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}

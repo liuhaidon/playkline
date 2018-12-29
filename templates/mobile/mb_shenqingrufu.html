@@ -1,0 +1,83 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        创业园
+
+    </div>
+</div>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav chaungyeyuan">
+        <div class="box1">
+            <p><a href="/mb_chuangyeyuan">发布的创业园</a></p>
+        </div>
+
+        <div class="box4 onclik">
+            <p><a href="/mb_shenqingrufu">申请入孵的创业园</a></p>
+        </div>
+    </div>
+    {% if user_apply_parks.count()>0 %}
+    {% for apark in user_apply_parks %}
+    {% set p =park_info(apark['park_id']) %}
+    {% if p %}
+    <div class="pro_pro ace_ace">
+        <div class="ace_cen">
+            <img src="../static/media/park_img/{{ p.get('basic',{}).get('image',{})[0]['name'] }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                 onclick="javascript:window.location.href='/mb_cyy_xiangqing/{{ p['id'] }}'">
+
+            <div class="pro_text chaugyeyuan_text">
+                <p class="ace_ace_biao">
+                    {% set name=p.get('basic').get('name') %}
+                    {% if len(name)>10 %}
+                    {{ name }}
+                    {% else %}
+                    {{ name[0:10] }}...
+                    {% end %}
+                </p>
+
+                <div class="chaugyeyuan_biaoqian">
+			   				<span class="chaugyeyuan__bqin">
+			   					<p class="chaugyeyuan_cenicon"></p>
+			   					<p class="chaugyeyuan_dizhi">
+                                    {{ p.get("province","") }}省
+                                    {{ p.get("city","") }}市
+                                    {{ p.get("address","") }}
+                                </p>
+			   				</span>
+			   				<span class="chaugyeyuan__bqiner">
+			   					<p class="chaugyeyuan_cenrcon"></p>
+			   					<p class="chaugyeyuan_date">{{ p.get("base",{}).get("tel","") }}</p>
+			   				</span>
+                </div>
+                <!--pro_biaoqian-->
+			   			<span class="chaugyeyuan_shenhe">
+			   				<a>状态：</a>
+			   				<a class="ace_shenhe_tong">
+                                {% if apark.get('status','')=='pass' %}
+                                已入孵
+                                {% else %}
+                                已申请入孵,等待审核
+                                {% end %}
+                            </a>
+			   			</span>
+
+            </div>
+            <!--pro_text-->
+        </div>
+
+    </div>
+    {% end %}
+    {% end %}
+    {% else %}
+    <br>
+    暂无申请入孵的创业园
+    {% end %}
+    <!--pro_pro-->
+
+
+</div><!--nbig_box-->
+{% end %}
+

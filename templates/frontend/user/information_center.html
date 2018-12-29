@@ -1,0 +1,261 @@
+{% extends "../base.html" %}
+{% block page_title %}资讯中心|创业孵化平台{% end %}
+
+{% block content %}
+<script>
+    $(function () {
+
+        function getCookie(name) {
+            var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+            return r ? r[1] : undefined;
+        };
+
+        $('.delete').click(function () {
+            var data = {};
+            var list = $(this).parent();
+            var name = $(this).parent().find('h1#projectName').text();
+            data['id'] = $(this).data('id');
+            data['_xsrf'] = getCookie("_xsrf");
+            if (confirm('确定要删除名称为  ' + name + '  的资讯吗？一旦删除,无法恢复!')) {
+                $.ajax({
+                    url: '/information/delete',
+                    type: 'post',
+                    data: data,
+                    success: function (re) {
+                        //console.log(data);
+                        var obj = JSON.parse(re);
+                        if (obj.status == 'ok') {
+                            $(list).fadeOut('slow').remove();
+                            alert(name + obj.msg);
+                        }
+                        else if (obj.status == 'error') {
+                            alert(name + obj.msg);
+                        }
+                    },
+                    error: function () {
+                        alert('删除失败!');
+                    }
+                });
+            }
+        });
+    })
+</script>
+<style>
+    .delete {
+        padding: 0;
+        cursor: pointer;
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 50px;
+        line-height: 30px;
+        color: #00A0EA;
+    }
+
+    .person-idea-list {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .person-idea-list:hover .delete {
+        display: block;
+    }
+</style>
+
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            <div class="fbdcy jhclick" id="project-issued">发布的资讯</div>
+            <div class="fbdcy pldcy" id="project-subscription">通过审核的资讯</div>
+        </div>
+
+        <div class="project-issued">
+            {% for p in user_information %}
+            {% set c = p.get('channel','') %}
+            {% set rate = {'editing':1, 'confirm':2, 'online':3} %}
+            {% set get_rate = rate.get(p.get('status'),1) %}
+            <div class="person-idea-list">
+                <div class="delete" data-id="{{ p.get('_id') }}">×</div>
+                <div class="p-i-l-l">
+                    <a href="/information/{{ p.get('_id') }}" class="ckxq-a">
+                        <img src="/static/media/information_img/{{ p.get('image','404.jpg') }}"
+                             onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                             style="width:240px;height: 200px;">
+                    </a>
+                </div>
+                <div class="p-i-l-r">
+                    <a href="/information/{{ p.get('_id') }}">
+                        <h1 id="projectName">
+                            {{ p.get('name') }}
+                        </h1>
+                    </a>
+                    <ul class="per-idea-ul"><br>
+                        <li>频道：{{ c }}</li>
+                        <br>
+                        <li style="word-wrap:break-word;">
+                            简介：{{ p.get('brief','') }}
+{#                            {% if len(p.get('brief',''))>=39 %}#}
+{#                            {{ p.get('brief')[:36] }}...#}
+{#                            {% else %}#}
+{#                            {{ p.get('brief','') }}#}
+{#                            {% end %}#}
+                        </li>
+                        <br>
+                        <br>
+                        <li>
+                            <div>
+                                <div class="per-idea-item2">
+
+                                    <div class="per-idea-item2-div1">
+                                        <div class="piidd pil-focus">
+                                            ✔
+                                        </div>
+                                        {% if get_rate>1 %}
+                                        <div class="piidd-line pil-focus"></div>
+                                        {% if get_rate==2 %}
+                                        <div class="piidd pil-focus" style="background-color:#fff"></div>
+                                        {% elif get_rate==3 %}
+                                        <div class="piidd pil-focus">
+                                            ✔
+                                        </div>
+                                        <div class="piidd-line pil-focus"></div>
+                                        <div class="piidd pil-focus">
+                                            ✔
+                                        </div>
+                                        {% end %}
+                                        {% end %}
+                                        <p class="clear"></p>
+
+                                        <div class="per-idea-item2-div2">
+                                            <div class="font-color-blue">发布资讯</div>
+                                            <div>资讯审核</div>
+                                            <div>资讯上架</div>
+                                        </div>
+                                    </div>
+                                    <div class="per-idea-item3">
+                                        <ul>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% end %}
+            {% if user_information.count()==0 %}
+            <div class="person-idea-list-none">
+                您还没有发布的资讯哦，赶快去<a href="/information/issue" style="color:#00A0EA ">发布</a>吧
+            </div>
+            {% end %}
+        </div>
+        <div class="project-subscription" style="display: none">
+            {% for p in user_online_information %}
+            {% set c = p.get('channel','') %}
+            {% set rate = {'editing':1, 'confirm':2, 'online':3} %}
+            {% set get_rate = rate.get(p.get('status'),1) %}
+            <div class="person-idea-list">
+                <div class="delete" data-id="{{ p.get('_id') }}">×</div>
+                <div class="p-i-l-l">
+                    <a href="/information/{{ p.get('_id') }}" class="ckxq-a">
+                        <img src="/static/media/information_img/{{ p.get('image','404.jpg') }}"
+                             onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                             style="width:260px;height: 200px;">
+                    </a>
+                </div>
+                <div class="p-i-l-r">
+                    <a href="/information/{{ p.get('_id') }}">
+                        <h1 id="projectName">
+                            {{ p.get('name') }}
+                        </h1>
+                    </a>
+                    <ul class="per-idea-ul"><br>
+                        <li>频道：{{ c }}</li>
+                        <br>
+                        <li style="word-wrap:break-word;">
+                            简介：{{ p.get('brief','') }}
+{#                            {% if len(p.get('brief',''))>=41 %}#}
+{#                            {{ p.get('brief')[:38] }}...#}
+{#                            {% else %}#}
+{#                            {{ p.get('brief','') }}#}
+{#                            {% end %}#}
+                        </li>
+                        <br>
+                        <br>
+                        <li>
+                            <div>
+                                <div class="per-idea-item2">
+
+                                    <div class="per-idea-item2-div1">
+                                        <div class="piidd pil-focus">
+                                            ✔
+                                        </div>
+                                        {% if get_rate>1 %}
+                                        <div class="piidd-line pil-focus"></div>
+                                        {% if get_rate==2 %}
+                                        <div class="piidd pil-focus" style="background-color:#fff"></div>
+                                        {% elif get_rate==3 %}
+                                        <div class="piidd pil-focus">
+                                            ✔
+                                        </div>
+                                        <div class="piidd-line pil-focus"></div>
+                                        <div class="piidd pil-focus">
+                                            ✔
+                                        </div>
+                                        {% end %}
+                                        {% end %}
+                                        <p class="clear"></p>
+
+                                        <div class="per-idea-item2-div2">
+                                            <div class="font-color-blue">发布资讯</div>
+                                            <div>资讯审核</div>
+                                            <div>资讯上架</div>
+                                        </div>
+                                    </div>
+                                    <div class="per-idea-item3">
+                                        <ul>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% end %}
+            {% if user_information.count()==0 %}
+            <div class="person-idea-list-none">
+                您还没有发布的资讯哦，赶快去<a href="/information/issue" style="color:#00A0EA ">发布</a>吧
+            </div>
+            {% end %}
+        </div>
+    </div>
+    <p class="clear"></p>
+</div>
+
+<script>
+    (function ($) {
+        var a = $('#project-issued'),
+                b = $('#project-subscription'),
+                c = $('.project-issued'),
+                d = $('.project-subscription'),
+                r = {
+                    a: function (e) {
+                        var t = this;
+                        e.click(function () {
+                            c.hide();
+                            d.hide();
+                            $('.' + $(this).attr('id')).show();
+                        });
+                        return t;
+                    }
+                };
+        r.a(a).a(b);
+    })(jQuery);
+</script>
+
+{% end %}

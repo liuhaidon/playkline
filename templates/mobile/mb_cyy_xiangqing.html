@@ -1,0 +1,200 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    创业园详情
+</div>
+
+<div class="nbig_box">
+    {% if park.get('basic',{}).get('default','')=='0' or park.get('basic',{}).get('default','')=='1' or park.get('basic',{}).get('default','')=='2' %}
+    {% set default = park.get('basic',{}).get('default','') %}
+    {% set first_image= park.get('basic',{}).get('image',{})[int(default)]['name'] %}
+    {% else %}
+    {% set first_image= park.get('basic',{}).get('image',{})[0]['name'] %}
+    {% end %}
+    <div class="huodong_box">
+        <img src="../static/media/park_img/{{ first_image }}" onerror="javascript:this.src='../static/imges/cyy.png';">
+    </div>
+
+    <div class="class_title">
+        <p>{{ park.get('basic',{}).get('name',"") }}</p>
+
+        <p class="sm_jianjie">{{ ','.join([t for t in park.get('basic',{}).get('tag')])}}</p>
+    </div>
+    <div class=" cyy">
+        <div class="cyy_touxiang">
+            <span class="cyy_touxi_ren">
+                <img src="../static/media/avatar/{{ park_publisher.get('avatar_thumb','') }}"
+                     onerror="javascript:this.src='../static/imges/mayun.png'"
+                     style="width: 100%; height: 100%; border-radius: 50%;">
+            </span>
+        </div>
+        <div class="jizhong">
+            <a href="/mb_liaotian" class="huodong_touxi_sixin">私信</a>
+            {% if not user_has_followed %}
+            <a href="javascript:;" class="huodong_touxi_guanzhu" data-uid="{{ park['uid'] }}">关注他</a>
+            {% else %}
+            <a href="javascript:;" class="yihuodong_touxi_guanzhu btnClick" data-uid="{{ park['uid'] }}">取消关注</a>
+            {% end %}
+            <div style=" clear: both;"></div>
+        </div>
+        <span class="cyy_ziliao">
+				  	<p class="cyy_name">发布人：{{ park_publisher.get('name','') }}</p>
+{#				  	<p class="cyy_tell">{{ park_publisher.get('phone',{})[0:3] }}*****</p>#}
+			  	</span>
+    </div>
+
+    <div class="class_maegin huodmen">
+        <div class="class_time">
+            <span class="class_timeicon"></span>
+            <span class="class_timer">{{ park.get('time','') }}</span>
+        </div>
+        <div class="class_dizhi">
+            <span class="class_dizhiicon"></span>
+            <span class="class_dizhier">{{ park.get('basic',{}).get('province','') }}{{ park.get('basic',{}).get('city','') }}{{ park.get('basic',{}).get('address','') }}</span>
+        </div>
+    </div>
+
+    <!--huodong_touxi-->
+    <div class="cyy_jiben">
+		  	<span>
+		  		<p>面积：{{ park.get('cost',{}).get('area',"无") }}m<b>2</b></p>
+		  		<p>水费：{{ park.get('cost',{}).get('water',"无") }}元/吨</p>
+		  	</span>
+		  	<span>
+		  		<p>物业费：{{ park.get('cost',{}).get('property',"无") }}元/月</p>
+		  		<p>电费：{{ park.get('cost',{}).get('energy',"无") }}元/度</p>
+		  	</span>
+		  	<span style="border-right:none;">
+		  		<p>停车费：{{ park.get('cost',{}).get('parking',"无") }}元/月</p>
+		  		<p>交通：{{ park.get('cost',{}).get('address',"无") }}</p>
+		  	</span>
+    </div>
+
+
+    <div class="class_avti">
+        <div class="pingmi">
+            <span class="pingmi_icon"></span>
+            <span class="pingmi_nab">{{ park.get('cost',{}).get('area',"无") }}㎡以上</span>
+        </div>
+        <div class="pmmo">
+            <span class="pmmo_icon"></span>
+            <span class="pmmo_nab">{{ park.get('cost',{}).get('rent',"无") }}/㎡</span>
+            </span>
+        </div>
+    </div>
+    <!--class_avti-->
+
+
+    <!--class_avti-->
+    <div class="cyy_jinbenziliao">
+        <div class="jibenxinxi_nav">
+            <span id="jiben" class="bule">基本信息</span>
+            <span id="xiangxi">详细信息</span>
+            <span id="feiyong">费用及配套</span>
+            <span id="youhui" style="border-right:1px solid #E5E5E5;">优惠及要求</span>
+
+        </div>
+    </div>
+
+    <ul id="ji1" class="cyy_jibenhi">
+        <li>园区名称: {{ park.get('basic',{}).get('name',"") }}</li>
+        <li>
+            所在地区: {{ park.get('basic',{}).get('province',"") }}省{{ park.get('basic',{}).get('city',"") }}市{{ park.get('basic',{}).get('region',"") }}</li>
+        <li>详细地址: {{ park.get('basic',{}).get('address',"") }}</li>
+        <li>联系方式: {{ park.get('basic',{}).get('tel',"") }}</li>
+    </ul>
+
+    <ul id="ji2" class="cyy_jibenhi">
+        <li>园区概括: {{ park.get('detail',{}).get('summary',"") }}</li>
+        <li>园区优势: {{ park.get('detail',{}).get('advantage',"") }}</li>
+        <li>入园条件: {{ park.get('detail',{}).get('conditions',"") }}</li>
+
+    </ul>
+
+    <ul id="ji3" class="cyy_jibenhi">
+        <li>可提供面积:{{ park.get('cost',{}).get('area',"") }}平方米,租金：{{ park.get('cost',{}).get('rent',"无") }}元/m2,
+            物业费：{{ park.get('cost',{}).get('property',"无") }}元/月,
+            基本租期:{{ park.get('cost',{}).get('basic_lease',"无") }}</li>
+        <li>水费:{{ park.get('cost',{}).get('water',"无") }}元/吨,电费:{{ park.get('cost',{}).get('energy',"无") }}元/度,
+            停车费:{{ park.get('cost',{}).get('parking',"无") }}元/天,
+            网络设施:{{ park.get('cost',{}).get('network',"无") }}</li>
+        <li>付款方式:{{ park.get('cost',{}).get('payment',"无") }},
+            物业管理：{{ park.get('cost',{}).get('management',"无") }},
+            层数：{{ park.get('cost',{}).get('number',"无") }},
+            标准层高：{{ park.get('cost',{}).get('standard',"无") }}</li>
+        <li>交通：{{ park.get('cost',{}).get('traffic',"无") }}</li>
+    </ul>
+
+    <ul id="ji4" class="cyy_jibenhi">
+        <li>资金支持：{{ park.get('cost',{}).get('money',"无") }}</li>
+        <li>税收优惠：{{ park.get('cost',{}).get('incentives',"无") }}</li>
+        <li>其他服务：{{ park.get('cost',{}).get('otherServices',"无") }}</li>
+        <li>所在地要求：{{ park.get('cost',{}).get('requirements',"无") }}</li>
+        <li>其他要求：{{ park.get('cost',{}).get('otherRequirements',"无") }}</li>
+    </ul>
+
+    <div>
+        {% if not apply_record %}
+        {% if not myuser %}
+        <a class="baoming" href="/mobile/login">申请入孵</a>
+        {% else %}
+        <a class="baoming" onclick="window.location.href='/mb_fuhuadan/{{ park['id'] }}'">申请入孵</a>
+        {% end %}
+        {% else %}
+        {% if apply_record.get('status')=='pass' %}
+        <a class="baoming" style="background-color: #ddd">已入孵</a>
+        {% else %}
+        <a class="baoming">已申请入孵,等待审核</a>
+        {% end %}
+        {% end %}
+    </div>
+
+</div><!--big_class-->
+<script>
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    //关注人
+    $('a.yihuodong_touxi_guanzhu,a.huodong_touxi_guanzhu').click(function () {
+        var data = {};
+        var that = $(this);
+        data['uid'] = $(this).data("uid");
+        data['_xsrf'] = getCookie("_xsrf");
+        if ($(this).is(".btnClick")) {
+            data['handle'] = 'remove';
+        }
+        else {
+            data['handle'] = 'add';
+        }
+        if (data['handle'] == 'remove') {
+            this.setAttribute("class", "huodong_touxi_guanzhu");
+            that.text("关注他");
+        }
+        else {
+            this.setAttribute("class", "yihuodong_touxi_guanzhu btnClick");
+            that.text("取消关注");
+        }
+        $.ajax({
+            type: 'post',
+            url: '/follow/user',
+            data: data,
+            success: function (re) {
+                var jsons = jQuery.parseJSON(re);
+                if (jsons.status == 'ok') {
+                }
+                else {
+                    alert("其他错误");
+                }
+            }
+        });
+    });
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}

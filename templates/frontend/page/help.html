@@ -1,0 +1,203 @@
+{% extends "../base2.html" %}
+<title>{% block page_title %}玩转K线{% end %}</title>
+{% block content %}
+<div class="help">
+    <ul class="help_navbox">
+        <li>
+            <a class="diwen" onclick="$('#innertext li').hide();$('#syjs').show();">使用介紹</a>
+        </li>
+        <li>
+            <a onclick="$('#innertext li').hide();$('#zbsm, #navo, #navt, #navth').show();">指标说明</a>
+        </li>
+        <li>
+            <a onclick="$('#innertext li').hide();$('#hqjb').show();">获取金币</a>
+        </li>
+        <li>
+            <a onclick="$('#innertext li').hide();$('#pmgz').show();">排名规则</a>
+        </li>
+        <li>
+            <a onclick="$('#innertext li').hide();$('#fkwm').show();">反馈我们</a>
+        </li>
+        <li>
+            <a onclick="$('#innertext li').hide();$('#gywm').show();">关于我们</a>
+        </li>
+    </ul>
+
+    <ul id="innertext">
+        <!--使用介绍-->
+        <li id="syjs" class="indtext_box">
+            <span class="text_instructions">
+                <p class="text_title">产品简述</p>
+                <p class="text_content">一款针对k线投资实战，投资教学的专业应用工具，通过反
+                    复操作，学习技术面基础知识，掌握k线经典形态，增强盘
+                    感。高级功能包括“编辑模式”和“开发模式”，两种模式
+                    皆可使你所运营的公众帐号个性化，例如具有“自定义菜单”
+                    等功能。</p>
+            </span>
+            <span class="text_instructions">
+                <p class="text_title">使用技巧</p>
+                <p class="text_content">一款针对k线投资实战，投资教学的专业应用工具，通过反
+                    <br>一款针对k线投资实战，投资教学。等功能。
+                </p>
+            </span>
+        </li>
+
+        <!--指标说明-->
+        <li id="zbsm" style="display: none">
+            <ul class="ind_nav">
+                <li id="navo" class="textcolor" onclick="$('#zbsm span').hide();$('#nav_one').show();">VOL</li>
+                <li id="navt" onclick="$('#zbsm span').hide();$('#nav_two').show();">MACD</li>
+                <li id="navth" onclick="$('#zbsm span').hide();$('#nav_thrre').show();">KDJ</li>
+            </ul>
+            <span class="text_instructions indtext_box" id="nav_one">
+                <p class="text_title ind_text_title">指标说明</p>
+                <p>VOL（成交量）：指个股或大盘的成交总数，在形态上用一根立竖柱子来表示</p><br/>
+                <p class="text_title ind_text_title">成交量八阶律</p>
+                <p class="text_content">
+                    （1）：量增价平，转阳信号<br/>
+                    （2）：量增价升，买入信号<br/>
+                    （3）：量平价升，持续信号<br/>
+                    （4）：量减价升，继续持有<br/>
+                    （5）：量减价平，警戒信号<br/>
+                    （6）：量减价跌，卖出信号<br/>
+                    （7）：量平价跌，继续卖出<br/>
+                    （8）：量增价跌，弃卖观望
+                </p>
+            </span>
+            <span class="text_instructions indtext_box" id="nav_two" style="display: none;">
+                <p class="text_title ind_text_title">指标说明</p>
+                <p>MACD（指数平滑移动平均线）：是从双指数移动平均线发展而来的，由快的指数移动平均线（EMA）减去慢的指数移动平均线</p>
+                <br/>
+                <p class="text_title ind_text_title">使用方法</p>
+                <p class="text_content">
+                    （1）：当DIF和MACD均大于0（即在图形上表示为它们处于0线以上）并向上移动时，一般表示为行情处于多头行情中，可以买入开仓或多头持仓；<br/>
+                    （2）：当DIF和MACD均小于0（即在图形上表示为它们处于0线以下）并向下移动时，一般表示为行情处于空头行情中，可以卖出开仓或观望；<br/>
+                    （3）：当DIF和MACD均大于0（即在图形上表示为它们处于0线以上）但都向下移动时，一般表示为行情处于下跌阶段，可以卖出开仓或观望；<br/>
+                    （4）：当DIF和MACD均小于0（即在图形上表示为它们处于0线以下）但都向上移动时，一般表示为行情处于即将上涨，股票将上涨，可以买入开仓或多头持仓；
+                </p>
+            </span>
+            <span class="text_instructions indtext_box" id="nav_thrre" style="display: none;">
+                <p class="text_title ind_text_title">指标说明</p>
+                <p>
+                    KDJ（随即指标）：根据统计学原理，通过一个特定的周期（常为9日，9周等）内出现过的最高价，最低价及最后一个计算周期的收盘价及这三者之间的比例关系，来计算最后一个计算周期的未成熟随机值RSV,然后根据平滑移动平均线的方法来计算K值，D值于J值，并绘成曲线图来研判股票走势。</p>
+                <br/>
+                <p class="text_title ind_text_title">使用方法</p>
+                <p class="text_content">
+                    （1）：K于D值永远介于0-100之间。D大于80时，行情呈现超买现象。D小于20时，行情呈现超卖现象。<br/>
+                    （2）：上涨趋势中，K值小于D值，K线向上突破D时，为买进信号。下跌趋势中，K值大于D值，K线向下跌破D时，为卖出信号。<br/>
+                    （3）：KD指标不仅能反应出市场的超买超卖程度，还能通过交叉突破发出买卖信号。<br/>
+                    （4）：KD指标不适于发行量小，交易不活跃的股票，但是KD指标对大盘的大盘热门股有极高准确性。<br/>
+                    （5）：当随机指标与股价出现背离时，一般为转势信号。<br/>
+                    （6）：K值和D值上升或者下跌的速度减弱，倾斜度趋于平缓是短期转势的预警信号。
+                </p>
+            </span>
+        </li>
+
+        <!--获取金币-->
+        <li id="hqjb" class="indtext_box" style="display: none">
+            <span class="text_instructions jinbitext">
+                <p class="text_title">获取金币</p>
+                <p>(1)比赛获取：单人赛中PK获胜，将获得100金币奖励，双人对抗赛中PK获胜，将获得1000金币奖励，多人混战赛中PK获胜，将获得4000金币的奖励。</p>
+                <p>(2)购买：如果你想更快的方式获取更多的金币，请点击“商店”购买金币。</p>
+            </span>
+        </li>
+
+        <!--排名规则-->
+        <li id="pmgz" class="indtext_box" style="display: none">
+            <span class="text_instructions jinbitext">
+                <p class="text_title">排名规则</p>
+                <p>排名榜单分胜率榜，收益榜，金币榜，根据玩家的比赛成绩由高到低排名，玩家可以查看自己的排名次序和榜单前30名玩家的比赛成绩，排名榜单每日零食更新。</p>
+            </span>
+        </li>
+
+        <!--反馈我们-->
+        <li id="fkwm" class="indtext_box" style="display: none; overflow-y: hidden;height:230px;">
+            <span class="text_instructions jinbitext">
+                <input class="yijian" id="text1" type="text" placeholder="点击输入您的意见或建议(^-^)" value="" name=""/>
+                <img class="leng" src="{{ static_url('img/lijifasong.png') }}">
+            </span>
+        </li>
+
+        <!--关于我们-->
+        <li id="gywm" class="indtext_box" style="display: none">
+            <span class="text_instructions jinbitext">
+                <p class="text_title">玩转K线</p>
+                <p>QQ群：487300273</p>
+                <p>深圳市奇遇投资投资管理有限公司</p>
+            </span>
+        </li>
+    </ul>
+</div>
+<!--k_line_box-->
+<!--k_line_bigbox-->
+
+<script>
+
+    $(document).ready(function () {
+
+        function getCookie(name) {
+            var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+            return r ? r[1] : undefined;
+        };
+
+        /*标题nav*/
+        $(".help_navbox li a").click(function () {
+            $(".help_navbox li a").removeClass("diwen");
+            $(this).addClass("diwen");
+        });
+
+        /*指标nav*/
+        $('.ind_nav li').click(function () {
+            $(".ind_nav li").removeClass("textcolor");
+            $(this).addClass("textcolor");
+        });
+
+        /*意见提交*/
+        $(".leng").click(function () {
+            var data = {};
+            data['content'] = $(".yijian").val();
+            {#            data['contact'] = $(".tell").val();#}
+            data['_xsrf'] = getCookie("_xsrf");
+            if (data['yijian'] == "") {
+                alert("请输入您的意见或建议(^-^)");
+                return false;
+            }
+            if (data['tell'] == "") {
+                alert("请输入手机号/QQ号/邮箱,以便与您联系！");
+                return false;
+            }
+            if (data['content'].length < 5 || data['content'].length > 120) {
+                alert("反馈意见长度不合法，内容为5~120字之间");
+                return false;
+            }
+            else {
+                $.ajax({
+                    url: "/feedback",
+                    type: "post",
+                    data: data,
+                    success: function (re) {
+                        var jsons = jQuery.parseJSON(re);
+                        if (jsons['status'] == 'success') {
+                            if (jsons['error'] == '') {
+                                alert(jsons['msg']);
+                                location.reload();
+                            }
+                            else {
+                                alert(jsons['msg']);
+                                return false;
+                            }
+                        }
+                        else {
+                            alert("其他错误！");
+                            return false;
+                        }
+                    }
+                });
+            }
+        });
+
+    });
+
+</script>
+{% end %}
+

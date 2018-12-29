@@ -1,0 +1,56 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+    消息中心
+
+</div>
+<div class="nbig_box">
+    <div class="pro_nav infor_nav">
+        <div class="box1 ">
+            <p><a href="/mb_infor">通知</a></p>
+        </div>
+        <div class="box4 onclik">
+            <p><a href="/mb_sixin">私信</a></p>
+        </div>
+    </div>
+    <div class="sousou">
+        <span class="sousouicon"></span>
+        <input value="搜索"/>
+    </div>
+    <!--sousou-->
+    {% if messages.count()>0 %}
+    {% for m in messages %}
+    {% set u=user(m['uid']) %}
+    <div class="infor_maren">
+        <div class="infor_marenle">
+		 		<span>
+		 			<img src="../static/media/avatar/{{ u.get('avatar') }}"
+                         onerror="javascript:this.src='../static/img/startup/message_dft.png'">
+		 		</span>
+        </div>
+        <div class="infor_marenrig"
+                {#             onclick="window.location.href='mb_liaotian'"#}
+                >
+            <span class="marenrig_biao">{{ u.get("name") }}</span>
+
+            <p class="marenrig_neiro">{% module messageTpl(m) %}</p>
+        </div>
+
+    </div>
+    <!--infor_maren-->
+    {% end %}
+    {% else %}
+    <br>
+    暂无通知消息
+    {% end %}
+
+</div>
+
+<script>
+    $(document).ready(function(){
+       $('.perlogo1').hide();
+    });
+</script>
+{% end %}

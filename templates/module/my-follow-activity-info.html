@@ -1,0 +1,14 @@
+{% if  activity %}
+<tr>
+    <td>
+        <a href="/activity/{{activity.get('_id') }}">
+        <img src="../static/media/activity_img/{{ activity.get('image') }}"
+             onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+             border="none" align="absmiddle" style="width:50px;">
+        </a>
+    </td>
+    <td><a href="/activity/{{ activity.get('_id') }}">{{activity.get('title') }}</a></td>
+    <td><a href="javascript:;" class="unfollow-activity" data-id="{{ activity.get('_id') }}">取消关注</a></td>
+    <td><a href="/activity/{{activity.get('_id') }}" class="ckxqq">查看详情</a></td>
+</tr>
+{% end %}

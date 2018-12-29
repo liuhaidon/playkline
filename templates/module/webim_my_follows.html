@@ -1,0 +1,6 @@
+{% for f in follows %}
+<li id="{{ f['uid'] }}" class="offline" classname="offline" type="chat" displayname="{{ f['uid'] }}"
+    style="background-color: rgb(0, 157, 236);">
+    <img src="../static/emchat/img/head/contact_normal.png"><span>{{ f['uid'] }}</span>
+</li>
+{% end %}

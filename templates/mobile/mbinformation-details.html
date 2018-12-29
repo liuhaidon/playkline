@@ -1,0 +1,481 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle" style="border-bottom: 1px solid #F2F2F2;background: white">
+        <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+        资讯详情
+    </div>
+</div>
+<div class="mbProjectList" style="padding-top: 40px;">
+
+
+    <style>
+
+
+        .mbactivitySelect div {
+            text-indent: 2em;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .mbinfoContentDiv {
+        }
+
+        .content {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .works {
+            background: #fff;
+            margin-bottom: 15px;
+        }
+
+        .pd5 {
+            padding: 5px;
+        }
+
+        .article_ct p {
+            font-size: 12px;
+            color: #666;
+            line-height: 20px;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .article_ct img {
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+            height: auto;
+            max-height: 260px;
+        }
+
+        .list_info_i {
+            margin-top: 20px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .works .list_info_i {
+            margin: 0 0 10px 0px;
+        }
+
+        .list_info_i dl {
+            display: block;
+            height: 20px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .list_info_i dt {
+            display: block;
+            width: 20px;
+            height: 20px;
+            float: left;
+            margin-right: 2px;
+        }
+
+        .list_info_i dd {
+            display: block;
+            height: 20px;
+            float: left;
+            line-height: 20px;
+            font-size: 10px;
+            color: #a7a7a7;
+        }
+
+        .list_info_i .list_info_views dt {
+            background-position: 0 -21px;
+        }
+
+        .list_info_i .list_info_comment dt {
+            background-position: -25px -20px;
+        }
+
+        .list_info_i .list_info_like dt {
+            background-position: -50px -21px;
+        }
+
+        .list_info_i .works_view dt {
+            background-position: -70px -148px;
+        }
+
+        .list_info_i dt {
+            background: url('/static/mobile/img/icons.png') no-repeat;
+            background-size: 500px 500px;
+        }
+
+        .more_about {
+            background: #fff;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+
+        .more_about h4 {
+            display: block;
+            height: 45px;
+            line-height: 55px;
+            font-size: 15px;
+            font-weight: 500;
+            text-indent: 10px;
+            overflow: hidden;
+            color: #535353;
+        }
+
+        .more_about a {
+            display: block;
+        }
+
+        .mores_about td {
+            width: 25%;
+        }
+
+        .more_about img {
+            display: block;
+            width: 100%;
+            height: 65px;
+        }
+
+        .comment {
+            background: #fff;
+        }
+
+        .comment_other h4 {
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            font-weight: 500;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .comment h4 {
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            font-weight: 500;
+            text-indent: 10px;
+            font-size: 11px;
+        }
+
+        .comment ul li {
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .comment ul li .avt {
+            display: block;
+            width: 30px;
+            height: 50px;
+        }
+
+        .fl {
+            float: left;
+        }
+
+        .comment ul li .avt img {
+            width: 100%;
+        }
+
+        .comment_content {
+            margin-left: 40px;
+            font-size: 12px;
+            line-height: 18px;
+        }
+
+        .comment_content h5 {
+            display: block;
+            font-weight: 500;
+            height: 25px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+
+        .comment_content a {
+            color: #1f8902;
+            font-size: 12px;
+        }
+
+        .comment_content span {
+            color: #b4b4b4;
+            margin-left: 5px;
+        }
+
+        .comment_p {
+            color: #9c9c9c;
+        }
+
+        .fbp {
+            padding: 10px 0;
+        }
+
+        .fbp textarea {
+            float: left;
+            resize: none;
+            width: 70%;
+            height: 30px;
+            font-size: 12px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .fbp input {
+            float: right;
+            width: 28%;
+            height: 32px;
+            border: none;
+            color: white;
+            font-size: 1em;
+            background: #e6302f;
+        }
+
+        .zw_content img {
+            width: 100%;
+            height: auto;
+        }
+
+
+    </style>
+
+    <div class="mbinfoContentDiv">
+
+        <div class="content" style="  background: #f0f1f1;">
+            <div class="works">
+                <div class="pd5">
+                    <div class="article_ct">
+                        <P>
+                            <img src="/static/media/information_img/{{ info.get('image','404.jpg') }}"
+                                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';">
+
+                        </P>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="title" style="margin-top: 5px;">
+                        <P>{{ info.get("name",'') }}</P>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="list_info_i" style="margin-top:5px;">
+                        <dl class="list_info_views">
+                            {#							<dt></dt>#}
+                            <dd>作者：{{ byuser.get("name","") }}</dd>
+                            <div class="clear"></div>
+                        </dl>
+                        <dl class="works_view">
+                            <dt></dt>
+                            <dd>{{ info.get("time","") }}</dd>
+                            <div class="clear"></div>
+                        </dl>
+                        <dl class="list_info_comment" style="float: right">
+                            <dt></dt>
+                            <dd>评论[{{ comment_count }}]</dd>
+                            <div class="clear"></div>
+                        </dl>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="texts"
+                         style="margin-top: 5px; font-size: 14px; border-left: 2px solid #d90000; color: #535353;">
+                        <P style="padding-left: 10px;">导读：{{ info.get('brief','') }}</P>
+                    </div>
+                    <div class="clear"></div>
+                    <br>
+                    <!--视频展示区域-->
+                    {% if info.get('video_url','')!="" %}
+                    <div class="content">
+                        <video controls="controls" width=100% height=100%>
+                            {#                <source src="http://7ktrca.com1.z0.glb.clouddn.com/exmax_s" type="video/mp4">#}
+
+                            {% if 'http'  not in   info.get('video_url') %}
+                            {% set video_url='../../static/media/videos/'+info.get('video_url') %}
+                            {% else %}
+                            {% set video_url= info.get('video_url','') %}
+                            {% end %}
+                            <source src="{{ video_url }}" type="video/ogg">
+                            <source src="{{ video_url }}" type="video/webm">
+                            <source src="{{ video_url }}" type="video/mp4">
+                            <source src="http://7ktrca.com1.z0.glb.clouddn.com/exmax_s" type="video/mp4">
+                            Your browser does not support the video tag.
+
+                        </video>
+                        <p style="clear: both"></p>
+                        <br>
+                    </div>
+                    {% end %}
+                    <!--视频展示区域结束-->
+                    <div class="zw_content" style="margin: 5px 0; font-size: 13px; color: #535353;">
+                        <!--富文编辑器内容-->
+                        {% raw info.get('desc','') %}
+
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+            </div>
+            <!--推荐位置-->
+            <div class="more_about">
+                <h4>猜你喜欢</h4>
+
+                <div class="mores_about">
+                    <table width="100%" border="0" cellspacing="5">
+                        <tbody>
+                        <tr>
+                            {% for l in like %}
+                            <td>
+                                <a href="/mobile/infordetails/{{ l.get('id','') }}">
+                                    <img src="/static/media/information_img/{{ l.get('image','404.jpg') }}"
+                                         onerror="javascript:this.src='{{ static_url('img/error.png') }}';">
+                                </a>
+                            </td>
+                            {% end %}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--评论区-->
+            <div class="comment">
+                <div class="comment_other">
+                    <h4>全部评论: {{ comment_count }}条</h4>
+                </div>
+                <ul class="comment_list">
+                    {% for c in comment %}
+                    <li>
+                        <div class="pd5">
+                            <a class="avt fl" href="#">
+                                <img class="sbl-bg" src="/static/media/avatar/{{ c.get('avatar','') }}"
+                                     onerror="javascript:this.src='{{ static_url('img/startup/avatar_sample.png') }}'">
+                            </a>
+
+                            <div class="comment_content">
+                                <h5>
+                                    <div>
+                                        <a class="comment_name" href="#">
+                                            {{ c.get('name','') }}
+                                        </a>
+                                        <span>
+                                            {{ c.get('time','') }}
+                                        </span>
+                                    </div>
+                                </h5>
+                                <div class="comment_p">
+                                    <div class="comment_pct">
+                                        {{ c.get('content','') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </li>
+                    {% end %}
+                </ul>
+                <div class="fbp">
+                    <div class="pd5">
+                        <textarea placeholder="在此输入评论内容！"></textarea>
+                        <input type="button" value="用户评论">
+
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.mbFooterDiv a ').eq(0).addClass('selected');
+        function getCookie(name) {
+            var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+            return r ? r[1] : undefined;
+        };
+
+        $('.zw_content img').removeAttr("style"); //清除富文编辑器的图片style
+
+
+        $(".fbp input").click(function () {
+            var data = {
+                "_xsrf": getCookie("_xsrf"),
+                "content": $(".fbp .pd5 textarea").val(),
+                "id": {{ info.get('id','') }},
+            };
+            var html = '';
+            var count = +$('.list_info_comment dd').text().replace(/[^0-9]/ig, "") + 1; //只获取数字
+            var text = $(".fbp .pd5 textarea").val();
+
+            if (Login_status == 'offline') {
+                location.href = '/mobile/login'; // 需要先登录才能参与评论
+            }
+            else if (text.length > 200) {
+                alert('您的评论超过200字符！请重新输入。');
+                $('.urse_text textarea')[0].focus();
+            }
+            else if (text.length == '') {
+                alert('评论不能为空！');
+                $('.urse_text textarea')[0].focus();
+            } else {
+                jQuery.ajax({
+                    url: "/ajax/information/comment",
+                    type: "post",
+                    data: data,
+                    success: function (msg) {
+                        var jsons = jQuery.parseJSON(msg);
+                        var comment = jsons.data;
+                        if (jsons.status == "ok") {
+                            html += '<li>';
+                            html += '   <div class="pd5">';
+                            html += '       <a class="avt fl" href="#">';
+                            html += '           <img src=\"/static/media/avatar/' + comment.avatar + '\" onerror=\"javascript:this.src=\'../static/img/newimgs/act_img.jpg\'\">';
+                            html += '       </a>';
+                            html += '       <div class="comment_content">';
+                            html += '           <h5>';
+                            html += '               <div>';
+                            html += '                   <a class="comment_name" href="#">';
+                            html += comment.name;
+                            html += '                   </a>';
+                            html += '                   <span>';
+                            html += comment.time;
+                            html += '                   </span>';
+                            html += '               </div>';
+                            html += '           </h5>';
+                            html += '           <div class="comment_p">';
+                            html += '               <div class="comment_pct">';
+                            html += comment.content;
+                            ;
+                            html += '               </div>';
+                            html += '           </div>';
+                            html += '       </div>';
+                            html += '       <div class="clear">';
+                            html += '       </div>';
+                            html += '   </div>';
+                            html += '</li>';
+
+                            $(".comment_list").prepend(html);
+                            $('.list_info_comment dd').text('评论[' + count + ']');
+                            $('.comment .comment_other h4').text('全部评论:' + count + '条');
+                        }
+                        else {
+                            alert(jsons.msg);
+                        }
+                    }
+                })
+            }
+        });
+    })
+</script>
+
+{% end %}
+
+
+{% block script %}
+{% end %}
+

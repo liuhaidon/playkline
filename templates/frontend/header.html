@@ -1,0 +1,58 @@
+<img class="beijing" src="{{ static_url('img/beijing.png') }}"/>
+
+<div class="head">
+    <img class="black" id="return"  src="{{ static_url('img/back.png') }}">
+    <img id="MyAvatar" class="touxiang" src="{{ static_url('imgs/avatar/'+str(myuser.get('avatar','1'))+'.png') }}" data-userid="{{ myuser.get('userid') }}" data-nick="{{ myuser.get('nick') }}"/>
+
+    <div class="mingzi">
+        <p class="name" id="nick">{{ myuser.get("nick",'') }}</p>
+
+        <p class="dengji_box">
+			{% set v=myuser.get("score",0) %}
+            <span class="dengji">{{ v<200 and "LV1" or (v<400 and "LV2" or (v<800 and "LV3" or (v<1300 and "LV4" or (v<2000 and "LV5" or (v<4000 and "LV6" or (v<8000 and "LV7" or (v<13000 and "LV8" or (v<18000 and "LV9" or "LV10"))))))))}}</span>
+			<span class="jindutiao">
+				<span class="jindu_ger"></span>
+				<span class="jindu_yellow"></span>
+			</span>
+        </p>
+    </div>
+    <div class="number_icon">
+		<span class="number_icon_jinbi">
+			<input readOnly="true" type="text" value="{{ myuser.get('gold',0) }}"/>
+		</span>
+		<span class="number_icon_jinbi zhubi">
+			<input readOnly="true" type="text" value="{{ myuser.get('score',0) }}"/>
+		</span>
+		<span class="number_icon_jinbi shenglv">
+			<input readOnly="true" type="text" value="{{ myuser.get('winrate',0) }}%"/>
+		</span>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        // 点击头像进行头像设置
+        $(".touxiang").click(function () {
+            $("#avatarchange").click();
+        });
+
+        // 点击昵称进行昵称设置
+        $("#nick").click(function (e) {
+            $("#nickmodify").click();
+            e.stopPropagation();
+        });
+
+        $(".number_icon_jinbi").click(function () {
+            window.location.href='/shop';
+        });
+
+        $("#return").click(function () {
+            if (window.location.pathname != '/')
+                history.go(-1);
+            else
+               window.location.href='/logout';
+        });
+    })
+
+
+</script>

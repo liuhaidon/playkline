@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "loginday": 1,
+    "gold": 188
+  },
+  {
+    "id": "2",
+    "loginday": 2,
+    "gold": 388
+  },
+  {
+    "id": "3",
+    "loginday": 3,
+    "gold": 688
+  },
+  {
+    "id": "4",
+    "loginday": 4,
+    "gold": 888
+  },
+  {
+    "id": "5",
+    "loginday": 5,
+    "gold": 1188
+  },
+  {
+    "id": "6",
+    "loginday": 6,
+    "gold": 1388
+  },
+  {
+    "id": "7",
+    "loginday": 7,
+    "gold": 1888
+  }
+]

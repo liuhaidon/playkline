@@ -1,0 +1,98 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        项目中心
+    </div>
+</div>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 onclik">
+            <p><a href="/mobile/projectcenter">发布的项目</a></p>
+        </div>
+        <div class="box2">
+            <p><a href="/mb_rengouximu">认购的项目</a></p>
+        </div>
+        <div class="box3">
+            <p><a href="/mb_yitouxiangmu">已投简历项目</a></p>
+        </div>
+        <div class="box4">
+            <p><a href="/mb_yaoqing">邀请入孵项目</a></p>
+        </div>
+    </div>
+    {% if projects.count()>0 %}
+    {% for p in projects %}
+    <div class="pro_pro">
+        <div class="pro_proer">
+            <img src="../static/media/project_img/{{ p.get('image','') }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                 onclick="javascript:window.location.href='/mbProjectDetail?id={{ p['id'] }}'">
+
+            <div class="pro_text">
+                <p class="pro_textbiao">{{ p['name'] }}</p>
+
+                <div class="pro_biaoqian">
+			   				<span class="pro_bqin">
+			   					<p class="pro_bqinicon"></p>
+			   					<p>{{ ','.join(list(p['tag'])) }}</p>
+			   				</span>
+			   				<span class="pro_bqiner">
+			   					<p class="pro_bqiniercon"></p>
+			   					<p>广东深圳</p>
+			   				</span>
+                </div>
+                <!--pro_biaoqian-->
+                <div class="jindu">
+			   				<span>
+			   					<a>项目进度：</a>
+			   					<a class="baifen">{{ status.get(p['status'], '') }}</a>
+			   				</span>
+
+                    <div class="jindutiao">
+                        <span class="jindutiao_gre"></span>
+                        <span class="jindutiao_bule"></span>
+                    </div>
+                </div>
+            </div>
+            <!--pro_text-->
+        </div>
+
+    </div>
+    <!--pro_pro-->
+    <div class="pro_shenhe">
+        {% set index=int(progress_dict.get(p['status'])) %}
+        <span class="pro_shenher">
+            {% if index>=2 %}<p class="pro_shenhericon"></p>{% else %}<p class="pro_shenhericon4"></p>{% end %}
+            {% if index>=1 %}<p class="notant">{% else %}<p class="anotant">{% end %}发布项目</p>
+        </span>
+        <span class="pro_shenher">
+            {% if index>=4 %}<p class="pro_shenhericon1"></p>{% else %}<p class="pro_shenhericon5"></p>{% end %}
+            {% if index>=3 %}<p class="notant">{% else %}<p class="anotant">{% end %}项目审核</p>
+        </span>
+        <span class="pro_shenher">
+            {% if index>=6 %}<p class="pro_shenhericon2"></p>{% else %}<p class="pro_shenhericon6"></p>{% end %}
+            {% if index>=5 %}<p class="notant">{% else %}<p class="anotant">{% end %}项目评审</p>
+        </span>
+        <span class="pro_shenher">
+             {% if index>=7 %}<p class="pro_shenhericon3"></p>{% else %}<p class="pro_shenhericon7"></p>{% end %}
+            {% if index>=7 %}<p class="notant">{% else %}<p class="anotant">{% end %}项目上架</p>
+        </span>
+
+    </div>
+    {% end %}
+    {% else %}
+    <br>
+    还没有发布的项目哦
+    {% end %}
+
+    <div class="ace_ace_fabu" onclick="window.location.href='mb_xiangmuliucheng_a'">
+
+        <div class="ace_ace_fabu">
+
+            +发布项目
+        </div>
+    </div>
+    <!--nbig_box-->
+    {% end %}

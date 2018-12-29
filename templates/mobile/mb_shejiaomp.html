@@ -1,0 +1,147 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+<div class="mbProjectMoreTitle">
+    <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+    社交名片
+</div>
+</div>
+<div class="nbig_box shejiao" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 onclik">
+            <p><a href="mb_shejiaomp">社交名片</a></p>
+        </div>
+        <div class="box2">
+            <p><a href="mb_gerenjianli">个人简历</a></p>
+        </div>
+        <div class="box3">
+            <p><a href="mb_anquanshezhi">安全设置</a></p>
+        </div>
+        <div class="box4">
+            <p><a href="mb_zijinzhanghu">账户资金</a></p>
+        </div>
+    </div>
+    <div class="mb_zhanghu">
+        <form action="/mb_shejiaomp" method="post" enctype="multipart/form-data" name="self_info_form"
+              id="self_info_form">
+            {% module xsrf_form_html() %}
+            <span class="mb_zhanghu_tu">
+			    <div id="preview">
+                    <img id="imghead" border=0 src="../static/media/avatar/{{ myuser.get('avatar_thumb','') }}"
+                         onerror="javascript:this.src='../static/img/startup/avatar_sample.png'" width="180"
+                         height="180"/>
+                    <input name="avatar" class="shangchuan" type="file" onchange="previewImage(this)" style="top: 0px; width: 100%; height: 100%;"/>
+                </div>
+
+		    </span>
+
+            <div class="xmliche_a">
+            <span class="xmwz_biao">
+                <p>姓名:</p>
+                <input name="realname" type="text" value="{{ myuser.get('name','') }}" placeholder="请输入您的真实姓名"/>
+            </span>
+            <span class="xmwz_biao danxuan">
+                {% if myuser.get('sex', 'male') == 'male' %}
+                <input class="men" type="radio" value="male" name="sex" checked/>
+                <input class="women" type="radio" value="female" name="sex"/>
+                {% else %}
+                <input class="men" type="radio" value="male" name="sex"/>
+                <input class="women" type="radio" value="female" name="sex" checked/>
+                {% end %}
+            </span>
+            <span class="xmwz_biao">
+                <p>手机:</p>
+                <input name="phone" type="text" value="{{ myuser.get('phone','') }}" placeholder="请输入您的手机号"/>
+            </span>
+            <span class="xmwz_biao">
+                <p>邮箱:</p>
+                <input name="email" type="text" value="{{ myuser.get('email','') }}" placeholder="请输入您的邮箱"/>
+            </span>
+            <span class="xmwz_biao">
+                <div class="demo-box">
+                    <table class="demo-table">
+                        <tr>
+                            <td class="biaoqiank">出生日期:</td>
+                            <td>
+                                <select class="ui-select" id="sel_01" name="year">
+                                    {% for year in range(1960, 2016) %}
+                                    <option {% if myuser.get('birth_year',"")==unicode(year) %}selected{% end %}>
+                                        {{ year }}
+                                    </option>
+                                    {% end %}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="ui-select" id="sel_01" name="month">
+                                    {% for month in range(1, 13) %}
+                                    <option {% if myuser.get('birth_month',"")==unicode(month) %}selected{% end %}>
+                                        {{ month }}
+                                    </option>
+                                    {% end %}
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+		   	  </span>
+		   	   <span class="xmwz_biao">
+		   	  	<p>所在地方:</p>
+		   	  	<div class="info">
+                    <div>
+                        <select id="s_province" name="province">
+                            {% for p in provinces %}
+                            <option value="{{ p['id'] }}"
+                                    data-id="{{ p['id'] }}"{% if myuser.get('pid', '') == p['id'] %} selected {% end %}>
+                                {{ p['name'] }}
+                            </option>
+                            {% end %}
+                        </select>
+                        <select id="s_city" name="city">
+                            {% for c in cities %}
+                            <option value="{{ c['id'] }}"
+                                    data-id="{{ c['id'] }}"{% if myuser.get('cid', '') == c['id'] %} selected {% end %}>
+                                {{ c['name'] }}
+                            </option>
+                            {% end %}
+                        </select>
+                        <select name="region" id="region">
+                            {% for r in regions %}
+                            <option value="{{ r['id'] }}"
+                                    data-id="{{ r['id'] }}"{% if myuser.get('rid', '') == r['id'] %} selected {% end %}>
+                                {{ r['name'] }}
+                            </option>
+                            {% end %}
+                        </select>
+                    </div>
+                </div>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao xmwz_xiangmu">
+                  <p>个人介绍:</p>
+		   	  <textarea class="wenben" placeholder="用几句话介绍自己，不多于25个字" rows=6
+                        onpropertychange='this.style.posHeight=this.scrollHeight'
+                        id=textarea onfocus='textarea.style.posHeight=this.scrollHeight' name="desc">
+                  {{ myuser.get('desc','') }}
+              </textarea>
+		   	   </span>
+            </div>
+            <!--pro_pro-->
+            <input type="submit" class="xiayibu"/>
+        </form>
+    </div>
+
+
+</div><!--nbig_box-->
+
+<script type="text/javascript">
+    $(".submit-mb_zhanghu").click(function () {
+        $("#self_info_form").submit()
+    });
+</script>
+{% end %}
+{% block footer %}
+{% end %}
+
+
+

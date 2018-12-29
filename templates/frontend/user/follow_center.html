@@ -1,0 +1,162 @@
+{% extends "../base.html" %}
+{% block page_title %}我的关注|创业孵化平台{% end %}
+
+<!-- header -->
+<!-- end_header -->
+{% block content %}
+
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            <div class="fbdcy item0" style="background:#333;color: white ">我关注的用户</div>
+{#            <div class="fbdcy item1 pldcy ">我关注的创意</div>#}
+            <div class="fbdcy item2 pldcy">我关注的项目</div>
+            <div class="fbdcy item3 pldcy">我关注的活动</div>
+        </div>
+        <script>
+            $(function () {
+                var btn0 = $('.fbdcy.item0');
+                var btn1 = $('.fbdcy.item1');
+                var btn2 = $('.fbdcy.item2');
+                var btn3 = $('.fbdcy.item3');
+                var div0 = $('.center-guanzhu.item0');
+                var div1 = $('.center-guanzhu.item1');
+                var div2 = $('.center-guanzhu.item2');
+                var div3 = $('.center-guanzhu.item3');
+                $('.fbdcy').click(function () {
+                    $('.fbdcy').css({'background': 'white', 'color': 'black'});
+                    $(this).css({'background': '#333', 'color': 'white'})
+                });
+                function tab(btn, div) {
+                    btn.click(function () {
+                        $('.center-guanzhu').css('display', 'none');
+                        div.css('display', 'block');
+                    });
+                }
+
+                tab(btn0, div0);
+                tab(btn1, div1);
+                tab(btn2, div2);
+                tab(btn3, div3);
+            })
+        </script>
+        <div class="center-guanzhu item0">
+            {% if follow_users %}
+            <table>
+                {% for f in follow_users %}
+                {% module FollowUserInfo(f) %}
+                {% end %}
+            </table>
+            {% else %}
+            <div class="person-idea-list-none">
+                您还没有关注的用户，赶快去<a href="javascript:;" style="color:#00A0EA ">看看</a>吧
+            </div>
+            {% end %}
+        </div>
+        <div class="center-guanzhu item1" style="display: none">
+            {% if follow_ideas%}
+            <table>
+                {% for f in follow_ideas %}
+                {% module FollowIdeaInfo(f) %}
+                {% end %}
+            </table>
+            {% else %}
+            <div class="person-idea-list-none">
+                您还没有关注的创意，赶快去<a href="/ideas" style="color:#00A0EA ">看看</a>吧
+            </div>
+            {% end %}
+        </div>
+        <div class="center-guanzhu item2" style="display: none">
+            {% if follow_projects %}
+            <table>
+                {% for f in follow_projects %}
+                {% module FollowProjectInfo(f) %}
+                {% end %}
+            </table>
+            {% else %}
+            <div class="person-idea-list-none">
+                您还没有关注的项目，赶快去<a href="/projects" style="color:#00A0EA ">看看</a>吧
+            </div>
+            {% end %}
+        </div>
+        <div class="center-guanzhu item3" style="display: none">
+            {% if follow_activities%}
+            <table>
+                {% for f in follow_activities %}
+                    {% module FollowActivityInfo(f) %}
+                {% end %}
+            </table>
+            {% else %}
+            <div class="person-idea-list-none">
+                您还没有关注的活动，赶快去<a href="/activities" style="color:#00A0EA ">看看</a>吧
+            </div>
+            {% end %}
+        </div>
+
+    </div>
+    <p class="clear"></p>
+</div>
+<script type="text/javascript">
+
+    (function () {
+        $('.unfollow-user').click(function () {
+            var item = $(this).parents("tr");
+            var data = {};
+            data['id'] = $(this).data("id");
+            data['handle'] = 'remove';
+            $.ajax({
+                type: 'post',
+                url: '/follow/user',
+                data: data,
+                success: function (re) {
+                    item.fadeOut();
+                }
+            });
+        });
+        $('.unfollow-idea').click(function () {
+            var item = $(this).parents("tr");
+            var data = {};
+            data['id'] = $(this).data("id");
+            data['handle'] = 'remove';
+            $.ajax({
+                type: 'post',
+                url: '/follow/idea',
+                data: data,
+                success: function (re) {
+                    item.fadeOut();
+                }
+            });
+        });
+        $('.unfollow-project').click(function () {
+            var item = $(this).parents("tr");
+            var data = {};
+            data['id'] = $(this).data("id");
+            data['handle'] = 'remove';
+            $.ajax({
+                type: 'post',
+                url: '/follow/project',
+                data: data,
+                success: function (re) {
+                    item.fadeOut();
+                }
+            });
+        });
+        $('.unfollow-activity').click(function () {
+            var item = $(this).parents("tr");
+            var data = {};
+            data['id'] = $(this).data("id");
+            data['handle'] = 'remove';
+            $.ajax({
+                type: 'post',
+                url: '/follow/activity',
+                data: data,
+                success: function (re) {
+                    item.fadeOut();
+                }
+            });
+        })
+    })();
+</script>
+
+{% end %}

@@ -1,0 +1,285 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    投资人认证
+</div>
+<div class="nbig_box">
+    <form method="post" action="/mb_touzhirenrenzheng" enctype="multipart/form-data"
+          name="InfoCertificationForm" id="InfoCertificationForm">
+        {% module xsrf_form_html() %}
+        <div class="xmliche_a">
+			<span class="xmwz_biao">
+				<p>身份证号： </p>
+				<input type="text" placeholder="请输入您的身份证号" name="id_number"
+                       value="{{ info_cert and info_cert.get("id_number", "") or "" }}"/>
+			</span>
+
+            <div class="renzheng">
+				<span class="xmwz_biao xmwz_ding">
+					<p>上传身份证</p>
+					<input class="xmwz_biao_shang" type="file" onchange="previewImage(this)" name="front">
+					<input class="xmwz_biao_button" type="button" value="上传正面"/>
+				</span>
+
+                <div id="preview">
+                    <img id="imghead" class="shenfenzheng" src="{{ info_cert and info_cert.get("front", "") or "" }}"
+                         onerror="javascript:this.src='../static/imges/shenfenzz.png';">
+                </div>
+            </div>
+
+
+            <div class="renzheng">
+			<span class="xmwz_biao xmwz_ding">
+				<p>上传身份证</p>
+				<input class="xmwz_biao_shang" type="file" onchange="previewImage2(this)" name="back">
+				<input class="xmwz_biao_button" type="button" value="上传反面"/>
+			</span>
+
+                <div id="preview2">
+                    <img id="imghead2" class="shenfenzheng" src="{{ info_cert and info_cert.get("back", "") or "" }}"
+                         onerror="javascript:this.src='../static/imges/shenfenmoren.png';">
+                </div>
+            </div>
+            </span>
+			<span class="xmwz_biao ">
+				<p>所在城市</p>
+				<select class="provinces" name="province">
+                    {% set pid=info_cert and info_cert.get("pid", "") or 1 %}
+                    {% for p in provinces %}
+                    <option value="{{ p['id'] }}" data-id="{{ p['id'] }}"{% if pid == p['id'] %} selected {% end %}>
+                        {{ p['name'] }}
+                    </option>
+                    {% end %}
+                </select>
+                <select class="city" name="city">
+                    {% set cid=info_cert and info_cert.get("cid", "") or 1 %}
+                    {% for c in cities %}
+                    <option value="{{ c['id'] }}" data-id="{{ c['id'] }}"{% if cid == c['id'] %} selected {% end %}>
+                        {{ c['name'] }}
+                    </option>
+                    {% end %}
+                </select>
+			</span>
+			<span class="xmwz_biao ">
+				<p>所在公司</p>
+				<input type="text" placeholder="公司名称没有填无即可" name="company"
+                       value="{{ info_cert and info_cert.get("company", "") or "" }}"/>
+			</span>
+
+			<span class="xmwz_biao ">
+				<p>担职任务</p>
+				<input type="text" placeholder="没有填无即可" name="position"
+                       value="{{ info_cert and info_cert.get("position", "") or "" }}"/>
+			</span>
+            <span class="xmwz_biao" style="height: auto;">
+				 <div class="demo-box">
+                     <table class="demo-table">
+                         <tr>
+                             <td class="biaoqiank">关注领域</td>
+                             <td>
+{#                                 <select class="ui-select" id="sel_01" name="watch_fields">#}
+{#                                     {% for w in fields %}#}
+{#                                     {% set f=w.get("name","") %}#}
+{#                                     <option value="{{ f }}" data-id="{{ f }}"#}
+{#                                             {% if info_cert and info_cert.get("watch_fields",[])[0] or "" == str(f) %}#}
+{#                                             selected="selected"#}
+{#                                             {% end %}#}
+{#                                             >#}
+{#                                         {{ f }}#}
+{#                                     </option>#}
+{#                                     {% end %}#}
+{#                                 </select>#}
+                             <ul class="Labels" name="watch_fields" id="watch_fields">
+                                 <input type="hidden" name="watch_fields">
+                              {% set watch_field_list = (info_cert and info_cert.get('watch_fields', []) or []) %}
+                              {% for f in fields %}
+                              <li class={% if f['name'] in watch_field_list %}active{% end %}>{{f['name']}}</li>
+                              {% end %}
+                              <p class="clear"></p>
+                              <p class="showInfo"></p>
+                             </ul>
+                             </td>
+                         </tr>
+                     </table>
+                 </div>
+			 </span>
+			<span class="xmwz_biao " style="height: auto;">
+                 <div class="demo-box">
+                     <table class="demo-table">
+                         <tr>
+                             <td class="biaoqiank">投资经验</td>
+                             <td>
+{#                                 <select class="ui-select" id="sel_01" name="exp_invest">#}
+{#                                     {% for e in exp_invest %}#}
+{#                                     {% set e=e.get("name","") %}#}
+{#                                     <option value="{{ e }}" data-id="{{ e }}"#}
+{#                                             {% if info_cert and info_cert.get("exp_invest",[])[0] or "" == str(e) %}#}
+{#                                             selected="selected"#}
+{#                                             {% end %}#}
+{#                                             >#}
+{#                                         {{ e }}#}
+{#                                     </option>#}
+{#                                     {% end %}#}
+{#                                 </select>#}
+                              <ul class="Labels" name="exp_invest" id="exp_invest">
+                                  <input type="hidden" name="exp_invest">
+                                {% set exp_invest_list = (info_cert and info_cert.get('exp_invest', []) or []) %}
+                                {% for e in exp_invest %}
+                                <li class={% if e['name'] in exp_invest_list %}active{% end %}>{{e['name']}}</li>
+                                {% end %}
+                              <p class="clear"></p>
+                              <p class="showInfo"></p>
+                             </ul>
+                             </td>
+                         </tr>
+                     </table>
+                 </div>
+			</span>
+			<span class="xmwz_biao ">
+				<p>投资案例</p>
+				<input type="text" placeholder="没有填无即可" name="portfolio"
+                       value="{{ info_cert and info_cert.get("portfolio", "") or "" }}"/>
+			</span>
+
+			<span class="xmwz_biao" style="height: auto;">
+                <div class="demo-box">
+                    <table class="demo-table">
+                        <tr>
+                            <td class="biaoqiank">单个项目投资意向额度</td>
+                            <td>
+{#                                <select class="ui-select" id="sel_01" name="amount_stage">#}
+{#                                    {% for a in amount_stage %}#}
+{#                                    {% set a=a.get("name","") %}#}
+{#                                    <option value="{{ a }}" data-id="{{ a }}"#}
+{#                                            {% if info_cert and info_cert.get("amount_stage",[])[0] or "" == str(a) %}#}
+{#                                            selected="selected"#}
+{#                                            {% end %}#}
+{#                                            >#}
+{#                                        {{ a }}#}
+{#                                    </option>#}
+{#                                    {% end %}#}
+{#                                </select>#}
+                            <ul class="Labels" id="amount_stage">
+                                 <input type="hidden" name="amount_stage">
+                                {% set amount_stage_list = (info_cert and info_cert.get('amount_stage', []) or []) %}
+                                {% for a in amount_stage %}
+                                <li class={% if a['name'] in amount_stage_list %}active{% end %}>{{a['name']}}</li>
+                                {% end %}
+                              <p class="clear"></p>
+                              <p class="showInfo"></p>
+                             </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+			</span>
+
+            <div class="xiayibu xiayibuc">完成</div>
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+    $(".Labels li").click(function () {
+
+        $(this).toggleClass("active")
+
+    });
+    $('.listBtn div').click(function () {
+        $(this).toggleClass('selected');
+    });
+    $('.provinces').change(function () {
+        var pid = $(this).find('option:selected').attr('data-id');
+        if (!pid) {
+            return false;
+        } else {
+            $.getJSON('/ajax/city.json?pid=' + pid, function (json) {
+                var city = '';
+                $.each(json['city'], function (k, v) {
+                    city += '<option value=' + v.id + ' data-id=' + v.id + '>' + v.name + '</option>';
+                });
+                $('.city').html(city);
+            });
+        }
+    });
+
+    $.validator.addMethod("isIdNumber", function (value, element) {
+        var length = value.length;
+        var IdNumber = /(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        return (length == 18 && IdNumber.exec(value)) ? true : false;
+    }, "请正确填写您的身份证号码");
+
+    $("#InfoCertificationForm").validate({
+        rules: {
+            id_number: {
+                required: true,
+                isIdNumber: true,
+            },
+            company: {
+                required: true,
+            },
+            position: {
+                required: true,
+            },
+            portfolio: {
+                //required: true,
+            }
+        },
+        messages: {
+            id_number: {
+                required: '身份证号不能为空！',
+            },
+            company: {
+                required: '公司不能为空！',
+            },
+            position: {
+                required: '职务不能为空！',
+            },
+            portfolio: {
+                //required: '投资案例不能为空！',
+            }
+        },
+        debug: false,
+        submitHandler: function (form) {
+            collect_data()
+            form.submit();
+        }
+    });
+
+    function collect_data() {
+        var watch_fields = new Array();
+        $("#watch_fields li").each(function () {
+            if ($(this).hasClass("active")) {
+                watch_fields.push($(this).text());
+            }
+        });
+        $("input[name='watch_fields']").val(watch_fields);
+
+        var exp_invest = new Array();
+        $("#exp_invest li").each(function () {
+            if ($(this).hasClass("active")) {
+                exp_invest.push($(this).text());
+            }
+        });
+        $("input[name='exp_invest']").val(exp_invest);
+
+        var amount_stage = new Array();
+        $("#amount_stage li").each(function () {
+            if ($(this).hasClass("active")) {
+                amount_stage.push($(this).text());
+            }
+        });
+        $("input[name='amount_stage']").val(amount_stage);
+    }
+    $(".xiayibu").click(function () {
+        $("#InfoCertificationForm").submit();
+    })
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}
+
+
+

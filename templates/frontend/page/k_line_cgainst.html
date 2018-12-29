@@ -1,0 +1,476 @@
+{% extends "../base.html" %}
+<title>{% block page_title %}玩转K线{% end %}</title>
+{% block other_css %}
+{% end %}
+
+{% block head %}
+{% end %}
+
+{% block content %}
+
+<div class="k_line_bigbox">
+    <div class="k_line_box bisai_box">
+        <img class="beijing" src="{{ static_url('img/bisai_beijing.png') }}"/>
+
+        <div class="bisai_head">
+            <img class="bishai_black" src="{{ static_url('img/fanhui.png') }}"
+                 onclick="javascript:window.location.href='/competitive'">
+
+            <div class="bishai_touxiang">
+                <span class="nicheng">{{ kline.get('name','') }}</span>
+                <img src="{{ static_url('img/touxiang.png') }}">
+                <span class="shuju">1.2%↓</span>
+            </div>
+            <img class="bishai_shezhi liaot" src="{{ static_url('img/liaotian.png') }}">
+            <img class="remind" src="{{ static_url('img/remind.png') }}" style="  position: absolute;width: 2%;right: 8%;top: 2%;">
+            <div class="bishai_liaotian " style="display: none;">
+                <div class="l_bgs">
+                    <ul>
+                        <li><span>MACK:</span>你好(ˇˍˇ)～</li>
+                        <li><span>测试小易:</span>你好:-D</li>
+                        <li><span>MACK:</span>你也玩这个呀！</li>
+                        <li><span>测试小易:</span>是呀！挺好玩的！挺有意思的！</li>
+                        <li><span>MACK:</span>你玩这个多久了？</li>
+                        <li><span>测试小易:</span>玩了有一段时间了</li>
+                        <li><span>MACK:</span>准备开局了！来PK下</li>
+                        <li><span>测试小易:</span>好呀！我不会输的哟！</li>
+                    </ul>
+                </div>
+                <div class="l_tk">
+                    <input class="send_t" type="text" style="" value="   请输入内容">
+                    <div class="us" style="float: left;">常用语句</div>
+                    <input class="send" type="button" value="发送" style="">
+                    <div style="clear: both;"></div>
+                </div>
+                <select id="orz" size="6" multiple="multiple" style="display: none;">
+                      <option>你真厉害！</option>
+                      <option>你也玩这个呀</option>
+	                  <option>玩了有一段时间了</option>
+	                  <option>我不会输的哟</option>
+	                  <option>你好(ˇˍˇ)～</option>
+                      <option>准备开局了(ˇˍˇ)～</option>
+                      <option>来PK下</option>
+                      <option>挺有意思的！</option>
+                      <option>挺好玩的！</option>
+                </select>
+            </div>
+        </div>
+        <!--bisai_head-->
+
+        <div class="duibisai_cen">
+            <img class="bbisaiyou_ok" src="{{ static_url('img/ok.png') }}">
+            <br/>
+            <img id="my_ok" src="{{ static_url('img/ok.png') }}">
+            <br/>
+            <img class="topp" id="Toprepare" src="{{ static_url('img/Toprepare.png') }}" onclick="writeJx(),showDiv()">
+        </div>
+        <div class="bisai_foot">
+            <img class="bishai_black" src="{{ static_url('img/sell.png') }}">
+
+            <div class="bishai_touxiang">
+                <div class="nicheng_box">
+                    <div class="nicheng">
+                        <p class="name">{{ myuser.get('nick','') }}</p>
+
+                        <p class="jinbi">{{ myuser.get('gold','') }}</p>
+                    </div>
+                </div>
+                <img src="{{ static_url('img/touxiang.png') }}">
+                <span class="shuju">1.6%↑</span>
+            </div>
+            <img class="bishai_shezhi" src="{{ static_url('img/buy.png') }}">
+        </div>
+
+        <div class="Setup"><!--设置弹窗-->
+            <div class="Setup_beijing">
+                <div class="Setup_beijing_s">
+                    <div class="Setup_kaung">
+                        <ul class="Setup_navbox">
+                            <li>
+                                <a id="onclickt_a" class="onclickt_a dise">参数设置</a>
+                            </li>
+                            <li>
+                                <a id="onclickt_b" class="bianjitouxiang_a">编辑头像</a>
+                            </li>
+                            <li>
+                                <a id="onclickt_c" class="xiugainice_a ">修改昵称</a>
+                            </li>
+                        </ul>
+                        <div class="Setup_canshubox">
+                            <p class="ma_text">MA价格均线（限选三种）</p>
+                            <ul class="ma_anniubox">
+                                <li class="ma_anniubox_li">
+                                    <a>MA（5）</a>
+                                    <img id="off1" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on1" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                                <li class="ma_anniubox_li">
+                                    <a>MA（10）</a>
+                                    <img id="off2" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on2" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                                <li class="ma_anniubox_li">
+                                    <a>MA（20）</a>
+                                    <img id="off3" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on3" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                                <li class="ma_anniubox_li">
+                                    <a>MA（30）</a>
+                                    <img id="off4" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on4" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                                <li class="ma_anniubox_li">
+                                    <a>MA（60）</a>
+                                    <img id="off5" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on5" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                            </ul>
+                            <div class="anniuzhu">
+                                <div>
+                                    <img id="huifua" src="{{ static_url('img/huifu_anniu.png') }}">
+                                </div>
+                                <div>
+                                    <img class="baocuna" src="{{ static_url('img/baocun_anniu.png') }}">
+                                </div>
+                            </div>
+                            <p class="jianbianxiana"></p>
+
+                            <p class="ma_text">指标说明</p>
+
+                            <div class="ma_text_lule">
+                                <p>1:股票高于平均线视为强势；股价低于平均线视为弱势</p>
+
+                                <p>2:平均线向上看涨，有助长力道；平均线向上跌降，有助于跌力道</p>
+
+                                <p>3:二条以上平均线向上交叉时，买进参考</p>
+
+                                <p>4:二条以上平均线向下交叉时，卖进参考</p>
+
+
+                            </div>
+                            <!--ma_text_lule-->
+
+                        </div>
+                        <!--Setup_canshubox-->
+
+                        <div class="Setup_touxiangbox">
+                            <p class="ma_text">请选择人物头像</p>
+
+                            <div class="Setup_touxiang" id="Setup_touxiang">
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span class="gou"><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                            </div>
+                            <p class="jianbianxiana"></p>
+
+                            <div class="anniuzhu">
+                                <div>
+                                    <img src="{{ static_url('img/huifu_anniu.png') }}">
+                                </div>
+                                <div>
+                                    <img class="baocuna" src="{{ static_url('img/baocun_anniu.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <!--Setup_touxiangbox-->
+
+                        <div class="Setup_nichengbox">
+                            <p class="ma_text">请在下方框内输入昵称</p>
+						<span class="Setup_nichengboxspan">
+						<input class="shurukuang"/>
+						</span>
+
+                            <p class="jianbianxiana"></p>
+
+                            <div class="anniuzhu">
+                                <div>
+                                    <img src="{{ static_url('img/huifu_anniu.png') }}">
+                                </div>
+                                <div>
+                                    <img class="baocuna" src="{{ static_url('img/baocun_anniu.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <!--Setup_nichengbox-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--设置弹窗结束-->
+        <div class="He_succeeds Asingles" style="display: none"><!--挑战失败弹窗-->
+            <img class="activity_titler" src="{{ static_url('img/succeeds.png') }}">
+
+            <div class="activity_beijing">
+                <div class="activity_beijing_s">
+                    <div class="gold_shuliang">
+                        <img class="gold_not_gold" src="{{ static_url('img/failure.png') }}">
+                        <ul class="He_succeeds_ranking">
+                            <li>
+                                <img src="{{ static_url('img/touxiang.png') }}">
+										<span class="succeeds_data">
+											<a class="succeeds_name">旭日东升</a>
+											<br/>
+											<span class="succeeds_level_box">
+											<a class="level">lv10</a>
+											<a class="level_jindugre"></a>
+											<a class="level_jinduyel"></a>
+											<a class="exper">+10</a>
+											</span>
+										</span>
+                            </li>
+                            <li class="shouyis">
+                                <a>收益</a>
+                                <a>0</a>
+                            </li>
+                            <li class="win_gold">
+                                <a>赢取金币</a>
+                                <a>0</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="gold_not_anniu">
+                        <div>
+                            <img id="succeeds_again" src="{{ static_url('img/succeeds_again.png') }}">
+                        </div>
+                        <div>
+                            <img id="biack_alv" src="{{ static_url('img/biack_alv.png') }}"
+                                 onclick="javascript:window.location.href='/'">
+                        </div>
+                    </div>
+                </div>
+                <!--activity_beijing_s-->
+            </div>
+            <!--activity_beijing-->
+        </div>
+        <!--He_succeeds-->
+        <!--挑战失败弹窗-->
+        <!--k线插件-->
+        <div class="k_line_flebox" id="k_lineganme">
+            <div class="k_line_topbox">
+                <div class="topbox_left">
+                    <p>9.83</p>
+
+                    <p>9.26</p>
+
+                    <p>9.26</p>
+
+                    <p>8.68</p>
+
+                    <p>8.11</p>
+
+                    <p>7.34</p>
+
+                    <p>6.22</p>
+
+                    <p>5.34</p>
+
+                    <p>4.22</p>
+
+                    <p>4.14</p>
+
+                    <p>3.22</p>
+                </div>
+                <div class="topbox_right">
+                    <p class="kline_text">
+                        <span class="KLINE">KLINE(120)</span>
+                        <span class="MA5">MA5:7.81</span>
+                        <span class="MA10">MA10:7.98(120)</span>
+                        <span class="MA20">MA20:8.39</span>
+                    </p>
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li>1</li>
+                        <li>1</li>
+                        <li>1</li>
+                    </ul>
+                    <ul class="mengban" id="div1" style=" width:449px;">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li>1</li>
+                        <li>1</li>
+                        <li>1</li>
+                    </ul>
+                    <div class="kline_tu_yellow">
+                        <!--黄色k线-->
+                        <!--<canvas  id="yellow_canvas"></canvas>-->
+                        <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="freeze"
+                                  d="M0 100 L4 90 L8 110 L12 106 L16 120 L20 110 L24 102 L28 100 L32 99 L36 96 L40 100 L44 98 L48 92 L52 88 L56 90 L60 105 L64 110 L68 114 L72 98 L76 100 L80 94 L84 90 L88 88 L92 78 L96 84 L100 93 L104 96 L108 100 L112 102 L116 110 L120 112 L124 110 L128 116 L132 120 L136 128 L140 121 L144 119 L148 100 L150 89 L154 93 L158 86 L162 90 L166 92 L170 100 L174 102 L178 99 L182 106 L186 110 L190 112 L194 120 L198 116 L204 111 L208 99 L212 100 L216 89 L220 110 L224 111 L228 120 L232 90 L236 70 L240 111 L244 110 L248 112 L252 100 L256 114 L260 120 L264 110 L268 119 L272 100 L276 90 L280 80 L284 86 L288 100 L292 111 L294 80 L298 100 L302 110 L306 120 L310 80 L314 70 L318 60 L322 90"
+                                  style="stroke: yellow;fill: none;" class="path"></Path>
+                        </svg>
+                    </div>
+
+
+                    <!--黄色k线-->
+                    <div id="content" style="position:absolute; top: 20%;z-index:16;"></div>
+
+                    <div class="kline_tu_green">
+                        <!--绿色k线-->
+                        <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 101 L4 90 L8 110 L12 106 L16 121 L20 112 L24 105 L28 108 L32 96 L36 95 L40 109 L44 99 L48 92 L52 88 L56 90 L60 105 L64 110 L68 114 L72 98 L76 100 L80 94 L84 90 L88 90 L92 99 L96 96 L100 88 L104 89 L108 100 L112 102 L116 110 L120 112 L124 110 L128 120 L132 111 L136 120 L140 111 L144 112 L148 100 L150 89 L154 93 L158 86 L162 90 L166 92 L170 100 L174 102 L178 99 L182 106 L186 110 L190 112 L186 120 L198 90 L204 86 L208 70 L212 80 L216 89 L220 100 L224 120 L228 88 L232 70 L236 60 L240 50 L244 60 L248 80 L252 90 L256 110 L260 100 L264 110 L268 111 L272 90 L276 100 L280 90 L284 96 L288 112 L292 80 L294 70 L298 60 L302 70 L306 100 L310 98 L314 80 L318 110 L322 80"
+                                  style="stroke: green;fill: none;" class="path"></Path>
+                        </svg>
+                    </div>
+                    <div class="kline_tu_perpu">
+
+                        <!--紫色k线-->
+                        <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 111 L4 90 L8 100 L12 106 L16 114 L20 111 L24 102 L28 100 L32 99 L36 96 L40 100 L44 98 L48 86 L52 96 L56 98 L60 88 L64 100 L68 114 L72 98 L76 100 L80 100 L84 90 L88 98 L92 78 L96 84 L100 98 L104 96 L108 100 L112 100 L116 110 L120 112 L124 108 L128 116 L132 120 L136 120 L140 121 L144 111 L148 100 L150 89 L154 88 L158 86 L162 90 L166 100 L170 86 L174 88 L178 99 L182 106 L186 90 L190 112 L194 120 L198 108 L204 120 L208 110 L212 80 L216 60 L220 120 L224 130 L228 140 L232 150 L236 140 L240 130 L244 150 L248 120 L252 100 L256 130 L260 140 L264 110 L268 90 L272 89 L276 80 L280 110 L284 100 L288 89 L292 99 L294 100 L298 120 L302 80 L306 90 L310 100 L314 112 L318 98 L322 100"
+                                  style="stroke: purple;fill: none;" class="path"></Path>
+                        </svg>
+                    </div>
+                    <div id="sixaoji">
+                        60
+                    </div>
+                </div>
+
+            </div>
+           <div class="k_line_bottbox" id="tt">
+						<div class="bottbox_vol">
+							<div class="bottbox_left">
+								<p>115 </p>
+								<p>7892</p>
+							</div>
+							<div class="bottbox_right">
+								<p class="kline_text">
+									<span class="KLINE">KLINE(120)</span>
+									<span class="MA5">MA5:7.81</span>
+									<span class="MA10">MA10:7.98(120)</span>
+									<span class="MA20">MA20:8.39</span>
+								</p>
+
+								<div class="bottbox_rightone">
+									<!--黄色k线-->
+									<div id="volume"></div>
+
+								</div>
+							</div>
+						</div>
+					</div><!--k_line_bottbox-->
+
+					<div class="k_line_bottbox" id="dd" style="display: none;">
+						<div class="bottbox_vol">
+							<div class="bottbox_left">
+								<p>5728</p>
+								<p>7892</p>
+							</div>
+							<div class="bottbox_right">
+								<p class="kline_text">
+									<span class="KLINE">KDJ(5,3,3)</span>
+									<span class="MA5">K:7.81</span>
+									<span class="MA10">D:7.98</span>
+									<span class="MA20">J:8.39</span>
+								</p>
+							<div id="div2" class="mengban_bott"  ><!--下面蒙版--> </div>
+						    <div class="bottbox_righttwo">
+									<!--绿色k线-->
+							<div class="kline_tu_yellow">
+								<!--黄色k线-->
+								<!--<canvas  id="yellow_canvas"></canvas>-->
+								<svg width="100%" height="80px" version="1.1"  xmlns="http://www.w3.org/2000/svg">
+									<!--y轴高度范围0-70px,否则超出边框-->
+									<path fill="freeze" d="M0 30 L4 33 L8 35 L12 40 L16 31 L20 28 L24 29 L28 28 L32 29 L36 27 L40 29 L44 28 L48 29 L52 30 L56 28 L60 31 L64 29 L68 30 L72 31 L76 28 L80 29 L84 30 L88 31 L92 28 L96 29 L100 27 L104 30 L108 29 L112 28 L116 29 L120 27 L124 29 L128 30 L132 31 L136 28 L140 29 L144 30 L148 30 L150 28 L154 30 L158 27 L162 29 L166 30 L170 29 L174 28 L178 29 L182 30 L186 29 L190 28 L194 31 L198 30 L204 32 L208 29 L212 28 L216 30 L220 31 L224 31 L228 32 L232 29 L236 28 L240 30 L244 31 L248 32 L252 28 L256 29 L260 31 L264 30 L268 29 L272 29 L276 28 L280 30 L284 32 L288 28 L292 27 L294 28 L298 30 L302 28 L306 30 L310 29 L314 30 L318 31 L322 32" style="stroke: yellow;fill: none;" class="path"></Path>
+								</svg>
+							</div>
+							<div class="kline_tu_green">
+								<!--绿色k线-->
+								<svg width="100%" height="80px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+									<path d="M0 26 L4 28 L8 27 L12 25 L16 24 L20 28 L24 29 L28 30 L32 26 L36 28 L40 29 L44 30 L48 29 L52 28 L56 30 L60 31 L64 29 L68 30 L72 31 L76 28 L80 29 L84 30 L88 31 L92 28 L96 29 L100 27 L104 30 L108 29 L112 28 L116 29 L120 27 L124 29 L128 30 L132 31 L136 28 L140 29 L144 30 L148 30 L150 28 L154 30 L158 29 L162 32 L166 34 L170 28 L174 29 L178 32 L182 27 L186 31 L190 29 L194 32 L198 28 L204 27 L208 26 L212 28 L216 30 L220 31 L224 31 L228 32 L232 29 L236 28 L240 30 L244 31 L248 32 L252 28 L256 29 L260 31 L264 30 L268 29 L272 29 L276 28 L280 30 L284 32 L288 28 L292 27 L294 28 L298 30 L302 28 L306 30 L310 29 L314 30 L318 31 L322 32" style="stroke: green;fill: none;" class="path"></Path>
+								</svg>
+							</div>
+							<div class="kline_tu_perpu">
+								<!--紫色k线-->
+								<svg width="100%" height="80px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+									<path d="M0 50 L4 48 L8 46 L12 44 L16 46 L20 44 L24 40 L28 38 L32 36 L36 34 L40 30 L44 29 L48 26 L52 28 L56 30 L60 31 L64 29 L68 30 L72 31 L76 28 L80 29 L84 30 L88 31 L92 28 L96 29 L100 27 L104 26 L108 27 L112 25 L116 28 L120 29 L124 30 L128 32 L132 31 L136 28 L140 29 L144 30 L148 30 L150 28 L154 30 L158 27 L162 29 L166 30 L170 29 L174 28 L178 29 L182 30 L186 29 L190 28 L194 31 L198 30 L204 32 L208 29 L212 28 L216 30 L220 31 L224 31 L228 32 L232 29 L236 28 L240 30 L244 31 L248 32 L252 28 L256 29 L260 31 L264 30 L268 29 L272 29 L276 28 L280 30 L284 32 L288 28 L292 27 L294 28 L298 30 L302 28 L306 30 L310 29 L314 30 L318 31 L322 32" style="stroke: purple;fill: none;" class="path"></Path>
+								</svg>
+							</div>
+								</div><!--bottbox_righttwo-->
+							</div>
+						</div>
+					</div><!--k_line_bottbox-->
+
+					<div class="k_line_bottbox" id="ff" style="display: none;">
+						<div class="bottbox_vol">
+							<div class="bottbox_left">
+								<p>115728</p>
+								<p>7892</p>
+							</div>
+							<div class="bottbox_right">
+								<p class="kline_text">
+									<span class="KLINE">MACD(12,26,9)</span>
+									<span class="MA5">MACD:0.91</span>
+									<span class="MA10">DIFF:0.83(120)</span>
+									<span class="MA20">DEA:0.83</span>
+								</p>
+								<div class="bottbox_righttheer">
+									<!--绿色k线-->
+									<div id="macd" ></div>
+								</div>
+                    </div>
+                </div>
+            </div>
+            <!--k_line_bottbox-->
+
+        </div>
+
+    </div>
+    <!--k_line_box-->
+</div>
+<!--k_line_bigbox-->
+<script>
+    $(function () {
+        /*失败弹窗*/
+        $("#succeeds_again").click(function () {
+            $(".He_succeeds").hide();
+        })
+
+{#        /*设置弹窗*/#}
+{#        $("#Setup").click(function () {#}
+{#            $(".Setup_beijing").show();#}
+{#        })#}
+        $('.liaot').click(function(){
+             $('.bishai_liaotian').toggle();
+         })
+        $('.us').click(function(){
+          $('#orz').toggle();
+            $("#orz").change(function(){
+	          $(".send_t").val($(this).val());
+            });
+
+        })
+
+
+    })
+</script>
+
+
+{% end %}
+{% block footer %}
+{% end %}
+{% block other_div %}
+{% end %}
+
+
+

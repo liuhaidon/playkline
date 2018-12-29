@@ -1,0 +1,195 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mbProject" class="mbPrMoreBackBtn"></a>
+        项目
+        <a href="/mbProject" class="mbPrMoreSeacher"></a>
+    </div>
+    <div class="mbProjectMoreSeacher">
+        <table cellpadding="0" cellspacing="10" class="mbProjectMoreSeacherTab">
+            <tr>
+                <td id="keji">
+                    {% if tag %}
+                    {{ tag }}
+                    {% else %}
+                    分类
+                    {% end %}
+                    <div class="alertSelect">
+                        <div data-url="{{ url_for({"tag":"","status":status,"sort":sort}) }}">不限</div>
+                        <div data-url="{{ url_for({"tag":"设计","status":status,"sort":sort}) }}">设计</div>
+                        <div data-url="{{ url_for({"tag":"科技","status":status,"sort":sort}) }}">科技</div>
+                        <div data-url="{{ url_for({"tag":"生活","status":status,"sort":sort}) }}">生活</div>
+                        <div data-url="{{ url_for({"tag":"运动","status":status,"sort":sort}) }}">运动</div>
+                        <div data-url="{{ url_for({"tag":"社交","status":status,"sort":sort}) }}">社交</div>
+                        <div data-url="{{ url_for({"tag":"娱乐","status":status,"sort":sort}) }}">娱乐</div>
+                        <div data-url="{{ url_for({"tag":"文化","status":status,"sort":sort}) }}">文化</div>
+                        <div data-url="{{ url_for({"tag":"音乐","status":status,"sort":sort}) }}">音乐</div>
+                        <div data-url="{{ url_for({"tag":"电影","status":status,"sort":sort}) }}">电影</div>
+                        <div data-url="{{ url_for({"tag":"公益","status":status,"sort":sort}) }}">公益</div>
+                        <div data-url="{{ url_for({"tag":"其他","status":status,"sort":sort}) }}">其他</div>
+                    </div>
+                </td>
+                <td id="paixun">
+                    {% if sort == 'new' %}
+                    最新上线
+                    {% elif sort == 'score' %}
+                    评分最高
+                    {% elif sort == 'like' %}
+                    支持最多
+                    {% else %}
+                    排序
+                    {% end %}
+                    <div class="alertSelect">
+                        <div data-url="{{ url_for({"sort":"","tag":tag,"status":status}) }}">不限</div>
+                        <div data-url="{{ url_for({"sort":"new","tag":tag,"status":status}) }}">最新上线</div>
+                        <div data-url="{{ url_for({"sort":"score","tag":tag,"status":status}) }}">评分最高</div>
+                        <div data-url="{{ url_for(dict({"sort":"like","tag":tag,"status":status})) }}">支持最多</div>
+                    </div>
+                </td>
+                <td id="status">
+                    {% if status == 'preheating' %}
+                    预热中
+                    {% elif status == 'financing' %}
+                    融资中
+                    {% elif status == 'financed' %}
+                    融资完成
+                    {% elif status == 'hiring' %}
+                    招聘中
+                    {% else %}
+                    状态
+                    {% end %}
+                    <div class="alertSelect">
+                        <div data-url="{{ url_for({"status":"","sort":sort,"tag":tag}) }}">不限</div>
+                        <div data-url="{{ url_for({"status":"preheating","sort":sort,"tag":tag}) }}">预热中</div>
+                        <div data-url="{{ url_for({"status":"financing","sort":sort,"tag":tag}) }}">融资中</div>
+                        <div data-url="{{ url_for({"status":"financed","sort":sort,"tag":tag}) }}">融资完成</div>
+                        <div data-url="{{ url_for({"status":"hiring","sort":sort,"tag":tag}) }}">招聘中</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="mbProjectList" style="padding-top: 65px;">
+    <div class="mbProjectListDiv">
+        {% for p in projects %}
+        {% set i=interest_plan(p['id']) %}
+        {% if i %}
+        {# 有融资计划 #}
+        <div onclick="location='/mbProjectDetail?id={{ p['id'] }}'">
+            <img src="../static/media/project_img/{{ p.get('image','') }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';" alt=""
+                 class="mbProjectListDivImg">
+
+            <div class="mbProjectListDivRight">
+                <div class="mbProjectListDivRightTitle">
+                    {% if len(p['name'])>10 %}
+                    {{ p['name'][:10]+"..." }}
+                    {% else %}
+                    {{ p['name'] }}
+                    {% end %}
+                </div>
+                {% if i.get('status','')=='online' %}
+                {% set get_amount=i.get("progress",0) %}
+                {% set left_amount= i['info']['total_amount'] %}
+                {% set current_percent=percent(get_amount,left_amount) *100 /10000 %}
+                <div class="mbPrLiDivRightBar"><p class="mbPrLiDivRightBarP" style="width: {{ current_percent }}%"></p>
+                </div>
+                <div class="mbPrLiDivRightBottom">
+                    已筹：{{ get_amount }}元
+                    剩余时间：{{ left_days(i['time'],i['info']['days']) }}天
+                    <br>
+                    已达：{{ current_percent }}%
+                </div>
+                {% else %}
+                <div class="mbPrLiDivRightBar"><p class="mbPrLiDivRightBarP"></p></div>
+                <div class="mbPrLiDivRightBottom">
+                    {% set list = render(p['id']) %}
+                    投资指数：{{ list[0] }}
+                    关注度：{{ list[1] }}
+                    科技指数：{{ list[2] }}
+                    总得分：{{ list[3] }}
+                </div>
+                {% end %}
+            </div>
+            <p class="clear"></p>
+        </div>
+        {% else %}
+        {# 无融资计划 #}
+        <div onclick="location='/mbProjectDetail?id={{ p['id'] }}'">
+            <img src="../static/media/project_img/{{ p.get('image','') }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';" alt=""
+                 class="mbProjectListDivImg">
+
+            <div class="mbProjectListDivRight">
+                <div class="mbProjectListDivRightTitle">
+                    {% if len(p['name'])>10 %}
+                    {{ p['name'][:10]+"..." }}
+                    {% else %}
+                    {{ p['name'] }}
+                    {% end %}
+                </div>
+                <div class="mbPrLiDivRightBar"><p class="mbPrLiDivRightBarP"></p></div>
+                <div class="mbPrLiDivRightBottom">
+                    {% set list = render(p['id']) %}
+                    投资指数：{{ list[0] }}
+                    关注度：{{ list[1] }}
+                    科技指数：{{ list[2] }}
+                    总得分：{{ list[3] }}
+                </div>
+            </div>
+            <p class="clear"></p>
+        </div>
+        {% end %}
+        {% end %}
+    </div>
+    {% if projects.count()==0 %}
+    <p>无</p>
+    {% end %}
+</div>
+{% end %}
+{% block script %}
+<script>
+    $('.mbFooterDiv a').eq(2).addClass('selected');
+    $('.mbFooterDiv a').click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+    });
+
+    (function (o) {
+        $.each(o, function (k, v) {
+            v.click(function (event) {
+                event.stopPropagation();
+                $('.alertSelect').slideUp('fast');
+                $(this).find('.alertSelect').slideToggle('fast');
+            });
+        });
+        $('.alertSelect').click(function () {
+            event.stopPropagation();
+            $(this).slideUp('fast');
+        });
+        $(document).click(function () {
+            $('.alertSelect').slideUp('fast');
+        });
+    })({
+        1: $('#keji'),
+        2: $('#paixun'),
+        3: $('#status'),
+    });
+
+    $("#keji .alertSelect div, #paixun .alertSelect div, #status .alertSelect div").click(function () {
+        var args = $(this).data("url");
+        if ($(this).attr("class") == "seacherBtn") {
+            var search = $(".seacherInput").val();
+            args = '{{ url_for({}) }}'.replace("search=", "search=" + search);
+
+        }
+        location.href = '/mobile/projectmore' + args;
+    });
+
+</script>
+{% end %}
+
+
+

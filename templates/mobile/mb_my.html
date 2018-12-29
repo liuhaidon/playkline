@@ -1,0 +1,155 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+
+    个人中心
+
+</div>
+<div class="big_box">
+    <div class="my_head">
+        <div class="my_nameandacc">
+           <span class="head">
+					<img src="/static/media/avatar/{{ myuser.get("avatar_thumb","") }}"
+                         onerror="javascript:this.src='/static/img/startup/avatar_sample.png';">
+				</span>
+				<span class="my_names">
+                <p class="my_name">{{ myuser['name'] }}</p>
+{#                <p class="my_account">双创学院号:<a>447521531</a></p>#}
+                <p class="my_account">最近登录时间:<i style="font-style: normal;">{{ logininfo.get('time',"未知") }}</i></p>
+			</span>
+        </div>
+        <span class="my_line"></span>
+        <!--认证高亮修改-->
+        {% if myuser.get("email_check")==1 %}
+        <div class="certification">
+            <span class="myemail_icon"></span>
+					<span class="myemail_certification">邮箱认证:
+                        <a class="renzheng">
+                            已认证
+                        </a>
+					</span>
+        </div>
+        {% else %}
+        <div class="certification">
+            <span class="myemail_icon" style="background-position: -15px -143px;"></span>
+					<span class="myemail_certification">邮箱认证:
+						<a href="/mb_anquanshezhi_youxiang">
+                            未认证
+                        </a>
+					</span>
+        </div>
+        {% end %}
+        <!--certification-->
+        {% if myuser.get("phone_check")==1 %}
+        <div class="certification cer_right">
+            <span class="mymb_icon"></span>
+					<span class="myemail_certification">手机认证:
+                        <a class="renzheng">
+                            已认证
+                        </a>
+					</span>
+        </div>
+        {% else %}
+        <div class="certification cer_right">
+            <span class="mymb_icon" style="background-position: -15px -98px;"></span>
+					<span class="myemail_certification">手机认证:
+						<a href="/mb_anquanshezhi_shouji">
+                            未认证
+                        </a>
+					</span>
+        </div>
+        {% end %}
+        <!--certification-->
+        {% if myuser.get("is_check") %}
+        <div class="certification">
+            <span class="myname_icon"></span>
+					<span class="myemail_certification">实名认证:
+						<a class="renzheng">
+                            已认证
+                        </a>
+					</span>
+        </div>
+        {% else %}
+        <div class="certification">
+            <span class="myname_icon" style="background-position: -15px -59px;"></span>
+					<span class="myemail_certification">实名认证:
+                        <a href="/mb_shimingrenzheng">
+                            未认证
+                        </a>
+					</span>
+        </div>
+        {% end %}
+        <!--certification-->
+        {% if myuser.get("investor_authed") %}
+        <div class="certification cer_right">
+            <span class="mypeo_icon"></span>
+					<span class="myemail_certification">投资认证:
+						<a class="renzheng">
+                            已认证
+                        </a>
+					</span>
+        </div>
+        {% else %}
+        <div class="certification cer_right">
+                    <span class="mypeo_icon" style="background-position: -15px -15px;"></span>
+					<span class="myemail_certification">投资认证:
+						<a href="/mb_touzhirenrenzheng">
+                            未认证
+                        </a>
+					</span>
+        </div>
+        {% end %}
+        <!--certification-->
+    </div>
+    <!--my_head-->
+    <div class="options">
+        <a href="../mobile/projectcenter" class="my_Project">
+            <span class="my_Projecta">项目中心</span>
+            <span class="right_arrow"></span>
+        </a>
+        <a href="../mobile/activitycenter" class="my_Project">
+            <span class="my_Projecta">活动中心</span>
+            <span class="right_arrow"></span>
+        </a>
+        <a href="../mb_chuangyeyuan" class="my_Project">
+            <span class="my_Projecta">创业园</span>
+            <span class="right_arrow"></span>
+        </a>
+        <a href="../mobile/Myinformation" class="my_Project">
+            <span class="my_Projecta">资讯</span>
+            <span class="right_arrow"></span>
+        </a>
+        <a href="../mb_class_course" class="my_Project">
+            <span class="my_Projecta">视频</span>
+            <span class="right_arrow"></span>
+        </a>
+
+        <a href="../mb_Focus" class="my_Project my_guanzhu">
+            <span class="my_Projecta">我的关注</span>
+            <span class="right_arrow"></span>
+        </a>
+        <a href="../mb_shejiaomp" class="my_Project ">
+            <span class="my_Projecta">我的账户</span>
+            <span class="right_arrow"></span>
+        </a>
+        <a href="../mb_infor" class="my_Project my_xiaoxi">
+            <span class="my_Projecta">消息中心</span>
+            <span class="right_arrow"></span>
+        </a>
+        <a href="/mb_logout" class="tuichu my_Project">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+    </div>
+</div><!--big_box-->
+{% end %}
+
+{% block script %}
+<script>
+    $('.mbFooterDiv a').eq(4).addClass('selected');
+    $('.mbPrMoreBackBtn.Activity').click(function () {
+        $('.mbactivitySelect').slideToggle('fast');
+    });
+    $('.mbactivitySelect div').click(function () {
+        $('.mbactivitySelect').slideUp('fast');
+    });
+</script>
+{% end %}

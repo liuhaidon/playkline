@@ -1,0 +1,190 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<style>
+    .active {
+        background-color: #fff !important;
+        color: white !important;
+    }
+</style>
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+        活动详情
+    </div>
+</div>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="huodong_box">
+        <img src="../static/media/activity_img/{{ activity.get('image','') }}"
+             onerror="javascript:this.src='{{ static_url('img/error.png') }}';">
+    </div>
+
+    <div class="class_title">
+        <p>{% if len(activity.get("name",""))>20 %}
+            {{ activity.get("name","")[0:20] }}...
+            {% else %}
+            {{ activity.get("name","") }}
+            {% end %}
+        </p>
+        {% set type=ac_type(activity.get("form","")) %}
+        <p class="sm_jianjie">{{ type.get("name","") }}</p>
+    </div>
+    <div class="huodong_touxi">
+
+        <span class="huodong_touxi_ren">
+            <img src="../static/media/avatar/{{ organiser.get('avatar_thumb','') }}"
+                 onerror="javascript:this.src='{{ static_url('img/startup/avatar_sample.png') }}'"
+                 style="width: 100%; height: 100%; border-radius: 50%;"></span>
+
+        <div class="jizhong">
+            <a href="" class="huodong_touxi_sixin">私信</a>
+            {% if not user_has_followed %}
+            <a href="javascript:;" class="huodong_touxi_guanzhu" data-uid="{{ activity['uid'] }}">关注他</a>
+            {% else %}
+            <a href="javascript:;" class="yihuodong_touxi_guanzhu btnClick" data-uid="{{ activity['uid'] }}">取消关注</a>
+            {% end %}
+            <div style=" clear: both;"></div>
+        </div>
+		  	<span class="hudongfang">
+		  		<p>发布人：{{ organiser['name'] }}</p>
+{#		  		<br/>#}
+{#		  		<p>主办方：嘚瑟咖</p>#}
+		  	</span>
+
+    </div>
+
+    <div class="class_maegin huodmen">
+        <div class="class_time">
+            <span class="class_timeicon"></span>
+            <span class="class_timer">{{ activity['start_date'] }} {{ activity.get('start_time',"00:00") }}~{{ activity.get('end_date') }} {{ activity.get('end_time',"23:59") }}</span>
+        </div>
+        <div class="class_dizhi">
+            <span class="class_dizhiicon"></span>
+            <span class="class_dizhier">{{ activity.get('province','') }},{{ activity.get('city','') }},{{ activity.get('region','') }}</span>
+        </div>
+    </div>
+    <!--class_maegin-->
+
+
+    <div class="hd_xiangqing">
+
+        {% raw activity.get('desc','') %}
+        {#        <img src="../static/imges/huoxian.png">#}
+        {#		   	<span>#}
+        {#		   		<p>现场布置：</p>#}
+        {#		   		这次活动我们邀请了一个神秘嘉宾为大家讲解一下现在股市风云中的一些比较自身的知识，目的就是为了让大家在此刻的股市背景下活得更加精彩，让生活更加美满。#}
+        {#		   	</span>#}
+
+    </div>
+
+    {% if not has_followed %}
+    <a class="F_activities" data-id="{{ activity['id'] }}">关注活动</a>
+    {% else %}
+    <a class="F_activities btnClick" data-id="{{ activity['id'] }} ">取消关注</a>
+    {% end %}
+
+    {% if not end_attend %}
+    {% if not has_attend %}
+    {% if activity['status'] =='online' %}
+    <div class="baoming" onclick="window.location.href='/mb_baomingliuc/{{ activity['id'] }}'">
+        <a>立刻报名</a>
+    </div>
+    {% else %}
+    <a class="yibaoming" href="#">未上线等待审核...</a>
+    {% end %}
+    {% else %}
+    <a class="yibaoming" href="#">活动已报名</a>
+    {% end %}
+    {% else %}
+    <a class="yibaoming" href="#">活动已结束</a>
+    {% end %}
+
+</div><!--class_avti-->id
+</div><!--big_class-->
+
+{% end %}
+{% block footer %}
+<script>
+
+    $(function () {
+        $(".hd_xiangqing img").attr('style', '');
+    });
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+    ;
+
+    $('.F_activities').click(function () {
+        var data = {};
+        var that = $(this);
+        data['id'] = $(this).data("id");
+        data['_xsrf'] = getCookie("_xsrf");
+        if ($(this).is(".btnClick")) {
+            data['handle'] = 'remove';
+        }
+        else {
+            data['handle'] = 'add';
+        }
+        if (data['handle'] == 'remove') {
+            this.setAttribute("class", "F_activities");
+            that.text("关注活动");
+        }
+        else {
+            this.setAttribute("class", "F_activities btnClick");
+            that.text("取消关注");
+        }
+        $.ajax({
+            type: 'post',
+            url: '/follow/activity',
+            data: data,
+            success: function (re) {
+                var jsons = jQuery.parseJSON(re);
+                if (jsons.status == 'ok') {
+                }
+                else {
+                    alert("其他错误");
+                }
+            }
+        });
+    });
+
+    //关注人
+    $('a.yihuodong_touxi_guanzhu,a.huodong_touxi_guanzhu').click(function () {
+        var data = {};
+        var that = $(this);
+        data['uid'] = $(this).data("uid");
+        data['_xsrf'] = getCookie("_xsrf");
+        if ($(this).is(".btnClick")) {
+            data['handle'] = 'remove';
+        }
+        else {
+            data['handle'] = 'add';
+        }
+        if (data['handle'] == 'remove') {
+            this.setAttribute("class", "huodong_touxi_guanzhu");
+            that.text("关注他");
+        }
+        else {
+            this.setAttribute("class", "yihuodong_touxi_guanzhu btnClick");
+            that.text("取消关注");
+        }
+        $.ajax({
+            type: 'post',
+            url: '/follow/user',
+            data: data,
+            success: function (re) {
+                var jsons = jQuery.parseJSON(re);
+                if (jsons.status == 'ok') {
+                }
+                else {
+                    alert("其他错误");
+                }
+            }
+        });
+    });
+</script>
+{% end %}
+
+

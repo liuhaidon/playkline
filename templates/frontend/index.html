@@ -1,0 +1,343 @@
+{% extends "base2.html" %}
+{% block page_title %}玩转K线{% end %}
+
+{% block content %}
+<div class="cen">
+    <p class="gonggao">11获得了2015-11-22,16:00开始的30元话费争夺赛</p>
+
+    <p class="jianbianxian"></p>
+
+    <div class="cen_left">
+        <div class="hi_jinbi">
+            <span class="tab">
+                <img class="jinbiba" src="{{ static_url('img/jinbiban.png') }}">
+	       		<img class="shenglva" src="{{ static_url('img/shenglvban_a.png') }}">
+            </span>
+
+            <div class="cen_left_kuang">
+                {% for i,u in enumerate(gold_list) %}
+                <span class="{% if i==0 %}cen_left_no1{% else %}cen_left_no2{% end %}">
+                    {% if i==0 %}
+                    <img class="gold_bei" src="{{ static_url('img/gold_bei.png') }}">
+                    {% elif i==1 %}
+                    <img class="gold_bei" src="{{ static_url('img/silver_bei.png') }}">
+                    {% elif i==2 %}
+                    <img class="gold_bei" src="{{ static_url('img/tong_bei.png') }}">
+                    {% else %}
+                    <p class="wenzi">{{ i+1 }}</p>
+                    {% end %}
+                    <img class="cen_left_touxiang"
+                         src="{{ static_url('imgs/avatar/'+str(u.get('avatar','1'))+'.png') }}">
+                    <span class="cen_left_iner">
+                        <p class="cen_left_name">{{ u.get('nick','') }}</p>
+                        <p class="cen_left_text">{{ u.get('gold','') }}</p>
+                    </span>
+                    {% if u.get('status','')=='online' and u.get('userid','')!= myuser.get('userid','') %}
+                    <img class="challenger" id="gold_challenge" src="{{ static_url('img/challenge.png') }}"
+                         data-userid="{{ u.get('userid','') }}" data-nick="{{ u.get('nick','') }}"
+                         data-img="{{ static_url('imgs/avatar/'+str(u.get('avatar','1'))+'.png') }}">
+                    {% else %}
+                    <img class="challenger" id="gold_challenge" src="{{ static_url('img/challenge_hou.png') }}"
+                         data-userid="{{ u.get('userid','') }}" data-nick="{{ u.get('nick','') }}"
+                         data-img="{{ static_url('imgs/avatar/'+str(u.get('avatar','1'))+'.png') }}">
+                    {% end %}
+                </span>
+                {% end %}
+            </div>
+        </div>
+        <!--隐藏部分-->
+        <div class="hi_jinbi_hi">
+            <span class="tab">
+                <img class="jinbiba" src="{{ static_url('img/jinbiban_b.png') }}">
+                <img class="shenglva" src="{{ static_url('img/shenglvban_b.png') }}">
+            </span>
+
+            <div class="cen_left_kuang">
+                {% for i,u in enumerate(winrate_list) %}
+                <span class="{% if i==0 %}cen_left_no1{% else %}cen_left_no2{% end %}">
+                    {% if i==0 %}
+                    <img class="gold_bei" src="{{ static_url('img/gold_bei.png') }}">
+                    {% elif i==1 %}
+                    <img class="gold_bei" src="{{ static_url('img/silver_bei.png') }}">
+                    {% elif i==2 %}
+                    <img class="gold_bei" src="{{ static_url('img/tong_bei.png') }}">
+                    {% else %}
+                    <p class="wenzi">{{ i+1 }}</p>
+                    {% end %}
+                    <img class="cen_left_touxiang"
+                         src="{{ static_url('imgs/avatar/'+str(u.get('avatar','1'))+'.png') }}">
+                    <span class="cen_left_iner">
+                        <p class="cen_left_name">{{ u.get('nick','') }}</p>
+                        <p class="cen_left_text">{{ u.get('gold','') }}</p>
+                    </span>
+                    {% if u.get('status','')=='online' and u.get('userid','')!=myuser.get('userid','') %}
+                    <img class="challenger" id="integral_challenge" src="{{ static_url('img/challenge.png') }}"
+                         data-userid="{{ u.get('userid','') }}" data-nick="{{ u.get('nick','') }}"
+                         data-img="{{ static_url('imgs/avatar/'+str(u.get('avatar','1'))+'.png') }}">
+                    {% else %}
+                    <img class="challenger" src="{{ static_url('img/challenge_hou.png') }}">
+                    {% end %}
+                </span>
+                {% end %}
+            </div>
+        </div>
+        <!--隐藏结束-->
+        <img class="bangdan" src="{{ static_url('img/bangdan.png') }}">
+    </div>
+    <div class="cen_right">
+        <ul>
+            <li><img src="{{ static_url('img/classic.png') }}" onclick="javascript:window.location.href='/classic'"></li>
+            <li><img src="{{ static_url('img/game.png') }}" onclick="javascript:window.location.href='/match'"></li>
+            <li><img src="{{ static_url('img/competitive.png') }}" onclick="javascript:window.location.href='/competitive'"></li>
+        </ul>
+    </div>
+</div>
+<!--cen-->
+
+<div class="Continuouslanding" style="display:none" id="typediv1"><!--连续登陆-->
+    <img class="activity_titler" src="{{ static_url('img/lianxu.png') }}">
+
+    <div class="activity_beijing">
+        <div class="activity_beijing_s">
+
+            <div class="Continuouslanding_box" id="loginbonus">
+                <div>
+                    <img src="{{ static_url('img/day_one.png') }}">
+                </div>
+                <div>
+                    <img src="{{ static_url('img/day_two.png') }}">
+                </div>
+                <div>
+                    <img src="{{ static_url('img/day_three.png') }}">
+                </div>
+                <div>
+                    <img src="{{ static_url('img/day_four.png') }}">
+                </div>
+                <div>
+                    <img src="{{ static_url('img/day_five.png') }}">
+                </div>
+                <div>
+                    <img src="{{ static_url('img/day_six.png') }}">
+                </div>
+                <div>
+                    <img src="{{ static_url('img/day_seven.png') }}">
+                </div>
+            </div>
+            <div class="klingqujiangli">
+                <img src="{{ static_url('img/klingqujiangli.png') }}">
+            </div>
+        </div>
+        <!--activity_beijing_s-->
+
+    </div>
+    <!--activity_beijing-->
+
+</div><!--Continuouslanding--><!--连续登陆结束-->
+
+<!--挑战弹窗-->
+<div class="challenge_box">
+    <div class="challenge">
+        <img class="activity_titler" src="{{ static_url('img/tiaozhan_jian.png') }}">
+
+        <div class="challenge_my">
+            <img src="{{ static_url('imgs/avatar/'+str(myuser.get('avatar','1'))+'.png') }}">
+
+            <p>{{ myuser.get("nick",'') }}</p>
+        </div>
+        <div class="challenge_you">
+            <img src="{{ static_url('img/touxiang.png') }}">
+
+            <p>123</p>
+        </div>
+
+        <div class="jishiimg_box">
+            <img class="jishi_text" src="{{ static_url('img/jishi_faqi.png') }}">
+            <ul class="daoshu">
+                <li class="daoshu_showa">
+                    <img src="{{ static_url('img/jishi_ten.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_nine.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_eight.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_seven.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_six.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_five.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_four.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_three.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_two.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_one.png') }}">
+                </li>
+                <li>
+                    <img src="{{ static_url('img/jishi_zero.png') }}">
+                </li>
+            </ul>
+            <img src="{{ static_url('img/jishi_miao.png') }}">
+        </div>
+        <div class="challenge_box_anniu">
+            <div>
+                <img id="cancel" src="{{ static_url('img/quxiaotiaozhan.png') }}">
+            </div>
+            <div>
+                <img id="to_hall" src="{{ static_url('img/blackdating.png') }}">
+            </div>
+        </div>
+    </div>
+</div>
+<!--挑战弹窗结束-->
+
+<script>
+    $(document).ready(function () {
+        function getCookie(name) {
+            var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+            return r ? r[1] : undefined;
+        };
+
+        // 判断是否为第一次打开
+        var status = {{ myuser.get('login',[])[-1].get('bonus_state',0) }};
+        $(function () {
+            if (!window.name) {
+                window.name = 'second';
+
+                // 第一次打开时，弹出连续登录弹窗
+                if (status==1) {
+                    $("#typediv1").hide();
+                    status=0;
+                }
+
+                // 用户上线
+                var data = {};
+                data['type'] = 'online';
+                data['_xsrf'] = getCookie("_xsrf");
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax/userstatus", //这是请求的url
+                    async: false,//可以写同步的，也可以写异步的。
+                    data: data,
+                    success: function (re) {
+
+                    },
+                    error: function (re) {
+
+                    }
+                });
+            }
+            else {
+                {# document.getElementById("typediv1").style.display = "";// 连续登录弹窗显示：测试#}
+            }
+        });
+
+        //*连续登陆*/
+        $(function () {
+            $(".klingqujiangli").click(function () {
+                var data = {};
+                data['_xsrf'] = getCookie("_xsrf");
+                data['logindays'] = {{ myuser.get('logindays') }};
+                $.ajax({
+                    url: "/ajax/loginbonus",
+                    type: "post",
+                    data: data,
+                    success: function (re) {
+                        var jsons = jQuery.parseJSON(re);
+                        if (jsons['status'] == 'success') {
+                            if (jsons['error'] == '') {
+//                                {#alert("成功领取" + jsons['gold'] + "金币");#}
+                                var tli = document.getElementById("loginbonus").getElementsByTagName("div");
+                                var logindays ={{ myuser.get("logindays",1) }};
+                                tli[logindays - 1].className = "yilingqus";
+                            }
+                            else {
+                                alert(jsons['msg']);
+                            }
+                        }
+                        else {
+                            alert("其他错误！");
+                        }
+                        $(".Continuouslanding").hide();
+                        location.reload();
+                    }
+                });
+            });
+        });
+
+        // 连续登录奖励样式展示
+        $(function () {
+            var tli = document.getElementById("loginbonus").getElementsByTagName("div");
+            var logindays ={{ myuser.get("logindays",1) }};
+            var bonus_state = {{ myuser.get("login",[])[-1].get("bonus_state",0) }}
+            for (i = 0; i < tli.length; i++) {
+                if (i < logindays - 1) {
+                    tli[i].className = "yilingqu";
+                }
+                if (i == logindays - 1) {
+                    if (bonus_state == 0) {
+                        tli[i].className = "yilingqu";
+                    }
+                    else {
+                        tli[i].className = "dangqian";
+                    }
+                }
+
+            }
+        });
+
+        $("#gold_challenge,#integral_challenge").click(function () {
+            var name = $(this).data("nick");
+            var img = $(this).data("img");
+            var from = {{ myuser.get('userid') }};
+            var to = $(this).data("userid");
+            $(".challenge_you img").attr('src', img);
+            $(".challenge_you p").text(name);
+            $(".challenge_box").show();
+
+            // 发送广播
+            var challenge = {"from":from, "to": to, "msgid": 4, 'content': name};
+            MySocket.socket.send(JSON.stringify(challenge));
+        });
+
+    });
+
+
+</script>
+
+<!--k_line_box-->
+
+<!--k_line_bigbox-->
+
+<!--<script type="text/javascript">
+        function get_code(){
+                // JQ AJAX提交
+                $.post('/home/index/sendsms', {jinbi:jQuery.trim($('#jinbi').val()),zhubi:jQuery.trim($('#zhubi').val()),shenglv:jQuery.trim($('#shenglv').val())},
+                function success(data){
+                  if(jQuery.trim(unescape(data.status))>0){
+                    // 返回值赋予
+                      $('#jinbi').val(data.jinbi);
+                      $('#zhubi').val(data.zhubi);
+                      $('#shenglv').val(data.shenglv);
+                      alert("成功");
+                  } else {
+                     alert("失败");
+                  }
+                });
+        };
+        $(document).ready(function(){
+         // 10秒刷新一次
+         setInterval(get_code, 10000);
+        });
+</script>-->
+{% end %}

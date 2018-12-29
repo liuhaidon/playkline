@@ -1,0 +1,56 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbprojeDetailHead" style="border-bottom: 1px solid #EAEAEA;">
+    <table class="mbprojeDetailTab">
+        <tr class="mbprojeDetailTabTR">
+            <td class="mbprojeDetailTabTD1">
+                <img src="../../static/mobile/img/mbProjectMore/001.png" alt="" onclick="javascript:history.back(-1);">
+            </td>
+            <td>入孵计划</td>
+            <td class="mbprojeDetailTabTD2">
+                {#                    <img src="../../static/mobile/img/mbProjectMore/0022.png" alt="" onclick="location='javascript:;'">#}
+            </td>
+        </tr>
+    </table>
+</div>
+{% if place_plan %}
+<div class="big_box">
+    <div class="mb_tuandui">
+        <p class="changdi">{{ place_plan.get('title','无') }}</p>
+        <span class="taundidian">{{ place_plan.get('广东') }}省</span>
+    </div>
+    <ul class="tuandui_biao">
+        <li>
+            <a>用途:</a><span>{{ usage.get(place_plan['usage']) }}</span>
+        </li>
+        <li>
+            <a>面积:</a><span>{{ space.get(place_plan['space']) }}平方米</span>
+        </li>
+        <li>
+            <a>其它:</a><span>{{ place_plan['remarks'] }}</span>
+        </li>
+    </ul>
+    <div class="baoming">
+        <a>我有场地立即联系我</a>
+    </div>
+    <div class="yibaoming">
+        <a>已联系</a>
+    </div>
+</div>
+{% else %}
+无
+{% end %}
+<!--big_class-->
+
+<div class="big_box chenggong">
+    <img class="fanhui" src="imges/fanhui.png"/>
+
+    <div class="baoming_chengg">
+        <span>联系成功</span>
+        <img src="../static/imges/chenggong.png"/>
+    </div>
+</div>
+{% end %}
+
+

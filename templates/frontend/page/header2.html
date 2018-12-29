@@ -1,0 +1,186 @@
+
+<img class="beijing" src="{{ static_url('img/melee_background.png') }}"/>
+<div class="bisai_head">
+    <img class="bishai_black" src="{{ static_url('img/fanhui.png') }}"
+         onclick="javascript:window.location.href='/'">
+
+    <div class="bishai_touxiang">
+        <div class="nicheng_box">
+            <div class="nicheng">
+                <p class="name">{{ kline.get('name','')  }}</p>
+                <p class="stock">{{ kline.get('market') + kline.get('stockid') }}</p>
+            </div>
+        </div>
+        <!--<span class="nicheng">{{ kline.get('name','') }}</span>-->
+        <!--&lt;!&ndash;<img src="{{ static_url('img/touxiang.png') }}">&ndash;&gt;-->
+        <!--<span class="nicheng">{{ kline.get('market') + kline.get('stockid') }}</span>-->
+        <span class="shuju">1.2%↓</span>
+    </div>
+    <div id="settings">
+        <img id="Setup" class="bishai_shezhi" src="{{ static_url('img/shezhi_b.png') }}">
+    </div>
+
+
+<!--设置弹窗-->
+<div class="Setup">
+    <div class="Setup_beijing">
+        <div class="Setup_beijing_s">
+            <div class="Setup_kaung">
+                <ul class="Setup_navbox">
+                    <li>
+                        <a id="parameters" class="canshushezhi_b dise">参数设置</a>
+                    </li>
+                    <li>
+                        <a id="avatarchange" class="bianjitouxiang_a">编辑头像</a>
+                    </li>
+                    <li>
+                        <a id="nickmodify" class="xiugainice_a ">修改昵称</a>
+                    </li>
+                </ul>
+                <div class="Setup_canshubox">
+                    <p class="ma_text">MA价格均线（限选三种）</p>
+                    <ul class="ma_anniubox">
+                        <li class="ma_anniubox_li">
+                            <a>MA（5）</a>
+                            <div id="set1"
+                                 class="{% if myuser.get("settings",{}).get('ma5','0')=="1" %}on{% else %}off{% end %}"
+                                 data-key="ma5"></div>
+                        </li>
+                        <li class="ma_anniubox_li">
+                            <a>MA（10）</a>
+                            <div id="set2"
+                                 class="{% if myuser.get("settings",{}).get('ma10','1')=="1" %}on{% else %}off{% end %}"
+                                 data-key="ma10"></div>
+                        </li>
+                        <li class="ma_anniubox_li">
+                            <a>MA（20）</a>
+                            <div id="set3"
+                                 class="{% if myuser.get("settings",{}).get('ma20','1')=="1" %}on{% else %}off{% end %}"
+                                 data-key="ma20"></div>
+                        </li>
+                        <li class="ma_anniubox_li">
+                            <a>MA（30）</a>
+                            <div id="set4"
+                                 class="{% if myuser.get("settings",{}).get('ma30','0')=="1" %}on{% else %}off{% end %}"
+                                 data-key="ma30"></div>
+                        </li>
+                        <li class="ma_anniubox_li">
+                            <a>MA（60）</a>
+                            <div id="set5"
+                                 class="{% if myuser.get("settings",{}).get('ma60','1')=="1" %}on{% else %}off{% end %}"
+                                 data-key="ma60"></div>
+                        </li>
+                    </ul>
+                    <!--ma_text_lule-->
+                    <div class="anniuzhu">
+                        <div>
+                            <img id="huifua" src="{{ static_url('img/huifu_anniu.png') }}">
+                        </div>
+                        <div>
+                            <img class="baocuna" src="{{ static_url('img/baocun_anniu.png') }}">
+                        </div>
+                    </div>
+                    <p class="ma_text">指标说明</p>
+                    <div class="ma_text_lule">
+                        <p>1:股票高于平均线视为强势；股价低于平均线视为弱势</p>
+
+                        <p>2:平均线向上看涨，有助长力道；平均线向上跌降，有助于跌力道</p>
+
+                        <p>3:二条以上平均线向上交叉时，买进参考</p>
+
+                        <p>4:二条以上平均线向下交叉时，卖进参考</p>
+
+                        <p class="jianbianxiana"></p>
+                    </div>
+                </div>
+                <!--Setup_canshubox-->
+
+                <div class="Setup_touxiangbox" id="avatar">
+                    <p class="ma_text">请选择人物头像</p>
+                    <div class="Setup_touxiang" id="avatars">
+                        <span><img src="{{ static_url('imgs/avatar/1.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/2.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/3.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/4.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/5.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/6.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/7.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/8.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/9.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/10.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/11.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/12.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/13.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/14.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/15.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/16.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/17.png') }}"></span>
+                    </div>
+
+
+                    <p class="jianbianxiana"></p>
+                    <div class="anniuzhu">
+                        <div>
+                            <img class="baocuna" id="setavatar" src="{{ static_url('img/baocun_anniu.png') }}">
+                        </div>
+                    </div>
+                </div>
+                <!--Setup_touxiangbox-->
+
+                <div class="Setup_nichengbox">
+                    <p class="ma_text">请在下方框内输入昵称</p>
+						<span class="Setup_nichengboxspan">
+						    <input class="shurukuang" id="name" value="{{ myuser.get('nick','') }}"/>
+						</span>
+
+                    <div class="anniuzhu">
+                        <div>
+                            <img class="baocuna" id="setname" src="{{ static_url('img/baocun_anniu.png') }}">
+                        </div>
+                    </div>
+                    <p class="jianbianxiana"></p>
+
+
+                </div>
+                <!--Setup_nichengbox-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--设置弹窗结束-->
+
+</div>
+<script>
+    $(document).ready(function () {
+        $('#chat').click(function(){
+            $('.bishai_liaotian').toggle();
+         });
+
+        $("#orz").change(function(){
+            $(".send_t").val($(this).val());
+            $('#orz').hide();
+        });
+
+        $('.us').click(function(){
+            $('#orz').toggle();
+        });
+
+        $(".send").click(function () {
+             var myid = $("#MyAvatar").data('userid');
+             var nick = $(".name").text();
+             var words = $(".send_t").val();
+             alert(words);
+             if(words.length < 1)
+                 return;
+
+             var xhtml = '<li><span>' + nick +':</span>'+ words +'</li>';
+
+             //send message
+             var message = {"from":myid, "to": $(".rival").data("userid"), "msgid": 2, 'content': xhtml};
+             MySocket.socket.send(JSON.stringify(message));
+
+             $(".send_t").val("");
+             $(".l_bgs").scrollTop($(".l_bgs")[0].scrollHeight);
+        });
+    })
+</script>

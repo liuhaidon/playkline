@@ -1,0 +1,122 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<style>
+    .xmwz_biao .fasong {
+        position: absolute;
+        right: 4%;
+        width: 80px;
+        top: 0px;
+        height: 28px;
+    }
+</style>
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    修改认证邮箱
+</div>
+<div class="nbig_box">
+
+    <div class="xmliche_a">
+		   	  <span class="xmwz_biao">
+		   	  	<p>原来邮箱： </p>
+		   	  	<input type="text" name='old_email' value="{{ email }}"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao">
+		   	  	<p>新的邮箱： </p>
+		   	  	<input type="text" name='new_email'/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao  zhuce_b yzmfs">
+		   	  	<p>验证码： </p>
+		   	  	<input type="text" name='email_code'/>
+                <input class="fasong" id="send_email_code" type="button" value="发送验证码"
+                       style="width: 85px; height: 28px;"/>
+		   	  </span>
+
+        <div class="xiayibu xiayibuA">确定修改认证邮箱</div>
+    </div>
+</div><!--nbig_box-->
+<script>
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    $("#send_email_code").click(function () {
+        var data = {};
+        var email_number = $("input[name='new_email']").val();
+        var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        if (!reg.test(email_number)) {
+            alert("邮箱格式不正确！");
+            return false;
+        }
+        else {
+            curCount = count;
+            //设置button效果，开始计时
+            $("#send_email_code").attr("disabled", "true");
+            $("#send_email_code").val(curCount + "s");
+            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+            //向后台发送处理数据
+            data['email_number'] = email_number;
+            $.ajax({
+                type: 'get',
+                url: '/emailcode',
+                data: data,
+                success: function (data) {
+                    var jsons = jQuery.parseJSON(data);
+                    if (jsons.status == 'ok') {
+                        alert(jsons.msg);
+                    }
+                    else {
+                        alert(jsons.msg);
+                    }
+                }
+            });
+        }
+    });
+    //timer处理函数
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            $("#send_email_code").removeAttr("disabled");//启用按钮
+            $("#send_email_code").val("重新发送验证码");
+        }
+        else {
+            curCount--;
+            $("#send_email_code").val(curCount + "s");
+        }
+    }
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+    $(".xiayibu").click(function () {
+        var data = {};
+        data["old_email"] = $("input[name='old_email']").val();
+        data["new_email"] = $("input[name='new_email']").val();
+        data["email_code"] = $("input[name='email_code']").val();
+        data['_xsrf'] = getCookie("_xsrf");
+        jQuery.ajax({
+            url: "/user/safe-setting?type=email",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                if (jsons.status == "ok") {
+                    alert(jsons.msg);
+                    location.reload();
+                }
+                else {
+                    alert(jsons.msg);
+                }
+            }
+        });
+        return false;
+    });
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}
+
+

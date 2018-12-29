@@ -1,0 +1,154 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    项目详情
+
+</div>
+{#<div class="tuwen_box">#}
+{#    <div class="tuwen">#}
+{#        <p class="tuwen_biaoti">活动题材</p>#}
+{#        <img src="../static/imges/class_activity.png">#}
+{##}
+{#        <div class="tuwen_boxa">#}
+{#		<span class="tuwen_boxb">#}
+{#			#}
+{#			<span>#}
+{#				宣威，截至2008年，宣威市总面积6069.88平方公里。约占云南省总面积的1.58%。1926,鲁迅先生下乡来到宣威，为此写下文章得以赞颂宣威，以此活动成立...#}
+{#			</span>#}
+{#		</span>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tuwen">#}
+{#        <p class="tuwen_biaoti">舞台设计</p>#}
+{#        <img src="../static/imges/wutai.png">#}
+{##}
+{#        <div class="tuwen_boxa">#}
+{#		<span class="tuwen_boxb">#}
+{#			#}
+{#			<span>#}
+{#				使观众的注意力集中于演员的表演并获得理想的观赏效果。舞台通常由一个或多个平台构成，它们有的可以升降。剧场建筑的主要构成部分之一。指观众席前面的演出场所。...#}
+{#			</span>#}
+{#		</span>#}
+{#        </div>#}
+{#</div>#}
+{#<div class="tuwen_time">#}
+{#    <ul>精彩活动：#}
+{#        <li>#}
+{#        <li>1 ：大龙飞天</li>#}
+{#        <li>2：麒麟倒地</li>#}
+{#        <li>3：野猪爬水</li>#}
+{##}
+{#        </li>#}
+{#        <li>时间：2015-11-22</li>#}
+{#        <li>地点：深圳市南山智园</li>#}
+{#    </ul>#}
+{#</div>#}
+
+<div class="tuwen_box">
+    <div class="tuwen" value="text/html;charset=UTF-8">
+        {% set video_url=project['video_url'] %}
+        {% if video_url !='' %}
+        {% if 'v.qq.com' in video_url %}
+        {% set vid=video_url.split("/")[-1][:-5] %}
+        <iframe class="video_iframe" style=" z-index:1; "
+                src="http://v.qq.com/iframe/player.html?vid={{ vid }}&amp;width=600&amp;height=400&amp;auto=0"
+                allowfullscreen="" frameborder="0" height="400" width="80%"></iframe>
+        {% else %}
+        {% if 'http:' in video_url %}
+        <video controls="controls" width="600">
+            <source src="{{ video_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        {% end %}
+        {% end %}
+        {% end %}
+        <div class="tuwen_box">
+            {% raw project['desc'] %}
+        </div>
+        {#        <div class="tuwen_box">#}
+        {#            <div class="tuwen">#}
+        {#                <p class="tuwen_biaoti">活动题材</p>#}
+        {#                <img src="../static/imges/class_activity.png">#}
+        {##}
+        {#                <div class="tuwen_boxa">#}
+        {#		<span class="tuwen_boxb">#}
+        {##}
+        {#			<span>#}
+        {#				宣威，截至2008年，宣威市总面积6069.88平方公里。约占云南省总面积的1.58%。1926,鲁迅先生下乡来到宣威，为此写下文章得以赞颂宣威，以此活动成立...#}
+        {#			</span>#}
+        {#		</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {##}
+        {#            <div class="tuwen">#}
+        {#                <p class="tuwen_biaoti">舞台设计</p>#}
+        {#                <img src="../static/imges/wutai.png">#}
+        {##}
+        {#                <div class="tuwen_boxa">#}
+        {#		<span class="tuwen_boxb">#}
+        {##}
+        {#			<span>#}
+        {#				使观众的注意力集中于演员的表演并获得理想的观赏效果。舞台通常由一个或多个平台构成，它们有的可以升降。剧场建筑的主要构成部分之一。指观众席前面的演出场所。...#}
+        {#			</span>#}
+        {#		</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {##}
+        {#            <div class="tuwen_time">#}
+        {#                <ul>精彩活动：#}
+        {#                    <li>#}
+        {#                    <li>1 ：大龙飞天</li>#}
+        {#                    <li>2：麒麟倒地</li>#}
+        {#                    <li>3：野猪爬水</li>#}
+        {##}
+        {#                    </li>#}
+        {#                    <li>时间：2015-11-22</li>#}
+        {#                    <li>地点：深圳市南山智园</li>#}
+        {#                </ul>#}
+        {#            </div>#}
+        {##}
+        {##}
+        {#            <div class="baoming">#}
+        {#                <a>立刻报名</a>#}
+        {#            </div>#}
+        {#            <div class="yibaoming">#}
+        {#                <a>已报名</a>#}
+        {#            </div>#}
+        {##}
+        {#        </div>#}
+
+        <div class="big_box chenggong">
+            <img class="fanhui" src="../static/imges/fanhui.png"/>
+
+            <div class="baoming_chengg">
+                <span>报名成功</span>
+                <img src="../static/imges/chenggong.png"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#<div class="baoming">#}
+{#    <a>立刻报名</a>#}
+{#</div>#}
+{#<div class="yibaoming">#}
+{#    <a>已报名</a>#}
+{#</div>#}
+{##}
+{#</div>#}
+{##}
+{##}
+{#<div class="big_box chenggong">#}
+{#    <img class="fanhui" src="../static/imges/fanhui.png"/>#}
+{##}
+{#    <div class="baoming_chengg">#}
+{#        <span>报名成功</span>#}
+{#        <img src="../static/imges/chenggong.png"/>#}
+{#    </div>#}
+{#</div>#}
+{% end %}
+{% block footer %}
+
+{% end %}

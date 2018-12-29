@@ -1,0 +1,63 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    主讲人
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_fabugkk_c" method="post" enctype="multipart/form-data" name="issueCourseSpecialForm"
+          id="issueCourseSpecialForm">
+        {% module xsrf_form_html() %}
+        <input type="hidden" name="id" value="{{ course_id }}">
+
+        <div class="xmliche_a">
+		   	 
+		   	<span class="xmwz_biao" >
+		   	  	<p>主讲人</p>
+		   	  	<input type="text" name="speaker"/>
+		   	  </span>  
+		   	
+		<span class="xmwz_biao xmwz_xiangmu">
+		   	  	<p>主讲简介</p>
+		   	  <textarea type="text" name="desc"></textarea>
+		   	  </span>
+            <div class="xiayibu xiayibuA">下一步</div>
+
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+ $('.xiayibu').click(function () {
+     $("#issueCourseSpecialForm").validate({
+            rules: {
+                speaker: {
+                    required: true,
+                    maxlength: 25,
+                },
+                desc: {
+                    required: true,
+                    maxlength: 200
+                },
+            },
+            messages: {
+                speaker: {
+                    required: '主讲人不能为空！',
+                    maxlength: '不多于25个字符!',
+                },
+                desc: {
+                    required: '简介不能为空！',
+                    maxlength: '不多于200个字符!',
+                },
+            },
+     });
+        $('#issueCourseSpecialForm').submit();
+    });
+</script>
+{% end %}
+{% block footer %}
+{% end %}
+
+
+

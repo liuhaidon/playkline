@@ -1,0 +1,96 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    知识产权
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_xiangmuliucheng_d" method="post" enctype="multipart/form-data"
+          name="project_knowledge_right_form"
+          id="project_knowledge_right_form">
+        {% module xsrf_form_html() %}
+        <input name="id" type="hidden" value="{{ project_id }}">
+
+        <div class="xmliche_a">
+		   	  <span class="xmwz_biao zhishi">
+		   	  <div class="demo-box">
+                  <table class="demo-table">
+                      <tr>
+                          <td class="biaoqiank">专利归属</td>
+                          <td><select class="ui-select" id="sel_01" name="belong">
+                              <option value="国内"
+                                      {% if project.get("right",{}).get("belong")=="国内" %}selected="selected"{% end %}>
+                                  国内
+                              </option>
+                              <option value="国外"
+                                      {% if project.get("right",{}).get("belong")=="国外" %}selected="selected"{% end %}>
+                                  国外
+                              </option>
+
+                          </select></td>
+                      </tr>
+                  </table>
+              </div>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>软件版权（项数）</p>
+		   	  	<input type="text" name="software_copyright_count"
+                       value="{{ project.get("right",{}).get("software_copyright_count","") }}"/>
+		   	  </span>
+		   	  
+		   	  	 <span class="xmwz_biao zhishi">
+		   	  	<p>专利申请总数</p>
+		   	  	<input type="text" name="apply_count"
+                       value="{{ project.get("right",{}).get("apply_count","") }}"/>
+		   	  </span>
+		   	  
+		   	  	 <span class="xmwz_biao zhishi">
+		   	  	<p>专利授权总数</p>
+		   	  	<input type="text" name="authorize_count"
+                       value="{{ project.get("right",{}).get("authorize_count","") }}"/>
+		   	  </span>
+		   	  	
+		   	  	<span class="xmwz_biao zhishia">
+		   	  	<p>实用新型：申请数</p>
+		   	  	<input type="text" name="utility_model_patent_apply_count"
+                       value="{{ project.get("right",{}).get("utility_model_patent_apply_count","") }}"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishia">
+		   	  	<p>实用新型：授权数</p>
+		   	  	<input type="text" name="utility_model_patent_authorize_count"
+                       value="{{ project.get("right",{}).get("utility_model_patent_authorize_count","") }}"/>
+		   	  </span>
+		   	  	
+		   	  	<span class="xmwz_biao zhishi">
+		   	  	<p>发明：申请数</p>
+		   	  	<input type="text" name="invent_apply_count"
+                       value="{{ project.get("right",{}).get("invent_apply_count","") }}"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>发明：授权数</p>
+		   	  	<input type="text" name="invent_authorize_count"
+                       value="{{ project.get("right",{}).get("invent_authorize_count","") }}"/>
+		   	  </span>
+
+            <div class="xiayibu xiayibuA">下一步</div>
+
+
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+     $(".xiayibu").click(function () {
+         $("#project_knowledge_right_form").submit();
+     });
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}

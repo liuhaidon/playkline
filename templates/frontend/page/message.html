@@ -1,0 +1,69 @@
+{% extends "../base2.html" %}
+<title>{% block page_title %}玩转K线{% end %}</title>
+{% block content %}
+<div class="help message">
+    <ul class="help_navbox">
+        <li>
+            <a class="diwen">个人消息</a>
+        </li>
+        <li>
+            <a class="xt_ggw_icon">系统公告</a>
+        </li>
+        <li>
+            <a class="xt_messagew_icon">系统消息</a>
+        </li>
+    </ul>
+
+    <span id="my_message" class="text_instructions jinbitext indtext_box" style="display: block">
+        {% for l in login_info %}
+        <p>最近登录时间：{{ l.get('time','') }}</p>
+        {% end %}
+    </span>
+
+    <span id="sys_notice" class="text_instructions jinbitext" style="display: none">
+        {% for n in notice %}
+        <p class="text_title">{{ n.get('title','') }}:</p>
+        <p>{{ n.get('content','') }}</p>
+        {% end %}
+    </span>
+
+    <span id="sys_message" class="text_instructions jinbitext" style="display: none">
+        <p class="text_title">产品简述</p>
+        <p class="text_content">一款针对k线投资实战，投资教学的专业应用工具，通过反
+            复操作，学习技术面基础知识，掌握k线经典形态，增强盘
+            感。高级功能包括“编辑模式”和“开发模式”，两种模式
+            皆可使你所运营的公众帐号个性化，例如具有“自定义菜单”
+            等功能。</p>
+    </span>
+
+</div>
+<!--k_line_box-->
+<!--k_line_bigbox-->
+
+<script>
+    $(document).ready(function () {
+        $('.diwenw, .diwen').click(function () {
+            $(this)[0].setAttribute("class", "diwen");
+            $('.xt_gg_icon, .xt_ggw_icon')[0].setAttribute("class", "xt_ggw_icon");
+            $('.xt_message_icon, .xt_messagew_icon')[0].setAttribute("class", "xt_messagew_icon");
+            $('#my_message').show();
+            $('#sys_notice ,#sys_message').hide();
+        });
+        $('.xt_ggw_icon, .xt_gg_icon').click(function () {
+            $(this)[0].setAttribute("class", "xt_gg_icon");
+            $('.diwen, .diwenw')[0].setAttribute("class", "diwenw");
+            $('.xt_message_icon, .xt_messagew_icon')[0].setAttribute("class", "xt_messagew_icon");
+            $('#sys_notice').show();
+            $('#my_message ,#sys_message').hide();
+
+        });
+        $('.xt_messagew_icon, .xt_message_icon').click(function () {
+            $(this)[0].setAttribute("class", "xt_message_icon");
+            $('.diwen, .diwenw')[0].setAttribute("class", "diwenw");
+            $('.xt_gg_icon, .xt_ggw_icon')[0].setAttribute("class", "xt_ggw_icon");
+            $('#sys_message').show();
+            $('#sys_notice ,#my_message').hide();
+        })
+    })
+</script>
+{% end %}

@@ -1,0 +1,49 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbprojeDetailHead" style="border-bottom: 1px solid #EAEAEA;">
+    <table class="mbprojeDetailTab">
+        <tr class="mbprojeDetailTabTR">
+            <td class="mbprojeDetailTabTD1">
+                <img src="../../static/mobile/img/mbProjectMore/001.png" alt="" onclick="javascript:history.back(-1);">
+            </td>
+            <td>专家评语</td>
+            <td class="mbprojeDetailTabTD2">
+                <img src="../../static/mobile/img/mbProjectMore/0022.png" alt="" onclick="location='javascript:;'">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="zhuanjiapin_div">
+    <ul class="zhuanjiapin">
+        {% set review_role={"jury":"中科院评审","investor":"投资人"} %}
+        {% if project_reviews.count()>0 %}
+        {% for r in project_reviews %}
+        {% set e = expert_info(r['uid']) %}
+        <li class="zhuanjiapin_box">
+            <img src="/static/media/avatar/{{ e.get("avatar","") }}"
+                 onerror="javascript:this.src='../../static/img/person-center/14.png'">
+            <span class="zhuanjiapin_text">
+                <p>
+                    <a class="zhuanjiapin_name">{{ e.get("name","") }}</a>
+                    <a>({{ review_role.get(e.get("role","")) }})</a>
+                </p>
+                <p>{{ r.get("time","") }}</p>
+            </span>
+        </li>
+        <span class="zhuanjiapin_pin">
+            <p>{{ r.get("word","") }}</p>
+        </span>
+        {% end %}
+        {% else %}
+        暂无专家评语。
+        {% end %}
+        <!--big_class-->
+        {% end %}
+    </ul>
+
+
+</div>
+
+

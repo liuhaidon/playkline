@@ -1,0 +1,42 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    确认信息
+</div>
+<div class="nbig_box">
+    <div class="xmliche_a">
+        {% if activity %}
+		<span class="xmwz_biao">
+			<p>活动类别:</p>
+			{{ ','.join(list(activity['tag'])) }}
+		</span>
+		<span class="xmwz_biao">
+			<p>活动名称</p>
+			{{ activity['name'] }}
+		</span>
+		<span class="xmwz_biao">
+			<p>发起人</p>
+			{{ myuser.get('name','未知') }}
+		</span>
+		<span class="xmwz_biao">
+			<p>联系电话</p>
+			{{ myuser.get('phone','未知') }}
+		</span>
+		<span class="xmwz_biao">
+			<p>邮箱地址</p>
+			{{myuser.get('email','未知')}}
+		</span>
+        {% end %}
+        <div class="xiayibu" onclick="window.location.href='/mb_fabuhuodonglc_c?id={{id}}'">确认提交</div>
+    </div>
+</div><!--nbig_box-->
+
+
+{% end %}
+
+{% block footer %}
+
+{% end %}
+

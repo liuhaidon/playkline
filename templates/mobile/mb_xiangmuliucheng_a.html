@@ -1,0 +1,160 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    项目信息
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_xiangmuliucheng_b" method="post" enctype="multipart/form-data" name="self_info_form"
+          id="self_info_form">
+        {% module xsrf_form_html() %}
+        <input name="id" type="hidden" value="{{ id }}">
+
+        <div class="xmliche_a">
+        <span class="xmwz_biao" style="height: auto;">
+            <div class="demo-box">
+                <table class="demo-table">
+                    <tr>
+                        <td class="biaoqiank">标签</td>
+                        <td>
+                            {#                            <select class="ui-select" id="sel_01" name='tag'>#}
+                            {#                            {% for t in tags %}#}
+                            {#                            <option value="{{ t.get("name") }}"#}
+                            {#                                    data-id="{{ t.get("index") }}">{{ t.get("name") }}</option>#}
+                            {#                            {% end %}#}
+                            {#                            </select>#}
+                            <ul class="Labels" id="sel_01" name='tag'>
+                                <input type="hidden" name="tag">
+                                {% for t in tags %}
+                                <li class="{% if t['name'] in project.get('tag',[]) %}active{% end %}">{{ t['name'] }}</li>
+                                {% end %}
+                                <p class="clear"></p>
+
+                                <p class="showInfo"></p>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="clear: both;"></div>
+        </span>
+		   	  
+        <span class="xmwz_biao">
+            <p>项目名称</p>
+            <input type="text" name="name"/>
+        </span>
+		   	  
+        <span class="xmwz_biao xmwz_ding">
+            <p>列表图片</p>
+
+            <input class="xmwz_biao_button" type="button" value="上传图片"
+                   onclick="document.getElementById('shangchuan').click()"/>
+        </span>
+            <ul class="xmliche_a_tupian">
+                <li>
+		   	  	<span class="mb_zhanghu_tu">
+			    <div id="preview">
+                    <img id="imghead" border=0 src="../static/media/project_img/{{ project.get('image','') }}"
+                         class=" {% if not project.get('image','') %}hide{% end %} imageview" width="260" height="103"/>
+                </div>
+                <input style="top:200px;left:50px; display: none;" class="shangchuan" id="shangchuan" type="file"
+                       name="image"
+                       onchange="previewImage(this)"/>
+		        </span>
+                </li>
+            </ul>
+		   	  	
+        <span class="xmwz_biao">
+            <p>项目详情</p>
+            <input type="text" name="desc"/>
+        </span>
+        <span class="xmwz_biao">
+            <p>视频介绍</p>
+            <input type="text" name="video_url"/>
+        </span>
+        <span class="xmwz_biao xmwz_xiangmu">
+            <p>项目简介</p>
+            <textarea name="brief"></textarea>
+        </span>
+
+            <div class="xiayibu">下一步</div>
+        <span class="xmwz_biao xieyi">
+            <input type="checkbox" checked="checked"/>
+            <p>我已阅读并同意《 项目发布服务协议 》</p>
+        </span>
+        </div>
+    </form>
+</div><!--nbig_box-->
+
+<script type="text/javascript">
+    $(".Labels li").click(function () {
+        if ($(".Labels").find(".active").length > 2) {
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active")
+            }
+            else {
+                alert("最多选择3个");
+            }
+        }
+        else {
+            $(this).toggleClass("active")
+        }
+    });
+    $(".xiayibu").click(function () {
+        if (!$(".xieyi input").attr("checked")) {
+            alert("请同意《 项目发布服务协议 》");
+            return false;
+        }
+        $("#self_info_form").validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 25,
+                },
+                desc: {
+                    required: true,
+                },
+
+                video_url: {
+                    required: true,
+
+                }
+
+            },
+            messages: {
+                name: {
+                    required: "项目名称不能为空！",
+                    maxlength: "项目名称不多于25个字!",
+                },
+                desc: {
+                    required: "项目详情不能为空！",
+                },
+                video_url: {
+                    required: "视频介绍不能为空！",
+                },
+            },
+            debug: false,
+            submitHandler: function (form) {
+                var tags = new Array();
+                $(".Labels li").each(function () {
+                    if ($(this).hasClass("active")) {
+                        tags.push($(this).text());
+                    }
+                });
+                $("input[name='tag']").val(tags);
+                form.submit();
+            }
+        });
+        $("#self_info_form").submit();
+
+    });
+
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}

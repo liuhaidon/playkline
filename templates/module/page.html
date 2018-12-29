@@ -1,0 +1,17 @@
+<div class="Login-record-page">
+    {{ page_count }}条记录&emsp;{{ current_page }}/{{ page_count }}页&emsp;
+    <a href="?page=1" class="">首页</a>
+    {% set start=start_index %}
+    {% set end=start + 8 if current_page<page_count-8 else page_count %}
+    {% if current_page>1 %}
+    <a href="?page={{ current_page - 1 }}" class="">上一页</a>
+    {% end %}
+    {% for i in range(start,end) %}
+    <a href="?page={{ i }}" class="{% if current_page==i %}lrpage{% end %}">{{ i }}</a>
+    {% end %}
+    {% if current_page !=page_count %}
+    <a href="?page={{ end }}" class="{% if current_page==end %}lrpage{% end %}">...</a>
+    {% end %}
+    <a href="?page={{ current_page + 1 }}" class="">下一页</a>
+    <a href="?page={{ page_count }}" class="">末页</a>
+</div>

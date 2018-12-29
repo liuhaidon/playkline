@@ -1,0 +1,53 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+    消息中心
+
+</div>
+
+<div class="nbig_box">
+    <div class="pro_nav infor_nav">
+        <div class="box1 onclik">
+            <p><a href="/mb_infor">通知</a></p>
+        </div>
+        <div class="box4">
+            <p><a href="/mb_sixin">私信</a></p>
+        </div>
+    </div>
+    <div class="sousou">
+        <span class="sousouicon"></span>
+        <input value="搜索"/>
+    </div>
+    <!--sousou-->
+    {% set notice_type={0:'登陆注册',1:'创意审核',2:'项目发布',3:'活动发布',4:'创意评审',5:'项目评审',
+               6:'创意上线',7:'项目上线', 8:'创意股权计划',9:'项目股权计划',10:'邀请参与项目评审',11:"股权计划认购完成",
+               13:"创业园审核",14:"公开课审核",15:"入孵创业园"} %}
+    {% if notices.count()>0 %}
+    {% for n in notices %}
+    <div class="infor_maren"
+{#         onclick="window.location.href='mb_sixin_xitong'"#}
+            >
+        <div class="infor_marenle">
+		 		<span>
+		 			<img src="../../static/img/startup/message_dft.png">
+		 		</span>
+        </div>
+        <div class="infor_marenrig">
+            <span class="marenrig_icon"></span>
+            <span class="marenrig_text marenrig_biao">{{ notice_type.get(n['type']) }}</span>
+{#            <p class="marenrig_text">{{ notice_type.get(n['type']) }}</p>#}
+
+            <p class="marenrig_neiro">{% module noticeTpl(n) %}</p>
+        </div>
+    </div>
+    {% end %}
+    {% else %}
+    <br>
+    暂无通知消息
+    {% end %}
+    <!--infor_maren-->
+
+</div>
+{% end %}

@@ -1,0 +1,78 @@
+{% extends "../base.html" %}
+{% block page_title %}我的账户|创业孵化平台{% end %}
+{% block content %}
+
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            {% include 'account_nav.html' %}
+            <script>
+                $('.fbdcy').eq(3).addClass('jhclick').siblings().removeClass('jhclick');
+            </script>
+        </div>
+        <div>
+            <div class="myConsumeNav">
+                <div class="myConsumeNavTab myConsumeNavTabFocus" id="myConsumeNavTab1">股权认购</div>
+                <div class="myConsumeLine"></div>
+                <div class="myConsumeNavTab" id="myConsumeNavTab2">活动报名</div>
+                <div class="myConsumeLine"></div>
+                <div class="myConsumeNavTab">充值</div>
+                <script>$('.myConsumeNavTab').click(function(){$(this).addClass('myConsumeNavTabFocus').siblings().removeClass('myConsumeNavTabFocus')});</script>
+            </div>
+            <div class="myConsumeList" id="myConsumeList1">
+                <table class="myConsumeTable">
+                    <tr>
+                        <td>认购项目</td>
+                        <td>认购时间</td>
+                        <td>金额</td>
+                        <td>状态</td>
+                    </tr>
+                    {% for s in subscribe_record %}
+                    <tr>
+                        <td>{{ s.get('project_name',"") }}</td>
+                        <td>{{ s.get('time') }}</td>
+                        <td>{{ s.get('unit_price')  * s.get('paid_piece') }}</td>
+                        <td>{{ s.get('status') }}</td>
+                    </tr>
+                    {% end %}
+                </table>
+            </div>
+
+        </div>
+
+        <div class="myConsumeList" id="myConsumeList2" style="display: none">
+            <table class="myConsumeTable">
+                <tr>
+                    <td>报名活动</td>
+                    <td>报名时间</td>
+                    <td>金额</td>
+                    <td>状态</td>
+                </tr>
+                {% for i in range(5) %}
+                <tr>
+                    <td>点名时间10X10大会</td>
+                    <td>2015-08-24&nbsp;09:14:47</td>
+                    <td>免费</td>
+                    <td>订单完成</td>
+                </tr>
+                {% end %}
+            </table>
+        </div>
+        </div>
+    </div>
+    <p class="clear"></p>
+</div>
+<script>
+(function(o){
+    $.each(o,function(k,v){
+        $(k).click(function(){
+            $('#myConsumeList1').hide();
+            $('#myConsumeList2').hide();
+            $(v).slideDown();
+        });
+    });
+})({'#myConsumeNavTab1':'#myConsumeList1','#myConsumeNavTab2':'#myConsumeList2'});
+</script>
+
+{% end %}

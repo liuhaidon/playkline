@@ -1,0 +1,102 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+<div class="mbProjectMoreTitle">
+    <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+    我的关注
+
+</div>
+    </div>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 ">
+            <p><a href="/mb_Focus">关注的用户</a></p>
+        </div>
+
+        <div class="box3">
+            <p><a href="/mb_guanzhudexiangmu">关注的项目</a></p>
+        </div>
+        <div class="box4 onclik">
+            <p><a href="/mb_guangzhuhuodong">关注的活动</a></p>
+        </div>
+    </div>
+
+    {% if follow_activities.count()>0 %}
+    {% for f in follow_activities %}
+    {% set a=follow_activityInfo(f['ref']) %}
+    {% if a %}
+    <div class="pro_pro ace_ace">
+        <div class="ace_cen">
+            <img src="../static/media/activity_img/{{ a.get('image','') }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                 onclick="window.location.href='/mb_huodongxiangqing/{{ a['id'] }}'">
+
+            <div class="pro_text">
+                <p class="ace_ace_biao">
+                    {% if len(a.get("name",""))>10 %}
+                    {{ a.get("name","")[:10] }}...
+                    {% else %}
+                    {{ a.get("name","")[:10] }}
+                    {% end %}
+                </p>
+
+                <div class="ace_biaoqian">
+			   				<span class="pro_bqin">
+			   					<p class="ace_cenicon"></p>
+                                {% set list=a.get("tag","") %}
+			   					<p>{{ ','.join(list) }}</p>
+			   				</span>
+			   				<span class="pro_bqiner">
+			   					<p class="ace_cenrcon"></p>
+			   					{{ a.get("time","") }}
+			   				</span>
+                </div>
+                <!--pro_biaoqian-->
+			   			<span class="ace_shenhe">
+			   				<a>地点：
+                                {{ a.get("address","")}}
+                            </a>
+			   				
+			   			</span>
+
+                <div class="ace_baoming">
+                    {% set people=activity_record(a['id']) %}
+                    <a>已参与人数：</a><a>{{ people.count() }}人</a>
+                </div>
+            </div>
+            <!--pro_text-->
+            <div class="guangzhuannui">
+                <a class="guangzhuannui_chakan" href="/mb_huodongxiangqing/{{ a['id'] }}">查看详情</a>
+                <a class="guangzhuannui_quxiao"> 取消关注</a>
+            </div>
+        </div>
+
+    </div>
+    {% end %}
+    {% end %}
+    {% else %}
+    <br>
+    您还没有关注的活动
+    {% end %}
+
+    <!--pro_pro-->
+
+</div><!--nbig_box-->
+<script>
+    $('.guangzhuannui_quxiao').click(function () {
+        var data = {};
+        data['id'] = $(this).data("id");
+        data['handle'] = 'remove';
+        $.ajax({
+            type: 'post',
+            url: '/follow/activity',
+            data: data,
+            success: function (re) {
+                alert("取消关注成功");
+            }
+        });
+    })
+</script>
+{% end %}
+

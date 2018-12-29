@@ -1,0 +1,200 @@
+{% extends "../base.html" %}
+{% block page_title %}{{ userinfo['name'] }}的的主页|创业孵化平台{% end %}
+{% block content %}
+
+<!--user-home_start user-home.less-->
+
+<div class="content_width1">
+    <div class="user-home">
+        <div class="user-logo"><img src="/static/img/user-home/user-logo.png" alt=""/></div>
+        <div class="userh-item1">{{ userinfo['name'] }}</div>
+        {% if has_followed %}
+        <a href="javascript:;" class="user-guanzhu" data-id="{{ userinfo['uid'] }}"
+           style="color:white;background: #00A0EA">已关注</a>
+        {% else %}
+        <a href="javascript:;" class="user-guanzhu" data-id="{{ userinfo['uid'] }}">+关注</a>
+
+        {% end %}
+        <div class="userh-item2">手机：
+            {% if userinfo.get("phone","") !="" %}
+            {{ userinfo['phone'][0:3] }}***{{ userinfo['phone'][7:] }}
+            {% else %}
+            未知
+            {% end %}
+            &emsp;&emsp;&emsp;地址：广东深圳
+        </div>
+        <div class="userh-item3">
+            {{ userinfo.get('desc',"这家伙很懒,什么都没留下") }}
+        </div>
+    </div>
+    <div class="userHomeBannar">
+{#        <div class="userHomeBannarItem uhbif" id="uhbi1">#}
+{#            支持的创意#}
+{#            <div class="uhbiCount">{{ count[0] }}</div>#}
+{#        </div>#}
+{#        <div class="uhbiLine"></div>#}
+{#        <div class="userHomeBannarItem" id="uhbi2">#}
+{#            发布的创意#}
+{#            <div class="uhbiCount">{{ count[1] }}</div>#}
+{#        </div>#}
+{#        <div class="uhbiLine"></div>#}
+        <div class="userHomeBannarItem" id="uhbi3">
+            支持的项目
+            <div class="uhbiCount">{{ count[2] }}</div>
+        </div>
+        <div class="uhbiLine"></div>
+        <div class="userHomeBannarItem" id="uhbi4">
+            发布的项目
+            <div class="uhbiCount">{{ count[3] }}</div>
+        </div>
+        <div class="uhbiLine"></div>
+        <div class="userHomeBannarItem" id="uhbi5">
+            发布的活动
+            <div class="uhbiCount">{{ count[4] }}</div>
+        </div>
+    </div>
+
+{#    <div class="userHomeContent uhbi1" style="display: block">#}
+{#        {% for upi in user_paid_ideas %}#}
+{#        <div class="uhcList">#}
+{#            <a href="/idea/{{ upi['id'] }}">#}
+{#                <img src="../static/img/user-home/idea-center.jpg" alt=""/>#}
+{##}
+{#                <div class="uhcListDiv">{{ upi['name'] }}</div>#}
+{#            </a>#}
+{#        </div>#}
+{#        {% end %}#}
+{#        {% if user_paid_ideas.count()==0 %}#}
+{#        <div class="userHomeNoContent">#}
+{#            <img src="../static/img/user-home/noinfo.png" alt=""/>#}
+{##}
+{#            <p>Ta尚未支持任何创意，去 <a href="/idea" class="font-blue">创意中心</a>看看有什么感兴趣的吧!</p>#}
+{#        </div>#}
+{#        {% end %}#}
+{#    </div>#}
+{##}
+{#    <div class="userHomeContent uhbi2" style="display:none;">#}
+{#        {% for ui in user_ideas %}#}
+{#        <div class="uhcList">#}
+{#            <a href="/idea/{{ ui['id'] }}">#}
+{#                <img src="../static/img/user-home/idea-center.jpg" alt=""/>#}
+{##}
+{#                <div class="uhcListDiv">{{ ui['name'] }}</div>#}
+{#            </a>#}
+{#        </div>#}
+{#        {% end %}#}
+{#        {% if user_ideas.count()==0 %}#}
+{#        <div class="userHomeNoContent">#}
+{#            <img src="../static/img/user-home/noinfo.png" alt=""/>#}
+{##}
+{#            <p>Ta尚未发布任何创意，去 <a href="/idea" class="font-blue">创意中心</a>看看有什么感兴趣的吧!</p>#}
+{#        </div>#}
+{#        {% end %}#}
+{#    </div>#}
+
+    <div class="userHomeContent uhbi3" style="display: block">
+        {% for upp in user_paid_projects %}
+        <div class="uhcList">
+            <a href="/project/{{ upp.get('_id') }}">
+                <img src="/static/media/project_img/{{ upp.get('poster','') }}" alt=""/>
+
+                <div class="uhcListDiv">{{ upp.get('title') }}</div>
+            </a>
+        </div>
+        {% end %}
+        {% if user_paid_projects.count()==0 %}
+        <div class="userHomeNoContent">
+            <img src="/static/img/user-home/noinfo.png" alt=""/>
+
+            <p>Ta尚未支持任何项目，去 <a href="/project-center" class="font-blue">项目中心</a>看看有什么感兴趣的吧!</p>
+        </div>
+        {% end %}
+    </div>
+    <div class="userHomeContent uhbi4" style="display:none;">
+        {% for up in user_projects %}
+        <div class="uhcList">
+            <a href="/project/{{ up.get('_id')}}">
+                <img src="../static/media/project_img/{{ up.get('poster','') }}" alt=""/>
+
+                <div class="uhcListDiv">{{ up.get('title') }}</div>
+            </a>
+        </div>
+        {% end %}
+        {% if user_projects.count()==0 %}
+        <div class="userHomeNoContent">
+            <img src="/static/img/user-home/noinfo.png" alt=""/>
+
+            <p>Ta尚未发布任何项目，去 <a href="/project-center" class="font-blue">项目中心</a>看看有什么感兴趣的吧!</p>
+        </div>
+        {% end %}
+    </div>
+    <div class="userHomeContent uhbi5" style="display:none;">
+        {% for ua in user_activities %}
+        <div class="uhcList">
+            <a href="/activity/{{ ua.get('_id') }}">
+                <img src="/static/media/activity_img/{{ ua.get('poster','404.jpg') }}" alt=""/>
+
+                <div class="uhcListDiv">{{ ua.get('title') }}</div>
+            </a>
+        </div>
+        {% end %}
+        {% if user_activities.count()==0 %}
+        <div class="userHomeNoContent">
+            <img src="/static/img/user-home/noinfo.png" alt=""/>
+
+            <p>Ta尚未发布任何活动，去 <a href="/activity-center" class="font-blue">活动中心</a>看看有什么感兴趣的吧!</p>
+        </div>
+        {% end %}
+    </div>
+
+
+</div>
+<!--user-home_end-->
+
+<script type="text/javascript">
+
+    (function () {
+        $('.user-guanzhu').click(function () {
+            var data = {};
+            var text = "";
+            var style = "";
+            data['uid'] = $(this).data("id");
+            if ($(this).text() == '+关注') {
+                text = "已关注";
+                style = {'color': 'white', 'background': '#00A0EA'};
+                data['handle'] = 'add';
+            }
+            else {
+                text = "+关注";
+                style = {'color': '#455F7A', 'background': 'white'};
+                data['handle'] = 'remove';
+                data['uid'] = $(this).data("id");
+            }
+            $.ajax({
+                type: 'post',
+                url: '/follow/user',
+                data: data,
+                success: function (re) {
+
+                    var jsons = jQuery.parseJSON(re);
+                    if (jsons.status == 'ok') {
+                         $('.user-guanzhu').text(text).css(style);
+                        if (data['handle'] == 'add') {
+                            // 添加好友
+                            //ProfileAddFriend(data['uid'])
+                        }
+                        else {
+                            //删除好友
+                            //ProfileOrFollowsDelFriend(data['uid']);
+                        }
+                    }
+                    else {
+                        alert(jsons.msg)
+                    }
+                }
+            });
+        })
+
+    })();
+</script>
+{% end %}

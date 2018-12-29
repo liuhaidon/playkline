@@ -1,0 +1,71 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        项目中心
+    </div>
+</div>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 ">
+            <p><a href="/mobile/projectcenter">发布的项目</a></p>
+        </div>
+        <div class="box2 onclik">
+            <p><a href="/mb_rengouximu">认购的项目</a></p>
+        </div>
+        <div class="box3">
+            <p><a href="/mb_yitouxiangmu">已投简历项目</a></p>
+        </div>
+        <div class="box4">
+            <p><a href="/mb_yaoqing">邀请入孵项目</a></p>
+        </div>
+    </div>
+
+    {% if subscribe_record.count()>0 %}
+    {% for s in subscribe_record %}
+    {% set i =interest_info(s['pid']) %}
+    {% set progress=i.get("progress",0) %}
+    <div class="pro_pro ">
+        <div class="pro_proer regouxiangmu">
+            <img src="../static/media/project_img/{{ project_info(s['pid']).get("image") }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                 onclick="javascript:window.location.href='/mb_renoguxuxq?id={{ s['pid'] }}&m={{ s['unit_price']* s['paid_piece'] }}'">
+
+            <div class="pro_text">
+                <p class="pro_textbiao">{{ project_info(s['pid'])['name'] }}</p>
+
+                <div class="pro_biaoqian">
+			   				<span class="pro_bqin">
+			   					<p class="pro_bqinicon"></p>
+                                {% set tag=project_info(s['pid'])['tag'] %}
+			   					<p>{{ ','.join(list(tag)) }}</p>
+			   				</span>
+			   				<span class="pro_bqiner">
+			   					<p class="pro_bqiniercon"></p>
+                                {% set p = address(project_info(s['pid']).get("uid")) %}
+			   					<p>{{ p.get('province',{}) }},{{ p.get('city',{}) }},{{ p.get('region',{}) }}</p>
+			   				</span>
+                </div>
+                <!--pro_biaoqian-->
+                <div class="yiregou">
+                    <p>认购时间：{{ s['time'] }}</p>
+
+                    <p>认购金额：{{ s['unit_price']* s['paid_piece'] }}元</p>
+
+                </div>
+            </div>
+            <!--pro_text-->
+        </div>
+    </div>
+    {% end %}
+    {% else %}
+    <br>
+    还没有认购的项目噢~
+    {% end %}
+    <!--pro_pro-->
+
+
+</div><!--nbig_box-->
+{% end %}

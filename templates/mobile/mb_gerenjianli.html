@@ -1,0 +1,367 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+<div class="mbProjectMoreTitle">
+    <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+    个人简历
+</div>
+</div>
+<div class="nbig_box shejiao" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 ">
+            <p><a href="mb_shejiaomp">社交名片</a></p>
+        </div>
+        <div class="box2 onclik">
+            <p><a href="mb_gerenjianli">个人简历</a></p>
+        </div>
+        <div class="box3 ">
+            <p><a href="mb_anquanshezhi">安全设置</a></p>
+        </div>
+        <div class="box4">
+            <p><a href="mb_zijinzhanghu">账户资金</a></p>
+        </div>
+    </div>
+    {% set x={"male":"男","female":"女"} %}
+    <div class="gerenjianli">
+		   	 <span class="mb_zhanghu_tu">
+			   <img src="../../static/media/avatar/{{ myuser.get('avatar_thumb') }}"
+                    onerror="javascript:this.src='{{ static_url('img/startup/avatar_sample.png') }}'">
+		    </span>
+
+        <p class="mingzi">{{ myuser.get('realname',"无") }}</p>
+
+        <p class="lizhi">
+            {% if  len(my_resume.get('self_desc'))>40%}
+            {{ my_resume.get('self_desc')[:40] or "" }}...
+            {% else %}
+            {{ my_resume.get('self_desc') or "" }}
+            {% end %}
+        </p>
+
+        <p class="xix">
+            <a class="xibiena">{{ x.get(myuser.get('sex',"male")) }}</a><a>{{ age }}岁</a><a>广州</a>
+        </p>
+
+        <p class="tongxin">
+            <a class="tell">{{ myuser.get('phone','无') }}</a><a class="emli">{{ myuser.get('email','无') }}</a>
+        </p>
+
+        <div class="jinali_wenben">
+            <p id="jl1" class="qiwanwork">-期望工作</p>
+
+            <p id="jl1a" class="qiwanwork">+期望工作</p>
+
+            <div class="xmliche_a" id="jl1_box">
+		             <span class="xmwz_biao">
+				   	  	<p>期望岗位:</p>
+				   	  	<input type="text" name="job" value="{{ my_resume.get("work_expect",{}).get("job") }} "/>
+				   	  </span>
+				   	  
+				   	  <span class="xmwz_biao">
+				   	  	<p>待遇(K/月):</p>
+				   	  	<input type="text" name="max_salary"
+                               value="{{ my_resume.get("work_expect",{}).get("max_salary") }}"/>
+				   	  </span>
+				   	  
+				   	  <span class="xmwz_biao">
+				   	  	<div class="demo-box">
+                            <table class="demo-table">
+                                <tr>
+                                    <td class="biaoqiank">期望城市：</td>
+                                    <td><select class="ui-select" id="sel_01" name='work_city'>
+                                        <option value="1"
+                                                {% if my_resume.get("work_expect",{}).get("work_city")=="1" %}selected="selected"{% end %}>
+                                            北京
+                                        </option>
+                                        <option value="2"
+                                                {% if my_resume.get("work_expect",{}).get("work_city")=="2" %}selected="selected"{% end %}>
+                                            上海
+                                        </option>
+                                        <option value="3"
+                                                {% if my_resume.get("work_expect",{}).get("work_city")=="3" %}selected="selected"{% end %}>
+                                            广州
+                                        </option>
+                                        <option value="4"
+                                                {% if my_resume.get("work_expect",{}).get("work_city")=="4" %}selected="selected"{% end %}>
+                                            深圳
+                                        </option>
+                                        <option value="5"
+                                                {% if my_resume.get("work_expect",{}).get("work_city")=="5" %}selected="selected"{% end %}>
+                                            成都
+                                        </option>
+                                        <option value="6"
+                                                {% if my_resume.get("work_expect",{}).get("work_city")=="6" %}selected="selected"{% end %}>
+                                            其它
+                                        </option>
+                                    </select></td>
+                                </tr>
+                            </table>
+                        </div>
+				   	  </span>
+				   	  
+				   	  <span class="xmwz_biao">
+				   	  	<div class="demo-box">
+                            <table class="demo-table">
+                                <tr>
+                                    <td class="biaoqiank">工作年限：</td>
+                                    <td><select class="ui-select" id="sel_01" name='work_duration'>
+                                        <option value="1"
+                                                {% if my_resume.get("work_expect",{}).get("work_duration")=="1" %}selected="selected"{% end %}>
+                                            应届毕业生
+                                        </option>
+                                        <option value="2"
+                                                {% if my_resume.get("work_expect",{}).get("work_duration")=="2" %}selected="selected"{% end %}>
+                                            一年以下
+                                        </option>
+                                        <option value="3"
+                                                {% if my_resume.get("work_expect",{}).get("work_duration")=="3" %}selected="selected"{% end %}>
+                                            两年以下
+                                        </option>
+                                        <option value="4"
+                                                {% if my_resume.get("work_expect",{}).get("work_duration")=="4" %}selected="selected"{% end %}>
+                                            三年以上
+                                        </option>
+                                        <option value="5"
+                                                {% if my_resume.get("work_expect",{}).get("work_duration")=="5" %}selected="selected"{% end %}>
+                                            五年以上
+                                        </option>
+                                        <option value="6"
+                                                {% if my_resume.get("work_expect",{}).get("work_duration")=="6" %}selected="selected"{% end %}>
+                                            十年以上
+                                        </option>
+
+                                    </select></td>
+                                </tr>
+                            </table>
+                        </div>
+				   	  </span>
+
+            </div>
+            <!--xmliche_a-->
+            <p id="jl2" class="qiwanwork">-教育经历</p>
+
+            <p id="jl2a" class="qiwanwork">+教育经历</p>
+
+            <div class="xmliche_a" id="jl2_box">
+                <span class="xmwz_biao">
+                    <p>学校名称:</p>
+                    <input type="text" name="school"
+                           value="{{ my_resume.get('degree') and my_resume.get('degree',{}).get('school','') or '' }}"/>
+                </span>
+                <span class="xmwz_biao">
+                    <div class="demo-box">
+                        <table class="demo-table">
+                            <tr>
+                                <td class="biaoqiank">学历：</td>
+                                <td><select class="ui-select" id="sel_01" name='degree'>
+                                    {% if  my_resume %}
+                                        <option value="1"
+                                                {% if my_resume.get('degree').get('degree')=="1" %}selected="selected" {% end %}>专科
+                                        </option>
+                                        <option value="2"
+                                                {% if my_resume.get('degree').get('degree')=="2" %}selected="selected" {% end %}>本科
+                                        </option>
+                                        <option value="3"
+                                                {% if my_resume.get('degree').get('degree')=="3" %}selected="selected"{% end %}>硕士
+                                        </option>
+                                        <option value="4"
+                                                {% if my_resume.get('degree').get('degree')=="4" %}selected="selected" {% end %}>博士
+                                        </option>
+                                        <option value="5"
+                                                {% if my_resume.get('degree').get('degree')=="5" %}selected="selected" {% end %}>其它
+                                        </option>
+                                    {% else %}
+                                        <option value="1">专科</option>
+                                        <option value="2">本科</option>
+                                        <option value="3">硕士</option>
+                                        <option value="4">博士</option>
+                                        <option value="5">其它</option>
+                                    {% end %}
+                                </select></td>
+                            </tr>
+                        </table>
+                    </div>
+                </span>
+                <span class="xmwz_biao">
+                    <div class="demo-box">
+                        <table class="demo-table">
+                            <tr>
+                                <td class="biaoqiank">毕业时间：</td>
+                                <td>
+                                    <select class="ui-select" id="sel_01" name="graduate_at">
+                                        {% for y in range(year(), 1980,-1) %}
+                                        <option value="{{ y }}" data-id="{{ y }}"
+                                                {% if my_resume.get('degree',{}).get('graduate_at')== str(y) %}
+                                                selected="selected"
+                                                {% end %}
+                                                >
+                                            {{ y }}
+                                        </option>
+                                        {% end %}
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </span>
+            </div>
+            <!--xmliche_a-->
+            <p id="jl3" class="qiwanwork">-项目经验</p>
+
+            <p id="jl3a" class="qiwanwork">+项目经验</p>
+
+            <div class="xmliche_a" id="jl3_box">
+		       
+		       <span class="xmwz_biao">
+				   	  	<p>项目名称:</p>
+				   	  	<input name="title" type="text" value="{{ my_resume.get("experience",{}).get("title") }}"/>
+				   	  </span>
+               <span class="xmwz_biao xmwz_xiangmu">
+                   <p>项目介绍:</p>
+                    <textarea name="desc" class="wenben" rows=6
+                              onpropertychange='this.style.posHeight=this.scrollHeight'
+                              id=textarea
+                              onfocus='textarea.style.posHeight=this.scrollHeight'>
+                  {{ my_resume.get("experience",{}).get("desc") }}
+              </textarea>
+		   	</span>
+
+            </div>
+            <!--xmliche_a-->
+
+            <p id="jl4" class="qiwanwork">-自我描述</p>
+
+            <p id="jl4a" class="qiwanwork">+自我描述</p>
+
+            <div class="xmliche_a" id="jl4_box">
+            <span class="xmwz_biao xmwz_xiangmu">
+                <p>自我描述:</p>
+                <textarea name="self_desc" class="wenben" rows=6
+                          onpropertychange='this.style.posHeight=this.scrollHeight' id=textarea
+                          onfocus='textarea.style.posHeight=this.scrollHeight'>
+                    {{ my_resume.get("self_desc") }}
+                </textarea>
+		   	</span>
+            </div>
+            <!--xmliche_a-->
+        </div>
+        <!--jinali_wenben-->
+        <div class="xiayibu">保存</div>
+    </div>
+    <!--gerenjianli-->
+
+</div><!--nbig_box-->
+<script>
+    $(function () {
+        $('#jl1').click(function () {
+            $('#jl1_box').slideUp();
+            $('#jl1a').show();
+            $(this).hide();
+        })
+    });
+
+    $(function () {
+        $('#jl1a').click(function () {
+            $('#jl1_box').slideDown();
+            $('#jl1').show();
+            $(this).hide();
+        })
+
+    });
+
+    $(function () {
+        $('#jl2').click(function () {
+            $('#jl2_box').slideUp();
+            $('#jl2a').show();
+            $(this).hide();
+        })
+    });
+
+    $(function () {
+        $('#jl2a').click(function () {
+            $('#jl2_box').slideDown();
+            $('#jl2').show();
+            $(this).hide();
+        })
+
+    });
+
+    $(function () {
+        $('#jl3').click(function () {
+            $('#jl3_box').slideUp();
+            $('#jl3a').show();
+            $(this).hide();
+        })
+    });
+
+    $(function () {
+        $('#jl3a').click(function () {
+            $('#jl3_box').slideDown();
+            $('#jl3').show();
+            $(this).hide();
+        })
+
+    });
+
+
+    $(function () {
+        $('#jl4').click(function () {
+            $('#jl4_box').slideUp();
+            $('#jl4a').show();
+            $(this).hide();
+        })
+    });
+
+    $(function () {
+        $('#jl4a').click(function () {
+            $('#jl4_box').slideDown();
+            $('#jl4').show();
+            $(this).hide();
+        })
+
+    });
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+
+    $(".xiayibu").click(function () {
+        var data = {};
+        data['_xsrf'] = getCookie("_xsrf");
+        data['job'] = $("input[name='job']").val();
+        data['max_salary'] = $("input[name='max_salary']").val();
+        data['work_city'] = $("select[name='work_city']").val();
+        data['work_duration'] = $("select[name='work_duration']").val();
+        data['school'] = $("input[name='school']").val();
+        data['degree'] = $("select[name='degree']").val();
+        data['graduate_at'] = $("select[name='graduate_at']").val();
+        data['title'] = $("input[name=title]").val();
+        data['desc'] = $("textarea[name=desc]").val();
+        data['self_desc'] = $("textarea[name='self_desc']").val();
+        $.ajax({
+            url: '/mb_gerenjianli',
+            type: 'post',
+            data: data,
+            success: function (response) {
+                var jsons = $.parseJSON(response)
+                if (jsons['status'] == "ok") {
+                    location.reload();
+                }
+            },
+            error: function () {
+                alert('更新失败');
+            }
+        });
+
+
+    })
+</script>
+{% end %}
+{% block footer %}
+
+{% end %}
+
+

@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block title %}活动分类编辑{% end %}
+{% block content %}
+<script type="text/javascript" src="{{ static_url('plupload/js/plupload.full.min.js') }}"></script>
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {% include 'admin_nav.html' %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include 'header_nav.html' %}
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>活动分类</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/admin/home">主页</a>
+                    </li>
+                    <li>
+                        <a href="/admin/activities">活动管理</a>
+                    </li>
+                    <li>
+                        <strong>活动分类编辑</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>分类信息
+                                <small>分类，查找</small>
+                            </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <form method="post" id="alb_setting_form" class="form-horizontal">
+
+                                <input name="id" type="hidden" value="{{ category.get('id','') }}">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分类名称</label>
+
+                                    <div class="col-sm-10">
+                                        <input class="form-control" placeholder="不多于25个字" name="name" value="{{ category.get('name','') }}" id="name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分类简介</label>
+
+                                    <div class="col-sm-10">
+                                        <textarea type="text"  id="brief" name="brief" rows="6" class="form-control">{{ category.get('brief','') }} </textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分类图标</label>
+
+                                    <div class="col-sm-10">
+                                        <a class="btn new_btn-w-m btn-primary" href="#" id="index_image">上传图标</a>
+                                        <input type="text" name="icon" id="image_url" style="display: none" value="{{ category.get('icon','') }}">
+                                        <span>支持jpg、jpeg、png、gif格式，大小不超过2M.建议尺寸：16X16</span>
+                                        <p class="showInfo"></p>
+                                        <img id="sample" src="/static/media/category_img/{{ category.get('icon','') }}" style="margin-top: 10px;max-width: 400px;width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分类标签</label>
+
+                                    <div class="col-sm-10">
+                                        <input class="form-control" placeholder="以,分隔" name="tags" value="{{ category.get('tags','') }}" id="tags">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">父分类</label>
+
+                                    <div class="col-sm-10">
+                                        <select name="father" id="father" class="form-control">
+                                            <option value="0">无</option>
+                                            {% for t in categories %}
+                                            <!--<option value="{{ t.get('name') }}">{{ t.get('name') }}</option>-->
+                                            <option value="{{ t.get('_id') }}">{{ t.get('name') }}</option>
+                                            {% end %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <a class="btn btn-primary modifyBtn" type="submit">保存内容</a>
+                                        <button class="btn btn-white" onclick="javascript:window.history.go(-1);return false;">返回</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var uploader = new plupload.Uploader({
+            browse_button: 'index_image',
+            url: "/ajax/upload_image?path=category_img",
+
+            filters: {
+              max_file_size : '4mb',
+              prevent_duplicates : true,
+            },
+            multipart_params: {
+                '_xsrf': $("input[name='_xsrf']").val()
+            }
+        });
+
+        uploader.init();
+
+        // 文件添加后立即上传
+        uploader.bind('FilesAdded', function (up, files) {
+
+            plupload.each(files, function (file) {
+                uploader.start();
+            });
+        });
+
+        // 上传资讯图片
+        uploader.bind('FileUploaded', function (up, file, info) {
+            var base = '/static/media/category_img/';
+            var response = $.parseJSON(info.response);
+            if (response.status == 'ok') {
+                $("#sample").show().attr("src", base + response.name);
+                $("#image_url").val(response.name);
+            }
+            else {
+                alert(response.error);
+            }
+        });
+
+        uploader.bind('Error', function (up, errObject) {
+            alert(errObject.code+errObject.message);
+        });
+    });
+
+    $(function () {
+        var father = "{{ category.get('father','0') }}";
+        $("#father").val(father);
+    });
+
+    $('.btn.btn-primary.modifyBtn').click(function () {
+        var json = {
+            'id': $("#id").val(),
+            'name': $("#name").val(),
+            'brief': $('#brief').val(),
+            'tags': $("#tags").val(),
+            'icon': $("#image_url").val(),
+            'father': $("#father").val(),
+            '_xsrf': $("input[name='_xsrf']").val()
+        };
+
+        if (json['name'] == '') {
+            alert("分类名称不能为空！");
+            return false;
+        }
+        if (json['icon'] == '') {
+            alert("分类图标不能为空！");
+            return false;
+        }
+        if (json['brief'] == '') {
+            alert("分类简介不能为空！");
+            return false;
+        }
+        else {
+{#                alert(JSON.stringify(json));#}
+{#                alert(window.location.pathname);#}
+{#                alert("/admin/coursecategory/"+json['id']);#}
+            $.ajax({
+                url: window.location.pathname,
+                type: 'post',
+                data: json,
+                success: function (re) {
+                    var json = jQuery.parseJSON(re);
+                    alert(json.msg);
+                    if(json.status!='ok'){
+                        return false;
+                    }
+
+                    window.location.href = '/admin/activitycategory';
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+{#                        alert('error');#}
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        }
+    });
+</script>
+
+<style>
+    th:first-child,
+    .gradeX td:first-child {
+        width: 20px;
+        cursor: pointer;
+    }
+
+    th:first-child input,
+    .gradeX td:first-child input {
+        cursor: pointer;
+    }
+</style>
+{% end %}

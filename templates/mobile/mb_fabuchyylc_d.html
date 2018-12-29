@@ -1,0 +1,88 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    优惠及要求
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_chuangyeyuan" method="post" enctype="multipart/form-data" name="park_info_other_form"
+          id="park_info_other_form">
+        {% module xsrf_form_html() %}
+        <input name="id" type="hidden" value="{{ park_id }}">
+
+        <div class="xmliche_a fabucyy_d">
+		   	 
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>资金支持</p>
+		   	  	<input type="text" name="money"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>税收优惠</p>
+		   	  	<input type="text" name="incentives"/>
+		   	  </span>
+		   	  
+		   	  	<span class="xmwz_biao zhishi">
+		   	  	<p>其它服务</p>
+		   	  	<input type="text" name="otherServices"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>所在地要求</p>
+		   	  	<input type="text" name="requirements"/>
+		   	  </span>
+		   	  <div style="clear: both;"></div>
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>其它要求</p>
+		   	  	<input type="text" name="otherRequirements"/>
+		   	  </span>
+
+            <div class="xiayibu xiayibuA">完成提交</div>
+
+
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+    $(".xiayibu").click(function () {
+        $("#park_info_other_form").validate({
+            rules: {
+                money: {
+                    required: true,
+                },
+                incentives: {
+                    required: true,
+                },
+
+                requirements: {
+                    required: true,
+
+                }
+
+            },
+            messages: {
+                money: {
+                    required: "资金支持不能为空！",
+                },
+                incentives: {
+                    required: "税收优惠不能为空！",
+                },
+                requirements: {
+                    required: "所在地不能为空！",
+                },
+            },
+
+        });
+        $("#park_info_other_form").submit()
+    });
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}
+
+

@@ -1,0 +1,374 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目详情|创业孵化平台{% end %}
+{% block content %}
+<style>
+    .bdshare_popup_box {
+        display: none;
+    }
+</style>
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbprojeDetailHead">
+        <table class="mbprojeDetailTab">
+            <tr class="mbprojeDetailTabTR">
+                <td class="mbprojeDetailTabTD1">
+                    <img src="../../static/mobile/img/mbProjectMore/001.png" alt=""
+                         onclick="location='javascript:history.back(-1);'">
+                </td>
+                <td>项目详情</td>
+                <td class="mbprojeDetailTabTD2">
+                    {#                <img src="../../static/mobile/img/mbProjectMore/0022.png" alt="" onclick="location='javascript:;'">#}
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div style="margin-bottom:104px; padding-top: 40px;">
+    <img src="../static/media/project_img/{{ project.get('image','') }}"
+         onerror="javascript:this.src='{{ static_url('img/error.png') }}';" alt=""
+         style="width: 100%;height: 200px;">
+
+    <div class="mbprojeDetailContent">
+        <div class="mbprojeDetailContentBold">{{ project['name'] }}</div>
+        <div class="mbprojeDetailContentSmall">认购20人&emsp;最低投资金额10000元&emsp;关注100人</div>
+    </div>
+
+    <div class="mbprojeDetailContentTXT">{{ project['brief'] }}</div>
+
+    <div class="mbprojeDetailContentInternal">
+        <div class="mbprojeDetailContentInternal1"></div>
+    </div>
+
+    <table class="mbPrJeprogressTab">
+        {% if interest_plan %}
+        {% set i=interest_plan %}
+        {% if i['status'] =='online' %}
+        {% set get_amount=i.get("progress",0) %}
+        {% set left_amount= i.get('info',{}).get('total_amount',0) %}
+        {% set current_percent= percent(get_amount,left_amount) *100 /10000 %}
+        {# 有融资计划 #}
+        <script>
+            $(document).ready(function () {
+                $('.mbprojeDetailContentInternal1').css('width', {{ current_percent }}+'%');
+            });
+        </script>
+        <tr>
+            <td>
+                <p>筹集进度</p>
+
+                <p>{{ current_percent }}%</p>
+            </td>
+            <td>
+                <p>已筹金额</p>
+
+                <p>{{ get_amount }}元</p>
+            </td>
+            <td>
+                <p>截止时间</p>
+
+                <p>{{ end_date }}</p>
+            </td>
+        </tr>
+        {% end %}
+        {% else %}
+        {# 无融资计划 #}
+        {% set list = render(project['id']) %}
+        <tr>
+            <td>
+                <p>投资指数：</p>
+
+                <p>{{ list[0] }}</p>
+            </td>
+            <td>
+                <p>关注度：</p>
+
+                <p>{{ list[1] }}</p>
+            </td>
+            <td>
+                <p>科技指数：</p>
+
+                <p>{{ list[2] }}</p>
+            </td>
+            <td>
+                <p>总得分：</p>
+
+                <p>{{ list[3] }}</p>
+            </td>
+        </tr>
+        {% end %}
+    </table>
+    <div class="hd_xiangqing">
+        {#    <img src="../static/imges/huoxian.png">#}
+		   	<span>
+		   		<p>项目现场：</p>
+		   		这次活动我们邀请了一个神秘嘉宾为大家讲解一下现在股市风云中的一些比较自身的知识，目的就是为了让大家在此刻的股市背景下活得更加精彩，让生活更加美满。
+		   	</span>
+    </div>
+    <div class="viewImgDetail">
+        <div class="viewImgDetailLeft"
+             onclick="javascript:window.location.href='mb_xiangmutuwen?id={{ project['id'] }}'">
+            查看图文详情
+        </div>
+        <div class="viewImgDetailRight"></div>
+        <p class="clear"></p>
+    </div>
+    <div style="width: 100%;height: 15px;background: #F2F2F2;"></div>
+
+
+    <table class="TheFinancingPlan">
+        <tr>
+            <td onclick="location='/mb_tuandui?id={{ project['id'] }}'">团队介绍</td>
+            <td onclick="location='/mb_dongtai?id={{ project['id'] }}'">项目动态</td>
+            <td onclick="location='/mb_zhuanjiapinyu?id={{ project['id'] }}'">专家评语</td>
+        </tr>
+        <tr>
+            <td onclick="location='/mbPrFinancing?id={{ project['id'] }}'">融资计划</td>
+            <td onclick="location='/mb_zhaopinjihua?id={{ project['id'] }}'">招聘计划</td>
+            <td onclick="location='/mb_rufujihua?id={{ project['id'] }}'">入孵计划</td>
+        </tr>
+    </table>
+
+    <!--修改的（关注人及发布时间）-->
+    <div class="projects">
+        <div class="projects_touxiang">
+            <span class="projects_touxi_ren"><img src="../static/media/avatar/{{ organiser.get('avatar_thumb','') }}"
+                                                  onerror="javascript:this.src='{{ static_url('img/startup/avatar_sample.png') }}'"
+                                                  style="width: 100%; height: 100%; border-radius: 50%;"></span>
+        </div>
+        <div class="jizhong">
+            <a href="/mb_liaotian" class="huodong_touxi_sixin">私信</a>
+            {% if not user_has_followed %}
+            <a href="javascript:;" class="huodong_touxi_guanzhu" data-uid="{{ project['uid'] }}">关注他</a>
+            {% else %}
+            <a href="javascript:;" class="yihuodong_touxi_guanzhu btnClick" data-uid="{{ project['uid'] }}">取消关注</a>
+            {% end %}
+
+            <div style=" clear: both;"></div>
+        </div>
+        <span class="projects_ziliao">
+            <p class="projects_name">发布人：{{ organiser.get('name','') }}</p>
+        </span>
+    </div>
+
+    <div class="class_maegin huodmen">
+        <div class="class_time">
+            <span class="class_timeicon"></span>
+            <span class="class_timer">{{ project.get("time","") }}</span>
+        </div>
+    </div>
+    <!--修改的（关注人及发布时间）结束-->
+
+    <div style="width: 100%;height: 15px;background: #F2F2F2;"></div>
+    <div class="mbProjectComments">
+        <div class="mbProjectCommentsCount">评论（{{ project_comments.count() }}）</div>
+        <div class="cyy_pinlun">
+            <div>
+                {% if project_comments.count()>0 %}
+                {% for c in project_comments %}
+                {% set user=comments_user(c['uid']) %}
+            <span class="cyy_pinluntext">
+		  		<img src="../static/media/avatar/{{ user.get('avatar_thumb','') }}"
+                     onerror="javascript:this.src='../static/imges/dada.png'">
+		  		<span class="cyy_pinlun_wenzi">
+		  			<p class="cyy_pinlun_wenziname">{{ user.get('name','') }}</p>
+		  			<p class="cyy_pinlun_wenzijianjie">{{ c['content'] }}</p>
+		  			<p class="cyy_pinlun_time">{{ c['time'] }}</p>
+		  		</span>
+		  	</span><!--cyy_pinluntext-->
+                {% end %}
+                {% else %}
+                {% set c={} %}
+                {% set user={} %}
+                <span class="cyy_pinluntext">
+                    暂无评论
+                    <br>
+                </span>
+                {% end %}
+            </div>
+            <div class="liuyan">
+                <input class="kuang" type="text"/>
+                <input class="annui" type="button" value="用户评论"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mbProjectFocusOn">
+    <div class="FocusOn">
+        <a href="javascript:;" class="followbtn" data-id="{{ project['id'] }}">
+            {% if not has_followed %}
+            关注项目
+            {% else %}
+            取消关注
+            {% end %}
+        </a>
+    </div>
+    {#    <div class="subscribe"><a style="color: #fff;">预约认购</a></div>#}
+</div>
+<script>
+    $(document).ready(function () {
+        $('.mbFooterDiv a').eq(2).addClass('selected');
+    })
+
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+    $('.followbtn').click(function () {
+        var data = {};
+        var text = "";
+        data['id'] = $(this).data("id");
+        data['_xsrf'] = getCookie("_xsrf");
+        if ($.trim($(this).text()) == '关注项目') {
+            text = "取消关注";
+            data['handle'] = 'add';
+        }
+        else {
+            text = "关注项目";
+            data['handle'] = 'remove';
+        }
+        $('.followbtn').text(text);
+        $.ajax({
+            type: 'post',
+            url: '/follow/project',
+            data: data,
+            success: function (re) {
+
+            }
+        });
+    })
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    $(".annui").click(function () {
+        var data = {
+            "_xsrf": getCookie("_xsrf"),
+            "content": $(".kuang").val(),
+            "id": {{ project["id"] }},
+        };
+        var html = '';
+        var img = '';
+        var count = +$('.mbProjectCommentsCount').text() + 1;
+        var text = $('.kuang').val();
+        var div = $('.cyy_pinlun');
+
+        if (text.length > 200) {
+            alert('您的评论超过200字符！请重新输入。');
+            $('.kuang')[0].focus();
+        }
+        else if (text.length == '') {
+            alert('评论不能为空！');
+            $('.kuang')[0].focus();
+        } else {
+            jQuery.ajax({
+                url: "/ajax/project/comment",
+                type: "post",
+                data: data,
+                success: function (msg) {
+                    var jsons = jQuery.parseJSON(msg);
+                    var comment = jsons.data;
+                    if (jsons.status == "ok") {
+                        html += '<span class="cyy_pinluntext">';
+                        html += '   <img src=\"../static/media/avatar/' + '{{ user and user.get('avatar_thumb','') or '' }}' + '\" onerror=\"javascript:this.src=\'../static/imges/dada.png\'\">';
+                        html += '   <span class="cyy_pinlun_wenzi">';
+                        html += '       <p class="cyy_pinlun_wenziname">' + '{{ user and user.get('name','') or ''}}' + '</p>';
+                        html += '       <p class="cyy_pinlun_wenzijianjie">' + '{{ c and c['content'] or '' }}' + '</p>';
+                        html += '       <p class="cyy_pinlun_time">' + '{{ c and c['time'] or '' }}' + '</p>';
+                        html += '   </span>';
+                        html += '</span>';
+                        div.find(".cyy_pinlun").after(html);
+                        $('.kuang').val('');
+                        $('.kuang')[0].focus();
+                        $('.kuang').text(count);
+                        location.reload();
+                    }
+                    else {
+                        alert(jsons.msg);
+                    }
+                }
+            })
+        }
+    });
+
+    //关注人
+    $('a.yihuodong_touxi_guanzhu,a.huodong_touxi_guanzhu').click(function () {
+        var data = {};
+        var that = $(this);
+        data['uid'] = $(this).data("uid");
+        data['_xsrf'] = getCookie("_xsrf");
+        if ($(this).is(".btnClick")) {
+            data['handle'] = 'remove';
+        }
+        else {
+            data['handle'] = 'add';
+        }
+        if (data['handle'] == 'remove') {
+            this.setAttribute("class", "huodong_touxi_guanzhu");
+            that.text("关注他");
+        }
+        else {
+            this.setAttribute("class", "yihuodong_touxi_guanzhu btnClick");
+            that.text("取消关注");
+        }
+        $.ajax({
+            type: 'post',
+            url: '/follow/user',
+            data: data,
+            success: function (re) {
+                var jsons = jQuery.parseJSON(re);
+                if (jsons.status == 'ok') {
+                }
+                else {
+                    alert("其他错误");
+                }
+            }
+        });
+    });
+
+</script>
+{% end %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

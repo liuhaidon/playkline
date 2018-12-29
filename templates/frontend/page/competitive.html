@@ -1,0 +1,83 @@
+{% extends "../base2.html" %}
+{% block content %}
+<div class="cen cen_ClassicMode">
+    <p class="gonggao">11获得了2015-11-22,16:00开始的30元话费争夺赛</p>
+
+    <p class="jianbianxian"></p>
+
+    <div class="ClassicMode_box">
+        <div class="ClassicMode_boxkuan">
+            <img class="competitiveimg" src="{{ static_url('img/competitiveimg.png') }}">
+        </div>
+        <ul class="ClassicModeimg_box">
+            <li>
+                <a target="_blank" onclick="javascript:window.location.href='/k_line_cgainst?type=single&field=1'"><img src="{{ static_url('img/novice.png') }}"></a>
+            </li>
+            <li>
+                <a class="big_img" onclick="javascript:window.location.href='/k_line_cgainst?type=single&field=2'"target="_blank"><img src="{{ static_url('img/elite.png') }}"></a>
+            </li>
+            <li>
+                <a target="_blank" onclick="javascript:window.location.href='/k_line_cgainst?type=single&field=3'"><img src="{{ static_url('img/master.png') }}"></a>
+            </li>
+
+        </ul>
+        <div class="ClassicModeimg_box ClassicModeimg_boxa" style="height: 0;">
+            <img class="left_anniu" src="{{ static_url('img/left.png') }}">
+            <img class="right_anniu" src="{{ static_url('img/right.png') }}">
+            <!--<div class="dian_box">
+                <span class="ClassicModeimg_box_dian"></span>
+                <span></span>
+                <span></span>
+            </div>-->
+        </div>
+
+    </div>
+</div>
+<div class="gold_not">
+    <!--金币不足弹窗-->
+    <img class="activity_titler" src="{{ static_url('img/gold_not.png') }}">
+
+    <div class="activity_beijing">
+        <div class="activity_beijing_s">
+            <p class="gold_not_text">你没有足够的金币，补点金币再来吧</p>
+
+            <div class="gold_shuliang">
+                <img class="gold_not_gold" src="{{ static_url('img/shore_jinibi_d.png') }}">
+								<span class="gold_not_shuzi">
+								<img class="gold_x" src="{{ static_url('img/x.png') }}">
+								<img src="{{ static_url('img/buzu_four.png') }}">
+								<img src="{{ static_url('img/buzu_five.png') }}">
+								<img src="{{ static_url('img/buzu_zero.png') }}">
+								<img src="{{ static_url('img/buzu_zero.png') }}">
+								</span>
+            </div>
+            <div class="gold_not_anniu">
+                <div>
+                    <img id="giveUp" src="{{ static_url('img/giveUp.png') }}">
+                </div>
+                <div>
+                    <img id="topUp" src="{{ static_url('img/topUp.png') }}">
+                </div>
+            </div>
+        </div>
+        <!--activity_beijing_s-->
+    </div>
+    <!--activity_beijing-->
+</div>
+<!--gold_not-->
+<!--金币不足弹窗-->
+<script>
+    $(function () {
+        $("#giveUp").click(function () {
+            $(".gold_not").hide();
+        })
+    })
+    $(function () {
+        $("#master").click(function () {
+            $(".gold_not").show();
+        })
+    })
+</script>
+
+{% end %}
+

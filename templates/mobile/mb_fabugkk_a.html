@@ -1,0 +1,235 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    基本信息
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_fabugkk_b" method="post" enctype="multipart/form-data" name="issueCourseInfoForm"
+          id="issueCourseInfoForm">
+        {% module xsrf_form_html() %}
+        <input type="hidden" name="id" value="{{ course_id }}">
+{#        <input name="video_name" type="hidden" id="video_name" value="">#}
+
+        <div class="xmliche_a">
+        <span class="xmwz_biao">
+            <p>标题</p>
+            <input type="text" placeholder="不多于25个字" value="" name="title"/>
+        </span>
+        <span class="xmwz_biao">
+            <div class="demo-box">
+                <table class="demo-table">
+                    <tr>
+                        <td style="width: 32%; text-align: right;">分类：</td>
+                        <td style="padding-left: 10px;">
+                            <select name="video_type" id="video_type">
+                                {% for t in video_type %}
+                                <option value="{{ t['name'] }}" {% if get_type ==t['name'] %}selected{% end %}
+                                        data-id="{{ t['id'] }}">{{ t['name'] }}</option>
+                                {% end %}
+                            </select>
+                            <select name="category" id="category">
+                                {% for c in category %}
+                                <option value="{{ c['name'] }}" {% if get_category ==c['name'] %}selected{% end %}
+                                        data-id="{{ c['id'] }}">{{ c['name'] }}</option>
+                                {% end %}
+                            </select>
+                            <script>
+                                $(function () {
+                                    $('#video_type').change(function () {
+                                        var tid = $(this).find('option:selected').attr('data-id');
+                                        if (!tid) {
+                                            return false;
+                                        }
+                                        else {
+                                            $.getJSON('/ajax/video.json?tid=' + tid, function (json) {
+                                                var category = '';
+                                                $.each(json['category'], function (k, v) {
+                                                    category += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                                                });
+                                                $('#category').html(category);
+                                            });
+                                        }
+                                    });
+                                })
+                            </script>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </span>
+        <span class="xmwz_biao xmwz_xiangmu">
+            <p>课程简介</p>
+            <textarea id="desc" name="desc" placeholder="不多于200字"></textarea>
+        </span>
+            {#        <span class="xmwz_biao xmwz_ding">#}
+            {#            <p>上传视频</p>#}
+            {#            <input class="xmwz_biao_shang" type="file" id="video_file" name="file" onchange="ajaxFileUpload2(this)"#}
+            {#                   style="display: none">#}
+            {#            <input class="xmwz_biao_button" type="button" value="上传视频"#}
+            {#                   onclick="document.getElementById('video_file').click()"/>#}
+            {##}
+            {#        </span>#}
+            {#            <span id="upload_file_name_txt_0" data-title="" title="W" style="margin-left: 15%;"></span>#}
+            {#            <ul class="xmliche_a_tupian">#}
+            {#            </ul>#}
+
+        <span class="xmwz_biao xmwz_xiangmu" style="height: 20px;">
+            <p>视频url：</p>
+            <input id="video_name" name="video_name" placeholder="不多于200字">
+        </span>
+
+        <span class="xmwz_biao xmwz_ding">
+            <p>上传封面</p>
+            <input type="text" name="image" id="image_url" style="display: none">
+            <input class="xmwz_biao_shang" type="file" id="index_image" name="file" onchange="ajaxFileUpload1(this)"
+                   style="display: none">
+            <input class="xmwz_biao_button" type="button" value="上传封面"
+                   onclick="document.getElementById('index_image').click()"/>
+        </span>
+            <ul class="xmliche_a_tupian">
+                <li>
+                <span class="mb_zhanghu_tu">
+                    <img id="imghead" border=0 src="../static/imges/dada.png" width="180" height="180" alt="视频封面" style="display: none">
+		        </span>
+                </li>
+            </ul>
+            <div class="xiayibu xiayibuA">下一步</div>
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+    ;
+
+    //上传封面
+    function ajaxFileUpload1(re) {
+        var raw_filename = document.getElementById("index_image").files[0].name;
+        var data = {name: raw_filename, _xsrf: getCookie("_xsrf")};
+        var base = '../static/media/course_img/';
+        $.ajaxFileUpload({
+                    url: '/ajax/upload_image?path=course_img', //用于文件上传的服务器端请求地址
+                    secureuri: false, //一般设置为false
+                    data: data,
+                    fileElementId: 'index_image', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                    dataType: 'json', //返回值类型 一般设置为json
+                    success: function (re)  //服务器成功响应处理函数
+                    {
+                        if (re.status == 'ok') {
+                            $('#imghead').attr('src', base + re.name + '?' + Math.random());
+                            $('#imghead').show();
+                            $("#image_url").val(re.name);
+                        }
+                        else {
+                            alert(re.msg);
+                        }
+                    },
+                    error: function (re)//服务器响应失败处理函数
+                    {
+                        alert(re.msg);
+                    }
+                }
+        )
+        return false;
+    }
+    ;
+
+    // 上传视频
+    function ajaxFileUpload2(re) {
+        var raw_filename = document.getElementById("video_file").files[0].name;
+        var data = {name: raw_filename, _xsrf: getCookie("_xsrf"), id: 1, course_id: 0, path: "videos"};
+        var base = '../static/media/course_img/';
+        $.ajaxFileUpload({
+                    url: '/ajax/video_upload', //用于文件上传的服务器端请求地址
+                    secureuri: false, //一般设置为false
+                    data: data,
+                    fileElementId: 'video_file', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                    dataType: 'json', //返回值类型 一般设置为json
+                    success: function (re)  //服务器成功响应处理函数
+                    {
+                        if (re.status == 'ok') {
+
+                            $('#video_name').val($.parseJSON(re.data)[0]['uploaded_filename']);
+                            $("#upload_file_name_txt_0").text($.parseJSON(re.data)[0]['raw_filename']);
+                        }
+                        else {
+                            alert(re.msg);
+                        }
+                    },
+                    error: function (re)//服务器响应失败处理函数
+                    {
+                        alert(re.msg);
+                    }
+                }
+        )
+        return false;
+    }
+    ;
+
+    {#    $('.xiayibu').click(function () {#}
+    {#        $("#issueCourseInfoForm").submit();#}
+    {#    });#}
+    $('.xiayibu').click(function () {
+        $("#issueCourseInfoForm").validate({
+            rules: {
+                title: {
+                    required: true,
+                    maxlength: 25,
+                },
+                video_type: {
+                    required: true,
+                },
+                category: {
+                    required: true,
+                },
+                desc: {
+                    required: true,
+                    maxlength: 200
+                },
+            },
+            messages: {
+                title: {
+                    required: '标题不能为空！',
+                    maxlength: '不多于25个字符!',
+                },
+                video_type: {
+                    required: '一级分类不能为空！',
+                },
+                category: {
+                    required: '二级分类不能为空！',
+                },
+                desc: {
+                    required: '简介不能为空！',
+                    maxlength: '不多于200个字符!',
+                },
+            },
+            debug: false,
+            submitHandler: function (form) {
+                if ($('#video_name').val() == '') {
+                    alert('视频url不能为空！');
+                    return false;
+                }
+
+                if ($("#image_url").val() == '') {
+                    alert('您还未上传封面！');
+                    return false;
+                }
+                form.submit();
+
+            }
+        });
+        $("#issueCourseInfoForm").submit();
+    });
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}
+
+

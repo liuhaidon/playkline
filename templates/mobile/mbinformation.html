@@ -1,0 +1,306 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}资讯|创业孵化平台{% end %}
+{% block content %}
+<style>
+    .mbProjectList {
+        padding-top: 30px;
+    }
+</style>
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle" style="border-bottom: 1px solid #F2F2F2;background: white">
+        <a href="javascript:;" class="mbPrMoreBackBtn Activity" style="width: auto;">
+            {% if category!='' %}{{ category }}{% else %}分类{% end %}
+        </a>
+        资讯
+        {#        <a href="javascript:;" class="mbPrMoreSeacher"></a>#}
+    </div>
+    <div class="mbactivitySelect" style="top:42px;left: 0;width: 100%;">
+        <div onclick="location='/mobile/information'">全部</div>
+        {% for c in category_db %}
+        <div onclick="location='/mobile/information{{ url_for({"category":c.get('name')}) }}'">{{ c.get('name') }}</div>
+        {% end %}
+    </div>
+
+</div>
+<div class="mbProjectList">
+
+    <div class="mbinfoContentDiv">
+
+        <div class="content">
+            <div class="list" id="wrapper" style="background: #fff;">
+                <ul class="data_insert">
+                    {% for i in info %}
+                    {% set ch = channel( i.get('channel', 0) ) %}
+                    {% set u = byuser(i.get('uid', 0)) %}
+                    <li>
+                        <div class="wrap">
+                            <a href="/mobile/infordetails/{{ i.get('id', 0) }}" class="alist">
+                                <div class="list_litpic fl">
+                                    <img src="../static/media/information_img/{{ i.get('image','404.jpg') }}"
+                                         onerror="javascript:this.src='{{ static_url('img/error.png') }}'">
+
+
+                                </div>
+                                <div class="list_info">
+                                    <h4>{{ i.get('name', '') }}</h4>
+                                    <h5>by
+                                        <span>{{ ch.get('name','') }}</span>
+                                        <em>(作者：{{ u.get('name','') }})</em>
+                                    </h5>
+
+                                    <div class="list_info_i">
+                                        {{ i.get('time', '') }}
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </a>
+                        </div>
+                    </li>
+                    {% end %}
+
+                    {% if info.count()==0 %}
+                    <br>
+                    很遗憾,没有找到该条件下的视频。
+                    {% end %}
+                    {% if info.count()<6 %}
+                    <script>
+                        $(document).ready(function () {
+                            $('.pullUp').hide();
+                        })
+
+                    </script>
+                    {% end %}
+
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        wrapper.refresh(); //刷新一次
+    });
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+    ;
+
+    function getRequest() {
+        var url = window.location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    ;
+
+    refresher.init({
+        id: "wrapper", //初始化
+        pullDownAction: Refresh,
+        pullUpAction: Load
+    });
+    function Refresh() {
+        setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
+            var el, li, i;
+            el = document.querySelector("#wrapper ul");
+            //这里写你的刷新代码
+            document.getElementById("wrapper").querySelector(".pullDownIcon").style.display = "none";
+            document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML = "<img src='/static/img/refresher2/ok.png'/>刷新成功";
+            setTimeout(function () {
+                wrapper.refresh();
+                document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML = "";
+            }, 1000);//模拟qq下拉刷新显示成功效果
+            /****remember to refresh after  action completed！ ---yourId.refresh(); ----| ****/
+        }, 1000);
+        location.reload();
+    }
+
+    var page = {{ page }};
+    function Load() {
+        var Request = new Object();
+        var data = {};
+        var list_box = $(".data_insert");
+        var html = '';
+        Request = getRequest();
+        data['_xsrf'] = getCookie("_xsrf");
+        data['page'] = page;
+        data['category'] = Request['category'];
+        jQuery.ajax({
+            url: "/mobile/information/ajax/more",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                if (jsons.status == "ok") {
+                    if (parseInt(jsons.num) > 0) {
+                        $.each(jsons.list, function (k, v) {
+                            html += '<li>';
+                            html += '   <div class="wrap">';
+                            html += '       <a href=\"/mobile/infordetails/' + v.id + '\"' + 'class="alist">';
+                            html += '           <div class="list_litpic fl">';
+                            html += '           <img src=\"../static/media/information_img/' + v.image + '\" onerror="javascript:this.src=\'{{ static_url('img/error.png') }}\';">';
+                            html += '           </div>';
+                            html += '           <div class="list_info">';
+                            html += '               <h4>';
+                            html += v.name;
+                            html += '               </h4>';
+                            html += '               <h5>by';
+                            html += '                   <span>';
+                            html += v.channel;
+                            html += '                   </span>';
+                            html += '                   <em>';
+                            html += '                       (作者：' + v.byuser + ')';
+                            html += '                   </em>';
+                            html += '               </h5>';
+                            html += '               <div class="list_info_i">';
+                            html += v.time;
+                            html += '               </div>';
+                            html += '           </div>';
+                            html += '           <div class="clear"></div>';
+                            html += '       </a>';
+                            html += '   </div>';
+                            html += '</li>';
+
+                        });
+                        list_box.append(html);
+                        wrapper.refresh();
+                        /****remember to refresh after action completed！！！   ---id.refresh(); --- ****/
+                        return page += 10;
+                    }
+                    else {
+                        wrapper.refresh();
+{#                        alert("没有更多了");#}
+                        return false; //没有更多
+                    }
+                }
+                else {
+                    alert(jsons.msg);
+                }
+            }
+        })
+    }
+
+</script>
+<style>
+    .mbactivitySelect div {
+        text-indent: 2em;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .mbinfoContentDiv {
+        padding: 5px 0;
+    }
+
+    .content {
+        overflow: hidden;
+    }
+
+    .list ul {
+        background: #fff;
+        display: block;
+    }
+
+    .list li {
+        display: block;
+        height: 110px;
+    }
+
+    .wrap {
+        width: 96%;
+        margin: 0 auto;
+    }
+
+    .list li .alist {
+        display: block;
+        width: 100%;
+        height: 90px;
+        border-bottom: 1px solid #eee;
+        padding: 10px 0;
+    }
+
+    .list_litpic {
+        width: 140px;
+        height: 90px;
+        overflow: hidden;
+    }
+
+    .fl {
+        float: left;
+    }
+
+    .list_litpic img {
+        width: 140px;
+        height: 90px;
+    }
+
+    .list_info {
+        height: 90px;
+        margin-left: 155px;
+        padding-top: 5px;
+    }
+
+    .list_info h4 {
+        font-size: 16px;
+        font-weight: 500;
+        height: 20px;
+        line-height: 20px;
+        margin-bottom: 2px;
+        color: #646464;
+        display: block;
+        overflow: hidden;
+    }
+
+    .list_info h5 {
+        height: 20px;
+        line-height: 18px;
+        font-weight: 500;
+        font-size: 12px;
+        color: #a2a2a2;
+    }
+
+    .list_info span {
+        margin-left: 5px;
+        color: #777777;
+    }
+
+    .list_info h5 em {
+        font-style: normal;
+        margin-left: 8px;
+    }
+
+    .list_info_i {
+        margin-top: 20px;
+        height: 20px;
+        overflow: hidden;
+        display: block;
+        line-height: 20px;
+        font-size: 10px;
+        color: #a7a7a7;
+    }
+</style>
+{% end %}
+{% block script %}
+<script>
+    $('.mbFooterDiv a').eq(0).addClass('selected');
+    $('.mbPrMoreBackBtn.Activity').click(function () {
+        $('.mbactivitySelect').slideToggle('fast');
+    });
+    $('.mbactivitySelect div').click(function () {
+        $('.mbactivitySelect').slideUp('fast');
+    });
+</script>
+{% end %}
+

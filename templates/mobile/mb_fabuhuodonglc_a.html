@@ -1,0 +1,274 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<style>
+
+</style>
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    活动信息
+</div>
+<div class="nbig_box">
+    <form action="/mb_fabuhuodonglc_b" method="post" enctype="multipart/form-data" name="issue_activity_form"
+          id="issue_activity_form">
+        {% module xsrf_form_html() %}
+        <div class="xmliche_a">
+        <span class="xmwz_biao" style="height: auto;">
+            <div class="demo-box">
+                <table class="demo-table">
+                    <tr>
+                        <td class="biaoqiank">活动标签</td>
+                        <td>
+                            {#                        <select class="ui-select" id="sel_01" name="tag">#}
+                            {#                            {% for t in tags %}#}
+                            {#                            <option value="{{ t.get('name','') }}">{{ t.get('name','') }}</option>#}
+                            {#                            {% end %}#}
+                            {#                        </select>#}
+                            <ul class="Labels">
+                                <input type="hidden" name="tag">
+                                {% for t in tags %}
+                                <li class="{% if t['name'] in activity.get('tag',[]) %}active{% end %}">{{ t['name'] }}</li>
+                                {% end %}
+                                <p class="clear"></p>
+
+                                <p class="showInfo"></p>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+		   	  </span>
+		   	  <span class="xmwz_biao">
+		   	  	<p>活动名称</p>
+		   	  	<input type="text" name="name"/>
+		   	  </span>
+        <span class="xmwz_biao">
+            <div class="demo-box">
+                <table class="demo-table">
+                    <tr>
+                        <td class="biaoqiank">活动类型</td>
+                        <td><select class="ui-select" id="sel_01" name="form">
+                            {% for t in activity_types %}
+                            <option value="{{ t['index'] }}"
+                                    {% if str(t['index'])==activity.get('form',None) %}selected{% end %}>
+                                {{ t['name'] }}
+                            </option>
+                            {% end %}
+                        </select></td>
+                    </tr>
+                </table>
+            </div>
+		   	  </span>
+        <span class="xmwz_biao">
+            <p>选择地点</p>
+		   	  	<div class="info">
+                    <div>
+                        <select name="province" id="province">
+                            {% for p in provinces %}
+                            <option value="{{ p['name'] }}" {% if get_province ==p['name'] %}selected{% end %}
+                                    data-id="{{ p['id'] }}">{{ p['name'] }}</option>
+                            {% end %}
+                        </select>
+                        <select name="city" id="city">
+                            {% for c in cities %}
+                            <option value="{{ c['name'] }}" {% if get_city ==c['name'] %}selected{% end %}
+                                    data-id="{{ c['id'] }}">{{ c['name'] }}</option>
+                            {% end %}
+                        </select>
+                        <select name="region" id="region">
+                            {% for r in regions %}
+                            <option value="{{ r['name'] }}" data-id="{{ r['id'] }}">{{ r['name'] }} </option>
+                            {% end %}
+                        </select>
+                        <script>
+                            $(function () {
+                                $('#province').change(function () {
+                                    var pid = $(this).find('option:selected').attr('data-id');
+                                    if (!pid) {
+                                        return false;
+                                    }
+                                    else {
+                                        $.getJSON('/ajax/city.json?pid=' + pid, function (json) {
+                                            var city = '';
+                                            var region = '';
+
+                                            $.each(json['city'], function (k, v) {
+                                                city += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                                            });
+                                            $('#city').html(city);
+                                            $.each(json['region'], function (k, v) {
+                                                region += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                                            });
+                                            $('#region').html(region);
+
+                                        });
+                                    }
+                                });
+                                $('#city').change(function () {
+                                    var pid = $('#province').find('option:selected').attr('data-id');
+                                    var cid = $(this).find('option:selected').attr('data-id');
+                                    if (!pid) {
+                                        alert('请选择省份！');
+                                    }
+                                    else if (!cid) {
+                                        alert('请选择市！');
+                                    }
+                                    else {
+                                        $.getJSON('/ajax/city.json?pid=' + pid + '&cid=' + cid, function (json) {
+                                            var region = '';
+
+                                            $.each(json['region'], function (k, v) {
+                                                region += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                                            });
+                                            $('#region').html(region);
+                                        });
+                                    }
+                                });
+                            })
+                        </script>
+                        <input placeholder="详细地址" name="address" value="{{ activity.get('address','') }}">
+
+                        <p class="showInfo"></p>
+                    </div>
+                    <div id="show"></div>
+                </div>
+		   	  </span>
+        <span class="xmwz_biao">
+            <p>开始时间</p>
+            <div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input placeholder="开始日期" id="start_date" onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd'})"
+                                   onblur="$('.showInfo1').text('')" value="" name="start_date" readonly="readonly"
+                                   class="boxshadow">
+                            <input placeholder="开始时间" id="start_time" onclick="WdatePicker({lang:'zh-cn', dateFmt:'HH:mm'})" value=""
+                                   name="start_time" readonly="readonly" style="margin-top: 5px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
+            <!--日历-->
+            <script>
+                $(document).ready(function () {
+                    $("#calendar").bootstrapDatepickr();
+                    $("#calenda").bootstrapDatepickr();
+                });
+            </script>
+            <!--日历-->
+
+
+		   	  <span class="xmwz_biao">
+                  <p>结束时间</p>
+		   	  <div>
+              </div>
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="input-group">
+                                  <input placeholder="截止日期" id="end_date" onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd'});"
+                                         onblur="checkEndTime()" value="" name="end_date" readonly="readonly">
+                                  <input placeholder="截止时间" id="end_time" onclick="WdatePicker({lang:'zh-cn', dateFmt:'HH:mm'})"
+                                         onblur="checkEndTime()" value="" name="end_time" readonly="readonly"
+                                         style="margin-top: 5px;">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </span>
+        <span class="xmwz_biao xmwz_ding">
+            <p>海报图片</p>
+            <input class="xmwz_biao_button" type="button" value="上传图片" onclick="document.getElementById('shangchuan').click()"/>
+        </span>
+            <ul class="xmliche_a_tupian">
+                <li>
+		   	  	<span class="mb_zhanghu_tu">
+			    <div id="preview">
+                    {% set index_image=activity.get('image','') %}
+                    {% set image_url="../static/media/activity_img/"+activity.get('image','') %}
+                    <img id="imghead" border=0 src="{{ image_url }}" width="180" height="180"
+                         class=" {% if not activity.get('image','') %}hide{% end %} imageview"/>
+                </div>
+                <input style="top:446px;left:50px; display: none;" class="shangchuan" type="file" name="image" id="shangchuan"
+                       onchange="previewImage(this)"/>
+		        </span>
+                </li>
+            </ul>
+        <span class="xmwz_biao xmwz_xiangmu">
+            <p>活动简介</p>
+            <textarea class="wenben" rows=6 onpropertychange='this.style.posHeight=this.scrollHeight' id=textarea
+                      onfocus='textarea.style.posHeight=this.scrollHeight' name="desc"></textarea>
+        </span>
+
+            <div class="xiayibu xiayibuA">下一步</div>
+
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+    $(".Labels li").click(function () {
+        if ($(".Labels").find(".active").length > 2) {
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active")
+            }
+            else {
+                alert("最多选择3个");
+            }
+        }
+        else {
+            $(this).toggleClass("active")
+        }
+    });
+
+    function checkEndTime() {
+        var startTime = $("#start_date").val() + " " + $("#start_time").val();
+        var start = new Date(startTime.replace("-", "/").replace("-", "/"));
+        var endTime = $("#end_date").val() + " " + $("#end_time").val();
+        var end = new Date(endTime.replace("-", "/").replace("-", "/"));
+        if (end < start) {
+            $(".showInfo2").text("活动结束时间应大于开始时间");
+            return false;
+        }
+        $(".showInfo2").text("");
+        return true;
+    };
+
+    $(".xiayibu").click(function () {
+        $("#issue_activity_form").validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 25,
+                }
+            },
+            messages: {
+                name: {
+                    required: "活动名称不能为空！",
+                    maxlength: "活动名称不多于25个字!",
+                }
+            },
+            debug: false,
+            submitHandler: function (form) {
+                var tags = new Array();
+                $(".Labels li").each(function () {
+                    if ($(this).hasClass("active")) {
+                        tags.push($(this).text());
+                    }
+                });
+                $("input[name='tag']").val(tags);
+                form.submit();
+            }
+
+        });
+        $("#issue_activity_form").submit()
+    });
+
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}
+

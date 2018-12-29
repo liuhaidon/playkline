@@ -1,0 +1,447 @@
+<div class="foot">
+	<span class="foot_left">
+		<img src="{{ static_url('img/help.png') }}" onclick="javascript:window.location.href='/help'">
+		<img src="{{ static_url('img/noxiaoxi.png') }}" onclick="javascript:window.location.href='/message'">
+		<img id="event" src="{{ static_url('img/nohuodong.png') }}">
+	</span>
+
+	<span class="foot_right">
+		<img id="task" src="{{ static_url('img/norenwu.png') }}">
+		<img src="{{ static_url('img/shangdian.png') }}" onclick="javascript:window.location.href='/shop'">
+		<img src="{{ static_url('img/fankui.png') }}" onclick="javascript:window.location.href='/help'">
+	</span>
+
+    <div class="zhogjian">
+        <img id="Setup" src="{{ static_url('img/shezhi.png') }}">
+    </div>
+</div>
+
+<!--活动弹窗-->
+<div class="activity" id="activity">
+    <img class="activity_titler" src="{{ static_url('img/activity_title.png') }}">
+    <img class="guanbi" src="{{ static_url('img/guanbi.png') }}">
+
+    <div class="activity_beijing">
+        <div class="activity_beijing_s">
+            <div class="next">
+                <span class="activity_text" id="activity_text"></span>
+                <span class="activity_text_nei" id="activity_text_nei"></span>
+            </div>
+            <div class="next_an">
+                <div id="up">上一条</div>
+                <div id="down">下一条</div>
+            </div>
+        </div>
+        <!--activity_beijing_s-->
+    </div>
+    <!--activity_beijing-->
+</div>
+<!--activity-->
+<!--活动弹窗结束-->
+
+<!--设置弹窗-->
+<div class="Setup">
+    <div class="Setup_beijing">
+        <div class="Setup_beijing_s">
+            <div class="Setup_kaung">
+                <ul class="Setup_navbox">
+                    <li>
+                        <a id="parameters" class="canshushezhi_b dise">参数设置</a>
+                    </li>
+                    <li>
+                        <a id="avatarchange" class="bianjitouxiang_a">编辑头像</a>
+                    </li>
+                    <li>
+                        <a id="nickmodify" class="xiugainice_a ">修改昵称</a>
+                    </li>
+                </ul>
+                <div class="Setup_canshubox">
+                    <p class="ma_text">MA价格均线（限选三种）</p>
+                    <ul class="ma_anniubox">
+                        <li class="ma_anniubox_li">
+                            <a>MA（5）</a>
+
+                            <div id="set1"
+                                 class="{% if myuser.get('settings',{}).get('ma5','0')=='1' %}on{% else %}off{% end %}"
+                                 data-key="ma5"></div>
+                        </li>
+                        <li class="ma_anniubox_li">
+                            <a>MA（10）</a>
+
+                            <div id="set2"
+                                 class="{% if myuser.get('settings',{}).get('ma10','1')=='1' %}on{% else %}off{% end %}"
+                                 data-key="ma10"></div>
+                        </li>
+                        <li class="ma_anniubox_li">
+                            <a>MA（20）</a>
+
+                            <div id="set3"
+                                 class="{% if myuser.get('settings',{}).get('ma20','1')=='1' %}on{% else %}off{% end %}"
+                                 data-key="ma20"></div>
+                        </li>
+                        <li class="ma_anniubox_li">
+                            <a>MA（30）</a>
+
+                            <div id="set4"
+                                 class="{% if myuser.get('settings',{}).get('ma30','0')=='1' %}on{% else %}off{% end %}"
+                                 data-key="ma30"></div>
+                        </li>
+                        <li class="ma_anniubox_li">
+                            <a>MA（60）</a>
+
+                            <div id="set5"
+                                 class="{% if myuser.get('settings',{}).get('ma60','1')=='1' %}on{% else %}off{% end %}"
+                                 data-key="ma60"></div>
+                        </li>
+                    </ul>
+                    <!--ma_text_lule-->
+                    <div class="anniuzhu">
+                        <div>
+                            <img id="huifua" src="{{ static_url('img/huifu_anniu.png') }}">
+                        </div>
+                        <div>
+                            <img class="baocuna" src="{{ static_url('img/baocun_anniu.png') }}">
+                        </div>
+                    </div>
+                    <p class="jianbianxiana"></p>
+                    <p class="ma_text">指标说明</p>
+                    <div class="ma_text_lule">
+                        <p>1:股票高于平均线视为强势；股价低于平均线视为弱势</p>
+
+                        <p>2:平均线向上看涨，有助长力道；平均线向上跌降，有助于跌力道</p>
+
+                        <p>3:二条以上平均线向上交叉时，买进参考</p>
+
+                        <p>4:二条以上平均线向下交叉时，卖进参考</p>
+                    </div>
+                </div>
+                <!--Setup_canshubox-->
+
+                <div class="Setup_touxiangbox" id="avatar">
+                    <p class="ma_text">请选择人物头像</p>
+
+                    <div class="Setup_touxiang" id="avatars">
+                        <span><img src="{{ static_url('imgs/avatar/1.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/2.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/3.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/4.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/5.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/6.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/7.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/8.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/9.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/10.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/11.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/12.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/13.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/14.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/15.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/16.png') }}"></span>
+                        <span><img src="{{ static_url('imgs/avatar/17.png') }}"></span>
+                    </div>
+
+                    <p class="jianbianxiana"></p>
+
+                    <div class="anniuzhu">
+                        <div>
+                            <img class="baocuna" id="setavatar" src="{{ static_url('img/baocun_anniu.png') }}">
+                        </div>
+                    </div>
+                </div>
+                <!--Setup_touxiangbox-->
+
+                <div class="Setup_nichengbox">
+                    <p class="ma_text">请在下方框内输入昵称</p>
+						<span class="Setup_nichengboxspan">
+						    <input class="shurukuang" id="name" value="{{ myuser.get('nick','') }}"/>
+						</span>
+                    <p class="jianbianxiana"></p>
+                    <div class="anniuzhu">
+                        <div>
+                            <img class="baocuna" id="setname" src="{{ static_url('img/baocun_anniu.png') }}">
+                        </div>
+                    </div>
+                </div>
+                <!--Setup_nichengbox-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--设置弹窗结束-->
+<!--任务弹窗-->
+<div class="task">
+    <img class="task_titler" src="{{ static_url('img/task_title.png') }}">
+    <img class="guanbi" src="{{ static_url('img/guanbi.png') }}">
+
+    <div class="task_beijing">
+        <div class="task_beijing_s">
+            <div class="task_elday">
+                <img class="task_beijinga" src="{{ static_url('img/task_eldaybeijing.png') }}">
+
+                <div class="task_eldaytext">
+                    <p class="task_eldaytitle">每日必做</p>
+                    <marquee class="task_eldaynei" direction="left" behavior="scroll" scrollamount="2" scrolldelay="0"
+                             loop="-1">
+                        这么简单的任务都不会，你要闹哪样
+                    </marquee>
+
+                </div>
+                <div class="renwulan">
+                    <div class="renwu">
+                        <span class="renwu_text">
+                            <img class="jianglia" src="{{ static_url('img/jianglia.png') }}">
+	       					<span class="jinbishu">金币x1000</span>
+                            <img class="ongoing" src="{{ static_url('img/ongoing.png') }}">
+                        </span>
+                        <span class="renwu_text shuoming">
+                            <p>任何场中比赛累计10局</p>
+                        </span>
+                    </div>
+                    <div class="renwu">
+                        <span class="renwu_text">
+                            <img class="jianglia" src="{{ static_url('img/jianglib.png') }}">
+                            <span class="jinbishu">金币x1000</span>
+                            <img class="ongoing" src="{{ static_url('img/ongoing.png') }}">
+                        </span>
+                        <span class="renwu_text shuoming">
+                            <p>任何场中比赛累计10局</p>
+                        </span>
+                    </div>
+                    <div class="renwu">
+                        <span class="renwu_text">
+                            <img class="jianglia" src="{{ static_url('img/jianglic.png') }}">
+	       					<span class="jinbishu">金币x1000</span>
+                            <img class="wancengsma" src="{{ static_url('img/wancengsma.png') }}">
+                        </span>
+                        <span class="renwu_text shuoming">
+	       					<p>任何场中比赛累计10局</p>
+	       				</span>
+                    </div>
+                    <div class="renwu">
+                        <span class="renwu_text">
+                            <img class="jianglia" src="{{ static_url('img/jianglic.png') }}">
+	       					<span class="jinbishu">金币x1000</span>
+                            <img class="ongoing" src="{{ static_url('img/lingjiang.png') }}">
+                        </span>
+                        <span class="renwu_text shuoming">
+	       					<p>任何场中比赛累计10局</p>
+	       				</span>
+                    </div>
+                    <div class="renwu">
+                        <span class="renwu_text">
+                            <img class="jianglia" src="{{ static_url('img/jianglic.png') }}">
+	       					<span class="jinbishu">金币x1000</span>
+                            <img class="ongoing" src="{{ static_url('img/lingjiang.png') }}">
+                        </span>
+                        <span class="renwu_text shuoming">
+	       					<p>任何场中比赛累计10局</p>
+	       				</span>
+                    </div>
+                </div>
+                <div class="renwu_jindu">
+                    <span class="renwu_jindu_text">任务进度</span>
+                    <span class="renwu_jindutiao">
+                        <span class="renwu_jinduger"></span>
+                        <span class="renwu_jindugeyell"></span>
+                        <span class="renwu_jindutext">15/30</span>
+                    </span>
+                </div>
+            </div>
+            <!--task_elday-->
+            <div class="task_elday task_tiaozhan">
+                <img class="task_beijinga" src="{{ static_url('img/task_tiaohanbeijing.png') }}">
+
+                <div class="task_eldaytext">
+                    <span class="task_eldaytitle">挑战任务<a class="jinxinzhong">正在进行中</a></span>
+
+                    <p class="task_eldaynei">24小时后自动更换任务</p>
+                </div>
+                <img class="tiaozhanjinbi" src="{{ static_url('img/tiaozhanjinbi.png') }}">
+                <span class="tiaozhanjinbi_icon">
+                    <p class="gold">金币x2000</p>
+                    <p class="tiaojian">经典模式对抗赛连赢5局</p>
+                </span>
+
+                <div class="renwu_jindu">
+                    <span class="renwu_jindutiao">
+                        <span class="renwu_jinduger"></span>
+                        <span class="renwu_jindugeyell"></span>
+                        <span class="renwu_jindutext">2/5</span>
+                    </span>
+                </div>
+                <img class="lingqu" src="{{ static_url('img/lingqu.png') }}">
+            </div>
+            <div class="task_tiaozhan task_elday">
+                <img class="task_beijinga" src="{{ static_url('img/task_tiaohanbeijing.png') }}">
+
+                <div class="task_eldaytext">
+                    <a class="jieshou">接受挑战</a>
+                    <span class="task_eldaytitle">超级挑战</span>
+
+                    <p class="task_eldaynei">连续7天登录,即可获取奖励</p>
+                </div>
+                <img class="tiaozhanjinbi" src="{{ static_url('img/supertiaozhan.png') }}">
+                <span class="tiaozhanjinbi_icon">
+                    <p class="gold">金币x2000</p>
+                    <p class="tiaojian">经典模式对抗赛连赢5局</p>
+                </span>
+
+                <div class="renwu_jindu">
+                    <span class="renwu_jindutiao">
+                        <span class="renwu_jinduger"></span>
+                        <span class="renwu_jindugeyell"></span>
+                        <span class="renwu_jindutext">2/5</span>
+                    </span>
+                </div>
+                <img class="lingqu" src="{{ static_url('img/lingqu.png') }}">
+            </div>
+        </div>
+    </div>
+</div>
+<!--task-->
+<!--任务弹窗结束-->
+
+<script>
+
+    /*任务页面*/
+    $(function () {
+        $('#task').click(function () {
+            $(".k_line_bigbox .k_line_box .task").show();
+        });
+
+        $(".guanbi").click(function () {
+            $(".k_line_bigbox .k_line_box .task").hide();
+        });
+    });
+
+    $(document).ready(function () {
+        function getCookie(name) {
+            var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+            return r ? r[1] : undefined;
+        };
+
+        // 修改头像
+//        $(function () {
+//            var tli = document.getElementById("avatar").getElementsByTagName("span");
+//            var avatar = {{ myuser.get("avatar",1) }};
+//            for (var i = 0; i < tli.length; i++) {
+//                if (i == avatar - 1) {
+//                    tli[i].className = "gou";
+//                }
+//            }
+//            $("#avatars span").click(function () {
+//                $("#avatars span").removeClass("gou");
+//                $(this).addClass("gou");
+//                for (var i = 0; i < tli.length; i++) {
+//                    if (tli[i].className == "gou") {
+//                        avatar = i + 1;
+//                        return avatar;
+//                    }
+//                }
+//            });
+//
+//        });
+
+        /*設置頁面*/
+        $(document).ready(function () {
+
+            //点击空白处收起设置页面, .touxiang为直接点击头像修改头像时触发
+            $(document).bind("click", function (e) {
+                var target = $(e.target);
+                if (target.closest(".Setup_beijing,#Setup,.touxiang").length == 0) {
+                    $(".Setup_beijing").hide();
+                }
+
+                e.stopPropagation();
+            });
+        });
+
+        /*活动页面*/
+        var headbug = 0;
+        var array = [];
+        $('#event').click(function () {
+            headbug = 0;
+            array = [];
+            $.ajax({
+                url: '/ajax/activities',
+                type: 'get',
+                success: function (re) {
+                    var jsons = jQuery.parseJSON(re);
+                    if (jsons.error == '') {
+                        if (jsons.num == 0) {
+//                            alert("暂无发布的活动哦");
+                            $("#activity_text").html("暂无发布的活动哦");
+                            $("#up").hide();
+                            $("#down").hide();
+                            $(".activity").show();
+                            return false;
+                        }
+                        headbug = jsons.num - 1;
+                        $.each(jsons.list, function (k, v) {
+                            array.push({"title": v.title, "detail": v.detail})
+                        });
+                        $("#activity_text").html(array[0].title);
+                        $("#activity_text_nei").html(array[0].detail);
+                        if (jsons.num == 1) {
+                            $("#up").css({
+                                visibility: "hidden"
+                            });
+                            $("#down").css({
+                                visibility: "hidden"
+                            });
+                        }
+                        else {
+                            $("#up").css({
+                                visibility: "hidden"
+                            });
+                            $("#down").css({
+                                visibility: "visible"
+                            });
+                        }
+                        $(".activity").show();
+                    }
+                    else {
+                        alert(jsons.msg);
+                    }
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        });
+
+        var index = 0;
+        $('#down').click(function () {
+            index++;
+            $("#activity_text").html(array[index].title);
+            $("#activity_text_nei").html(array[index].detail);
+            if (index >= headbug) {
+                $("#up").css({
+                    visibility: "visible"
+                });
+                $("#down").css({
+                    visibility: "hidden"
+                });
+            }
+
+        });
+        $('#up').click(function () {
+            index--;
+            $("#activity_text").html(array[index].title);
+            $("#activity_text_nei").html(array[index].detail);
+            if (index <= 0) {
+                $("#up").css({
+                    visibility: "hidden"
+                });
+                $("#down").css({
+                    visibility: "visible"
+                });
+            }
+        });
+
+        $(".guanbi").click(function () {
+            $(".activity").hide();
+            index = 0;
+        });
+   });
+</script>

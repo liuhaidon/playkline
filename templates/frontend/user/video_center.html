@@ -1,0 +1,463 @@
+{% extends "../base.html" %}
+{% block page_title %}视频中心|创业孵化平台{% end %}
+
+{% block content %}
+
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            <div class="fbdcy jhclick" id="gqjh">我发布的视频</div>
+            <div class="fbdcy pldcy" id="zpjh">我的视频足迹</div>
+        </div>
+
+        <link rel="stylesheet" href="/static/uploadVideo/base.css">
+        <link rel="stylesheet" href="/static/uploadVideo/user_base.css">
+        <link rel="stylesheet" href="/static/uploadVideo/user_center.css">
+        <div class="" id="gqjh1">
+            <!--copy_start-->
+            <div class="main_content" id="video_view">
+                <ul class="mod_tab_list">
+                    <li class="item current _videoBtn" id="videos">
+{#                        <a class="txt" href="#">视频#}
+{#                            <i class="nums">{{ videos.count() }}</i></a>#}
+                        <a class="txt" href="#">视频 <i class="nums">{{ videos.count() }}</i></a>
+                    </li>
+                    <li class="item _coverBtn" id="specials">
+                        <a class="txt" href="#">专辑 <i class="nums">{{ video_specials.count() }}</i></a>
+                    </li>
+                    <li class="item _coverBtn" id="speakers">
+                        <a class="txt" href="#">主讲人 <i class="nums">{{ video_speakers.count() }}</i></a>
+                    </li>
+                </ul>
+                <div class="video">
+                    <div class="filter_bar">
+                        <div class="btn_item item_allist"><span class="inner">批量操作</span><i class="arrow"></i>
+
+                            <div class="btn_list">
+                                <ul class="items">
+                                    <li style="display:none"><a href="javascript:" class="inner _cull">推荐视频</a></li>
+                                    </li>
+                                    <li><a href="javascript:" class="inner _del_video">删除</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="layout_toggle _filter">
+                            <div class="btn_item item_allist"><span class="inner _current_type">全部</span><i
+                                    class="arrow"></i>
+                                <ul class="btn_list _btn_list">
+                                    <li class="items items_border">
+                                        <a href="#" class="_type1 inner">上传时间(从新到旧)</a>
+                                        <a href="#" class="_type3 inner">观看次数(从多到少)</a>
+                                        <a href="#" class="_type4 inner">观看次数(从少到多)</a>
+                                    </li>
+                                    <li class="items">
+                                        <a href="#" class="_type0 inner">全部视频</a>
+                                        <a href="#" class="_type5 inner">已发布</a>
+                                        <a href="#" class="_type6 inner">未发布</a>
+                                        <a href="#" class="_type7 inner">已加入专辑</a>
+                                        <a href="#" class="_type8 inner">未加入专辑</a>
+                                        <a href="#" class="_type9 inner">已推荐视频</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="video_list" id="video_list">
+                        <li class="item_title">
+                            <div class="item_a"><input type="checkbox" class="_check_all"></div>
+                            <div class="item_b"><span class="text">视频截图</span></div>
+                            <div class="item_c">浏览</div>
+                            <div class="item_e" style="text-align: left;">专辑</div>
+                            <div class="item_e" style="text-align: left;">主讲人</div>
+                            <div class="item_d" style="text-align: left;">操作</div>
+                        </li>
+                        {% for c in videos %}
+                        <li class="list_item">
+                            <div class="item_a">
+                                <input type="checkbox" class="_check_video" data-id="{{ c.get('_id') }}">
+                            </div>
+                            <div class="item_b">
+                                <a href="javascript:" class="img">
+                                    <img onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                                         src="/static/media/video_img/{{ c.get('poster',"") }}"
+                                         alt="{{ c.get('videourl',"") }}"
+                                         width="175px" height="100px"> </a>
+
+                                <div class="video_detail">
+                                    <h3 class="title">
+                                        <a href="/video/{{ c.get('_id') }}"
+                                           title="{{ c.get('title') }}">{{ c.get('title') }}</a></h3>
+                                    <h6 class="desc"> 创建于：{{ c.get('time') }}
+                                        <span class="album_info _covers" title="">  </span>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="item_c">
+                                <ol class="trend_list">
+                                    <li class="item"><i class="icon_play"></i><span
+                                            class="nums">{{ c.get('visit',0) }}</span></li>
+                                </ol>
+                            </div>
+                            <div class="item_c">
+                                <ol class="trend_list">
+                                    <li class="item"><span class="nums">{{ special_info(c.get('special')) }}</span>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="item_e">
+                                <ol class="option_list">
+                                    <li class="item">
+                                        <a href="javascript:" class="btn_normal _edit_video"
+                                           data-id="{{ c.get('_id') }}"><i class="icon_edited"></i>
+                                            <span class="inner">{{ speaker_info(c.get('speaker')) }}</span>
+                                        </a>
+                                        <a href="javascript:" class="btn_normal _del_video" data-id="{{ c.get('_id') }}">
+                                        </a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="item_d">
+                                <ol class="option_list">
+                                    <li class="item"><a href="javascript:" class="btn_normal _del_video"
+                                                        data-id="{{ c.get('_id') }}">
+                                        <i class="icon_delete"></i>
+                                        <span class="inner">删除</span>
+                                    </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="javascript:" class="btn_normal _move_cover" data-id="{{ c.get('_id') }}">
+                                            <i class="icon_add"></i>
+                                            {#                                            <span class="inner">添加到专辑</span>#}
+                                        </a>
+                                    </li>
+                                </ol>
+                            </div>
+                        </li>
+                        {% end %}
+                    </ul>
+                    <div class="mod_pages">
+{#                        <a href="http://v.qq.com/u/videos/#video/null/0" style="display: none;">上一页</a>#}
+{#                        <a href="http://v.qq.com/u/videos/#video/null/1" class="current">1</a>#}
+{#                        <a href="http://v.qq.com/u/videos/#video/null/2" style="display: none;">下一页</a>#}
+                    </div>
+                </div>
+                <div class="special" style="display: none">
+                    <div class="specialList">
+                        {% for g in video_specials %}
+                        <table>
+                            <tr>
+                                <td width="50">名称：</td>
+                                <td width="100">{{ g.get('name') }}</td>
+                                <td width="50">简介：</td>
+                                <td>{{ g.get('brief')[0:20] }}</td>
+                                <td width="100"><a href="javascript:;" class="specialDetailBtn">详情</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="padding: 0">
+                                    <div style="display: none" class="specialContent">
+                                        {{ g.get('brief') }}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        {% end %}
+                    </div>
+
+                </div>
+                <div class="speaker" style="display: none ">
+
+                    <div class="speakerList">
+                        {% for s in video_speakers %}
+                        <table>
+                            <tr>
+                                <td width="50">名称：</td>
+                                <td width="100">{{ s.get('name') }}</td>
+                                <td width="50">简介：</td>
+                                <td>{{ s.get('brief')[0:20] }}</td>
+                                <td width="100"><a href="javascript:;" class="specialDetailBtn">详情</a></td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="padding: 0">
+                                    <div style="display: none" class="specialContent">
+                                        {{ s.get('brief') }}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        {% end %}
+                    </div>
+                </div>
+            </div>
+            <!--copy_end-->
+        </div>
+        <div class="" id="gqjh2" style="display: none;">
+            <div class="main_content" id="video_view">
+                <div class="video2">
+                    <div class="filter_bar">
+                        <div class="btn_item item_allist"><span class="inner">批量操作</span><i class="arrow"></i>
+
+                            <div class="btn_list">
+                                <ul class="items">
+                                    <li style="display:none"><a href="javascript:" class="inner _cull">推荐视频</a></li>
+                                    <li><a href="javascript:" class="inner _move_cover">添加到专辑</a>
+                                    </li>
+                                    <li><a href="javascript:" class="inner _del_video">删除</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="layout_toggle _filter">
+                            <div class="btn_item item_allist"><span class="inner _current_type">全部</span><i
+                                    class="arrow"></i>
+                                <ul class="btn_list _btn_list">
+                                    <li class="items items_border">
+                                        <a href="#" class="_type1 inner">上传时间(从新到旧)</a>
+                                        <a href="#" class="_type3 inner">观看次数(从多到少)</a>
+                                        <a href="#" class="_type4 inner">观看次数(从少到多)</a>
+                                    </li>
+                                    <li class="items">
+                                        <a href="#" class="_type0 inner">全部视频</a>
+                                        <a href="#" class="_type5 inner">已发布</a>
+                                        <a href="#" class="_type6 inner">未发布</a>
+                                        <a href="#" class="_type7 inner">已加入专辑</a>
+                                        <a href="#" class="_type8 inner">未加入专辑</a>
+                                        <a href="#" class="_type9 inner">已推荐视频</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="video_list" id="video_list">
+                        <li class="item_title">
+                            <div class="item_a"><input type="checkbox" class="_check_all"></div>
+                            <div class="item_b"><span class="text">视频截图</span></div>
+                            <div class="item_c">浏览</div>
+                            <div class="item_e" style="text-align: left;">专辑</div>
+                            <div class="item_e" style="text-align: left;">主讲人</div>
+                            <div class="item_d" style="text-align: left;">开始观看的时间</div>
+                        </li>
+                        {% for c in learned_course %}
+                        <li class="list_item">
+                            <div class="item_a"><input type="checkbox" class="_check_video" data-id="{{ c.get('_id') }}">
+                            </div>
+                            <div class="item_b">
+                                <a href="javascript:" class="img">
+                                    <img onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                                         src="/static/media/video_img/{{ c.get('image',"") }}"
+                                         alt="{{ c.get('videourl',"") }}"
+                                         width="175px" height="100px"> </a>
+
+                                <div class="video_detail">
+                                    <h3 class="title">
+                                        <a href="/video/{{ c.get('_id') }}"
+                                           title="{{ c.get('title') }}">{{ c.get('title') }}</a></h3>
+                                    <h6 class="desc"> 创建于：{{ c.get('time') }}
+                                        <span class="album_info _covers" title="">  </span>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="item_c">
+                                <ol class="trend_list">
+                                    <li class="item"><i class="icon_play"></i><span
+                                            class="nums">{{ c.get('visit',0) }}</span></li>
+                                </ol>
+                            </div>
+                            <div class="item_c">
+                                <ol class="trend_list">
+                                    <li class="item"><span class="nums">{{ special_info(c.get('special')) }}</span>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="item_e">
+                                <ol class="option_list">
+                                    <li class="item">
+                                        <a href="javascript:" class="btn_normal _edit_video"
+                                           data-id="{{ c.get('_id') }}"><i class="icon_edited"></i>
+                                            <span class="inner">{{ speaker_info(c.get('speaker')) }}</span>
+                                        </a>
+                                        <a href="javascript:" class="btn_normal _del_video" data-id="{{ c.get('_id') }}">
+                                        </a>
+
+                                    </li>
+                                </ol>
+                            </div>
+                            {#                            <div class="item_d">#}
+                            {#                                <ol class="option_list">#}
+                            {#                                    <li class="item"><a#}
+                            {#                                            href="javascript:" class="btn_normal _del_video" data-id="{{ c.get('_id') }}"#}
+                            {#                                            ><i class="icon_delete"></i><span class="inner">删除</span></a>#}
+                            {#                                    </li>#}
+                            {#                                    <li class="item">#}
+                            {#                                        <a href="javascript:" class="btn_normal _move_cover">#}
+                            {#                                            <i class="icon_add"></i>#}
+                            {#                                        <span class="inner">添加到专辑</span>#}
+                            {#                                        </a></li>#}
+                            {#                                </ol>#}
+                            {#                            </div>#}
+                            <div class="item_c">
+                                <ol class="trend_list">
+                                    <li class="item"><span class="nums">{{ c.get('learntime',0) }}</span>
+                                    </li>
+                                </ol>
+                            </div>
+                        </li>
+                        {% end %}
+                    </ul>
+                    {#                    <div class="mod_pages">#}
+                    {#                        <a href="#" style="display: none;">上一页</a>#}
+                    {#                        <a href="#" class="current">1</a>#}
+                    {#                        <a href="#" style="display: none;">下一页</a>#}
+                    {#                    </div>#}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <p class="clear"></p>
+</div>
+
+
+<script>
+    $('#gqjh').click(function () {
+        $('#gqjh2').hide();
+        $('#gqjh1').show();
+    });
+    $('#zpjh').click(function () {
+        $('#gqjh1').hide();
+        $('#gqjh2').show();
+    });
+    $(".item_allist").click(function () {
+        $(this).find($(".btn_list")).toggle();
+    })
+    $("._current_type").click(function () {
+        $(this).find($("._btn_list")).toggle();
+    })
+</script>
+<style>
+    .specialList, .speakerList {
+        background: #F0F0F0;
+    }
+
+    .speakerList td,
+    .specialList td {
+        padding: 10px;
+    }
+
+    .speakerList table,
+    .specialList table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .speakerDetailBtn,
+    .specialDetailBtn {
+        background: #00A0EA;
+        color: white;
+        border-radius: 20px;
+        padding: 3px 15px;
+    }
+
+    .speakerDetailBtn:hover,
+    .specialDetailBtn:hover {
+        color: white;
+    }
+</style>
+
+<script>
+    $('div.specialContent').hide();
+    (function (o) {
+        $.each(o, function (k, v) {
+            $(k).click(function () {
+                $('.gqjh').hide();
+                $('.zpjh').hide();
+                v.fadeIn('slow');
+            });
+        });
+    })({'#gqjh': $('.gqjh'), '#zpjh': $('.zpjh')});
+
+    $('.mod_tab_list .item').click(function () {
+        $(this).addClass('current').siblings().removeClass('current');
+    });
+
+    (function () {
+        var a = $('#videos'),
+            b = $('#speakers'),
+            c = $('#specials'),
+            d = $('.video'),
+            e = $('.speaker'),
+            f = $('.special'),
+            g = function (x, y) {
+                x.click(function () {
+                    d.hide();
+                    e.hide();
+                    f.hide();
+                    y.fadeIn();
+                });
+                return this;
+            };
+        g(a, d);
+        g(b, e);
+        g(c, f);
+    })();
+
+{#    $('#video').click(function () {#}
+{#            alert("ssssssssssssss");#}
+{#            var d = $('.video'),#}
+{#            e = $('.speaker'),#}
+{#            f = $('.special');#}
+{#            #}
+{#            d.hide();#}
+{#            e.hide();#}
+{#            f.hide();#}
+{#            $('.video').fadeIn();#}
+{##}
+{#    });#}
+
+    $('.specialDetailBtn').click(function () {
+        $(this).parents('table').find('div.specialContent').css('padding', '20px').slideToggle('fast');
+    });
+
+    $("._del_video").click(function () {
+        var that = $(this);
+        var id = $(this).data("id");
+        var name = ($(this).parents(".list_item").find(".video_detail a").text());
+        if (confirm('确定要删除名称为"' + name + '" 的视频吗？')) {
+            $.ajax({
+                type: 'post',
+                url: '/video/delete',
+                data: {
+                    "id":id,
+                    "_xsrf":$("input[name='_xsrf']").val(),
+                },
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    alert('"'+name +'"'+ obj.msg);
+                    if (obj.status == 'ok') {
+                        that.parents(".list_item").fadeOut("slow").remove();
+                        window.location.reload()
+                    }
+                    else if (obj.status == 'error') {
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        }
+    });
+
+</script>
+{% end %}
+
+
+
+
+
+

@@ -1,0 +1,1032 @@
+{% extends "../base.html" %}
+{% block page_title %}安全设置|创业孵化平台{% end %}
+
+{% block content %}
+
+{% set identity = myuser.get('identity',{}) %}
+<script type="text/javascript" src=" {{ static_url('plupload/js/plupload.full.min.js') }}"></script>
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            {% include 'account_nav.html' %}
+            <script>
+                $('.fbdcy').eq(2).addClass('jhclick').siblings().removeClass('jhclick');
+            </script>
+        </div>
+
+        <div class="Security-Settings" style="">
+            <table>
+                <tr>
+                    <td class="Security1"><span>登陆密码</span></td>
+                    <td>安全强度高的登录密码可以使账号更安全，建议您设置一个包含数字和字母，并长度超过6位以上的登录密码。</td>
+                    <td><a href="javascript:;" class="Security11">修改密码</a></td>
+                </tr>
+                <tr class="Security5" id="Security11">
+                    <td colspan="3" style="padding: 0">
+                        <form action="" method="post" enctype="multipart/form-data"
+                              name="reset_pwd_form" id="reset_pwd_form" class="Security11" style="display: none">
+                            <input type="hidden" name="type" value="login_pwd">
+
+                            <table class="Security51" style="border:none">
+                                <tr>
+                                    <td>请输入你的原始密码：</td>
+                                    <td><input name="opwd" type="password" placeholder="请输入你的原始密码"></td>
+                                </tr>
+                                <tr>
+                                    <td>请输入你的新密码：</td>
+                                    <td><input name="npwd" type="password" placeholder="请输入你的新密码"></td>
+                                </tr>
+                                <tr>
+                                    <td>请确认你的新密码：</td>
+                                    <td><input name="npwd2" type="password" placeholder="请确认你的新密码"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="javascript:;" class="Security512" id="modifypwd">确定</a>
+                                        <span style="color: red" id="update_login_pwd_tip"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Security2"><span>手机验证</span></td>
+                    <td>您验证的手机：{{ phone }}如有更换，立即修改。</td>
+                    <td><a href="javascript:;" class="Security12">修改</a></td>
+                </tr>
+                <tr class="Security5" id="Security12">
+                    <td colspan="3" style="padding: 0">
+                        <form action="" method="post" enctype="multipart/form-data"
+                              name="reset_phone_form" id="reset_phone_form" style="display: none" class="Security12">
+                            <input type="hidden" name="type" value="phone">
+                            <table class="Security51">
+                                <tr>
+                                    <td>原手机号：</td>
+                                    <td><input name="old_phone" id="old_phone" placeholder="请输入你的原手机号"></td>
+                                </tr>
+{#                                <tr>#}
+{#                                    <td>图形验证码：</td>#}
+{#                                    <td class="Security511">#}
+{#                                        <input type="text" placeholder="" name='mobile_code' id="mobile_code"#}
+{#                                               class="register-input2"#}
+{#                                               style="vertical-align:middle;"/>#}
+{#                                        <a href="javascript:refreshCode('mobile_imgcode')" class="refreshCode">#}
+{#                                            <img src='/imagecode' id="mobile_imgcode" class="refreshCodeImg"#}
+{#                                                 title="单击下一张" alt="单击下一张">#}
+{#                                        </a>#}
+{#                                        <img src='/imagecode' id="mobile_imgcode"#}
+{#                                                 title="单击下一张" alt="单击下一张" onclick="refreshCode('mobile_imgcode')">#}
+{#                                    </td>#}
+{#                                </tr>#}
+
+                                <tr>
+                                    <td>图形验证码：</td>
+                                    <td class="Security511">
+                                        <input type="text" placeholder="" name='mobile_code' id="mobile_code"
+                                               class="register-input2"
+                                               style="vertical-align:middle;"/>
+                                        <a href="javascript:refreshCode('mobile_imgcode')" class="refreshCode">
+                                            <img src='/imagecode' id="mobile_imgcode" class="refreshCodeImg"
+                                                 title="单击下一张" alt="单击下一张">
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>新手机号：</td>
+                                    <td  class="Security511">
+                                        <input class="register-input1" name="new_phone" id="new_phone" placeholder="请输入你的新手机号" style="vertical-align:middle;"/>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="button button-primary button-small"
+                                                style="width: 100px" id="send_phone_code" href="javascript:;">
+                                            发送验证码
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>短信验证码：</td>
+                                    <td>
+                                        <input type="text" placeholder="验证码" name="phone_code" id="phone_code"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="javascript:;" class="Security512" id="modifymobile">确定</a>
+                                        <span style="color: red" id="update_phone_pwd_tip"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Security3"><span>邮箱验证</span></td>
+                    <td>您验证的邮箱：{{ email }}</td>
+                    <td><a href="javascript:;" class="Security13">修改</a></td>
+                </tr>
+                <tr class="Security5" id="Security13">
+                    <td colspan="3" style="padding: 0">
+                        <form action="" method="post" enctype="multipart/form-data"
+                              name="reset_email_form" id="reset_email_form" style="display: none" class="Security13">
+                            <input type="hidden" name="type" id="type1" value="email">
+                            <table class="Security51">
+                                <tr>
+                                    <td>原邮箱账号：</td>
+                                    <td><input name="old_email" id="old_email" placeholder="请输入你的原邮箱账号"></td>
+                                </tr>
+                                <tr>
+                                    <td>新邮箱账号：</td>
+                                    <td><input name="new_email" id="new_email" placeholder="请输入你的新邮箱账号"/></td>
+                                    <td>
+                                        <button type="button" class="button button-primary button-small"
+                                                style="width: 100px" id="send_email_code" href="javascript:;">
+                                            发送验证邮件
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>邮件验证码：</td>
+                                    <td class="Security511">
+                                        <input type="text" placeholder="验证码" name='email_code' id="email_code"
+                                               class="register-input2"
+                                               style="vertical-align:middle;"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><a href="javascript:;" class="Security512" id="modifyemail">确定</a>
+                                        <span style="color: red" id="update_email_tip"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Security4"><span>支付密码</span></td>
+                    <td>为保障投资资金安全与第三方支付平台合作，进行项目融资资金的托管。</td>
+                    <td><a href="javascript:;" class="Security14">修改</a></td>
+                </tr>
+                <tr class="Security5" id="Security14">
+                    <td colspan="3" style="padding: 0">
+                        <form action="" method="post" enctype="multipart/form-data"
+                              name="reset_pay_pwd_form" id="reset_pay_pwd_form" style="display: none"
+                              class="Security14">
+                            <input type="hidden" name="type" value="pay_pwd">
+                            <table class="Security51">
+                                <tr>
+                                    <td>原支付密码：</td>
+                                    <td><input type="password" name="old_pay_pwd" 　placeholder="请输入原支付密码,默认为登录密码"></td>
+                                </tr>
+                                <tr>
+                                    <td>新支付密码：</td>
+                                    <td><input type="password" name="new_pay_pwd" placeholder="请输入新的支付密码"></td>
+                                </tr>
+                                <tr>
+                                    <td>确认支付密码：</td>
+                                    <td><input name="new_pay_pwd2" type="password" placeholder="请确认你的支付密码"></td>
+                                </tr>
+                                <tr>
+                                    <td>图形验证码：</td>
+                                    <td class="Security511">
+                                        <input type="text" placeholder="" name='paypwd_code' id="paypwd_code"
+                                               class="register-input2"
+                                               style="vertical-align:middle;"/>
+                                        <a href="javascript:refreshCode('paypwd_imgcode')" class="refreshCode">
+                                            <img src='/imagecode' id="paypwd_imgcode" class="refreshCodeImg"
+                                                 title="单击下一张" alt="单击下一张">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><a href="javascript:;" class="Security512" id="modifypaypwd">确定</a>
+                                        <span style="color: red" id="update_pay_pwd_tip"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Security4"><span>实名认证</span></td>
+                    <td>通过实名认证才能发布项目.</td>
+                    <td><a href="javascript:;" class="Security15">修改</a></td>
+                </tr>
+                <tr class="Security5" id="Security15">
+                    <td colspan="3" style="padding: 0">
+                        <form action="/user/identify-verify" class="Security15" method="post"
+                              enctype="multipart/form-data"
+                              name="id_card_info_form" id="id_card_info_form" style="display: none">
+                            {% module xsrf_form_html() %}
+                            {% if not identity.get("status", 0) %}
+                            <table class="Security51">
+                                <tr>
+                                    <td></td>
+                                    <td>身份证号：</td>
+                                    <td>
+                                        <input type="text" name="id_number"
+                                                value="{{ identity.get("id_number", '') }}"
+                                               placeholder="请输入您的身份证号" style="width:280px;height:30px;"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <div class="shenfenzhen sfz-item" style="text-align: left">身份证正面照</div>
+                                        <div>
+                                            <a class="sfzsbmit" href="#" id="sfzm">
+                                                <img id="id_card_front" width="300" height="169" alt=""
+                                                 src='{{ identity.get("id_front", "/static/img/startup/idfront_dft.png")}}'/>
+                                            </a>
+                                        </div>
+                                        <div class="sfzBtn" style="text-align: left">
+                                            <input type="text" id="id_card_front_url" style="display: none"
+                                                   name="id_card_front"
+                                                   value='{{ identity.get("id_front", "/static/img/startup/idfront_dft.png") }}'
+                                            />
+                                            <div>保证文字清晰，内容真实。</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="shenfenzhen sfz-item">身份证背面照：</div>
+                                        <div>
+                                            <a class="sfzsbmit" href="#" id="sfbm">
+                                             <img id="id_card_back" width="300" height="169" alt="" src='{{ identity.get("id_back", "/static/img/startup/idback_dft.png") }}'/>
+                                            </a>
+                                        </div>
+                                        <div class="sfzBtn">
+                                            <input type="text" id="id_card_back_url" style="display: none"
+                                                   name="id_card_back"
+                                                   value='{{ identity.get("id_back", "/static/img/startup/idback_dft.png") }}'/>
+                                            <div>保证文字清晰，内容真实。</div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="100"></td>
+                                    <td style="vertical-align: top">
+                                        &nbsp;<input type="submit" class="button button-primary button-normal follow-project"
+                                                     value="保存">
+                                    </td>
+                                </tr>
+                            </table>
+                            {% else %}
+                            <table width="100%">
+                                <tr>
+                                    <td style="text-align: center;color:#00A0EA;font-size: 25px;">
+                                        <div style=" font-size: 50px;display: inline-block; vertical-align: middle;  margin-right: 10px;
+                                                        margin-bottom: 10px;;
+                                                        ">
+                                            ✔
+                                        </div>
+                                        已认证
+                                    </td>
+                                </tr>
+                            </table>
+                            {% end %}
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Security4"><span>投资人认证</span></td>
+                    <td>通过投资人认证才能众筹项目.</td>
+                    <td><a href="javascript:;" class="Security16">修改</a></td>
+                </tr>
+                <tr class="Security5" id="Security16">
+                    <td colspan="3" style="padding: 0">
+                        <form method="post" action="/user/inverstor_auth" class="Security16"
+            enctype="application/x-www-form-urlencoded" name="investor_auth_form" id="investor_auth_form"  style="display: none">
+            <table class="InfoCertificationTab">
+{#                <tr>#}
+{#                    <td colspan="2" class="InfoCertificationTitle">提交真实个人信息完成认证</td>#}
+{#                </tr>#}
+{#                <tr><td colspan="2" height="20"></td></tr>#}
+                <tr>
+                    <td></td>
+                    <td>身份证号：</td>
+                    <td>
+{#                        <input type="text" placeholder="请输入您的身份证号" name="id_number"#}
+{#                            value="{{info_cert and info_cert.get("id_number", "") or ""}}">#}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div class="shenfenzhen sfz-item" style="text-align: left">身份证正面照</div>
+                        <div>
+                            <a class="sfzsbmit" href="#" id="sfzm2"><img id="id_card_front" width="300" height="169" alt=""
+                                 src="{{ identity.get("id_front", "/static/img/startup/idfront_dft.png")}}"
+                            /></a>
+                        </div>
+                        <div class="sfzBtn" style="text-align: left">
+{#                                                        <input type="button" value="点击上传" class="sfzsbmit"#}
+{#                                                               onclick="document.getElementById('sfzm').click()"/>#}
+{#                                                        <input type="file" style="display: none" id="sfzm">#}
+
+{#                            <a class="sfzsbmit" href="#" id="sfzm">上传图标</a>#}
+                            <input type="text" id="id_card_front_url" style="display: none"
+                                   name="id_card_front"
+                                   value='{{ identity.get("id_front", "/static/img/startup/idfront_dft.png") }}'
+                                   />
+                            <div>保证文字清晰，内容真实。</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="shenfenzhen sfz-item">身份证背面照：</div>
+                        <div><img id="id_card_back" width="300" height="169" alt=""
+                                  src='{{ identity.get("back", "/static/img/startup/idback_dft.png") }}'/>
+                        </div>
+                        <div class="sfzBtn">
+{#                                                        <input type="button" value="点击上传" class="sfzsbmit"#}
+{#                                                               onclick="document.getElementById('sfbm').click()"/>#}
+{#                                                        <input type="file" style="display: none" id="sfbm">#}
+                            <a class="sfzsbmit" href="#" id="sfbm2">上传图标</a>
+                            <input type="text" id="id_card_back_url" style="display: none"
+                                   name="id_card_back"
+                                   value='{{ identity.get("back", "/static/img/startup/idback_dft.png") }}'
+                                    />
+
+                            <div>保证文字清晰，内容真实。</div>
+
+                        </div>
+                    </td>
+
+
+{#                    <td>#}
+{#                        <div class="cardBGImg">#}
+{#                            <img id="id_card_front" width="294" height="162" alt="" class="cardPositive"#}
+{#                                {% set default_front_img="/static/img/startup/idfront_dft.png" %}#}
+{#                                src={{info_cert and info_cert.get("front", "") or default_front_img}}#}
+{#                            >#}
+{#                            <p><a href="javascript:;" id="cardPositive" onclick="$('#uploadImgFront').click()">点击上传</a>身份证正面照</p>#}
+{#                            <input type="file" id="uploadImgFront" style="display: none">#}
+{##}
+{#                            <a class="ac-button button button-primary button-small" href="#" id="index_image">上传图标</a>#}
+{#                            <input type="text" id="front_url" style="display: none" name="front"#}
+{#                                   value={{info_cert and info_cert.get("front", "") or default_front_img}}>#}
+{#                            <script>#}
+{#                               $(function () {#}
+{#                                   var uploader = new plupload.Uploader({#}
+{#                                       browse_button: 'uploadImgFront',#}
+{#                                       url: "/ajax/upload_image?path=id_card",#}
+{#                                       multipart_params: {#}
+{#                                           '_xsrf': $("input[name='_xsrf']").val()#}
+{#                                       }#}
+{#                                   });#}
+{#                                   uploader.init();#}
+{##}
+{#                                   // 文件添加后立即上传#}
+{#                                   uploader.bind('FilesAdded', function (up, files) {#}
+{#                                       plupload.each(files, function (file) {#}
+{#                                           uploader.start();#}
+{#                                       });#}
+{#                                   });#}
+{##}
+{#                                   // 上传正面#}
+{#                                   uploader.bind('FileUploaded', function (up, file, info) {#}
+{#                                       var response = $.parseJSON(info.response);#}
+{#                                       if (response.status === 'ok') {#}
+{#                                           $('#id_card_front').attr('src', "/static/media/id_card/" + response.name);#}
+{#                                           $('#front_url').val("/static/media/id_card/" + response.name);#}
+{#                                        }#}
+{#                                    });#}
+{#                               });#}
+{#                            </script>#}
+{#                        </div>#}
+{##}
+{#                        <div class="cardBGImg">#}
+{#                            <img id="id_card_back" width="294" height="162" alt="" class="cardReverse"#}
+{#                            {% set default_back_img="../static/img/startup/idback_dft.png" %}#}
+{#                            src={{info_cert and info_cert.get("back", "") or default_back_img}}#}
+{#                            >#}
+{#                            <p><a href="javascript:;" id="cardReverse" onclick="$('#uploadImgBack').click()">点击上传</a>身份证背面照</p>#}
+{#                            <input type="file" id="uploadImgBack" style="display: none">#}
+{#                            <input type="text" id="back_url" style="display: none" name="back"#}
+{#                                   value={{info_cert and info_cert.get("back", "") or default_back_img}}>#}
+{#                            <script>#}
+{#                               $(function () {#}
+{#                                   var uploader = new plupload.Uploader({#}
+{#                                       browse_button: 'uploadImgBack',#}
+{#                                       url: "/ajax/upload_image?path=id_card",#}
+{#                                       multipart_params: {#}
+{#                                           '_xsrf': $("input[name='_xsrf']").val()#}
+{#                                       }#}
+{#                                   });#}
+{#                                   uploader.init();#}
+{##}
+{#                                   // 文件添加后立即上传#}
+{#                                   uploader.bind('FilesAdded', function (up, files) {#}
+{#                                       plupload.each(files, function (file) {#}
+{#                                           uploader.start();#}
+{#                                       });#}
+{#                                   });#}
+{##}
+{#                                   // 上传背面#}
+{#                                   uploader.bind('FileUploaded', function (up, file, info) {#}
+{#                                       var response = $.parseJSON(info.response);#}
+{#                                       if (response.status === 'ok') {#}
+{#                                           $('#id_card_back').attr('src', "/static/media/id_card/" + response.name);#}
+{#                                           $('#back_url').val("/static/media/id_card/" + response.name);#}
+{#                                        }#}
+{#                                    });#}
+{#                               });#}
+{#                            </script>#}
+{#                        </div>#}
+{#                    </td>#}
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>所在城市：</td>
+                    <td>
+                        <select class="provinces" name="province">
+{#                            {% set pid=info_cert and info_cert.get("pid", "") or 1 %}#}
+{#                            {% for p in provinces %}#}
+{#                            <option value="{{ p['id'] }}" data-id="{{ p['id'] }}"#}
+{#                                {% if pid == p['id'] %} selected {% end %}#}
+{#                                >{{ p['name'] }}</option>#}
+{#                            {% end %}#}
+                        </select>
+                        <select class="city" name="city">
+{#                            {% set cid=info_cert and info_cert.get("cid", "") or 1 %}#}
+{#                            {% for c in cities %}#}
+{#                            <option value="{{ c['id'] }}" data-id="{{ c['id'] }}"#}
+{#                                {% if cid == c['id'] %} selected {% end %}#}
+{#                                >{{ c['name'] }}</option>#}
+{#                            {% end %}#}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>所在公司：</td>
+                    <td>
+{#                        <input type="text" placeholder="公司名称没有填无即可" name="company"#}
+{#                            value={{ info_cert and info_cert.get("company", "") or "" }}>#}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>担任职务：</td>
+                    <td>
+{#                        <input type="text" placeholder="没有填无即可" name="position"#}
+{#                            value={{ info_cert and info_cert.get("position", "") or "" }}>#}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>关注领域：</td>
+                    <td style="color:#00A0EA">请选择关注领域（多项选择）</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="listBtn" id="watch_fields">
+{#                        {% set watch_field_list = (info_cert and info_cert.get('watch_fields', []) or []) %}#}
+{#                        {% for f in fields %}#}
+{#                            <div class={% if f['name'] in watch_field_list %}selected{% end %}>{{f['name']}}</div>#}
+{#                        {% end %}#}
+                    </td>
+                    <input type="hidden" name="watch_fields">
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>投资经验：</td>
+                    <td style="color:#00A0EA">请选择投资经验(多项选择)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="listBtn" id="exp_invest">
+{#                        {% set exp_invest_list = (info_cert and info_cert.get('exp_invest', []) or []) %}#}
+{#                        {% for e in exp_invest %}#}
+{#                            <div class={% if e['name'] in exp_invest_list %}selected{% end %}>{{e['name']}}</div>#}
+{#                        {% end %}#}
+                    </td>
+                    <input type="hidden" name="exp_invest">
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>投资案例：</td>
+                    <td>
+{#                        <input type="text" placeholder="没有填无即可" name="portfolio"#}
+{#                            value={{ info_cert and info_cert.get("portfolio", "") or "" }}>#}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>单个项目投资意向额度：</td>
+                    <td style="color:#00A0EA">请选择额度（多项选择）</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="listBtn" id="amount_stage">
+{#                        {% set amount_stage_list = (info_cert and info_cert.get('amount_stage', []) or []) %}#}
+{#                        {% for a in amount_stage %}#}
+{#                            <div class={% if a['name'] in amount_stage_list %}selected{% end %}>{{a['name']}}</div>#}
+{#                        {% end %}#}
+                    </td>
+                    <input type="hidden" name="amount_stage">
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="提交" class="InfoCertificationSubmit button button-3d button-primary button-rounded">
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+
+
+{#                        <form action="/user/id-card-verify" class="Security16" method="post"#}
+{#                              enctype="multipart/form-data"#}
+{#                              name="investor_auth_form" id="investor_auth_form" style="display: none">#}
+{#                            {% if not myuser.get("is_check") %}#}
+{#                            <table width="100%">#}
+{#                                <tr>#}
+{#                                    <td>身份证号：</td>#}
+{#                                    <td>#}
+{#                                        <input type="text" name="id_number"#}
+{#                                                {% if id_verify %}#}
+{#                                               value="{{ id_verify.get("id_number", '') }}"#}
+{#                                                {% end %}#}
+{#                                               placeholder="请输入您的身份证号"/>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                                <tr>#}
+{#                                    <td></td>#}
+{#                                    <td>#}
+{#                                        <table>#}
+{#                                            <tr>#}
+{#                                                <td>#}
+{#                                                    <div>#}
+{#                                                        <img id="id_card_front" width="300" height="169" alt=""#}
+{#                                                                {% set default_front_img="../static/img/startup/idfront_dft.png" %}#}
+{#                                                                {% if id_verify %}#}
+{#                                                             src={{ id_verify.get("front", "") or default_front_img }}#}
+{#                                                                     {% else %} src = {{ default_front_img }}#}
+{#                                                        {% end %}/>#}
+{#                                                    </div>#}
+{#                                                    <div class="shenfenzhen" style="text-align: left">身份证正面照</div>#}
+{#                                                    <div class="sfzBtn">#}
+{#                                                        <input type="button" value="点击上传" class="sfzsbmit"#}
+{#                                                               onclick="document.getElementById('sfzm').click()"/>#}
+{#                                                        <input type="file" style="display: none"#}
+{#                                                               id="sfzm">#}
+{#                                                        <input type="text" id="id_card_front_url" style="display: none"#}
+{#                                                               name="id_card_front"#}
+{#                                                                {% if id_verify %}#}
+{#                                                               value={{ id_verify.get("front", "../static/img/startup/idfront_dft.png") }}#}
+{#                                                                {% end %}/>#}
+{##}
+{#                                                        <div>保证文字清晰，内容真实。</div>#}
+{##}
+{##}
+{#                                                    </div>#}
+{#                                                </td>#}
+{#                                                <td>#}
+{#                                                    <div><img id="id_card_back" width="300" height="169" alt=""#}
+{#                                                            {% set default_back_img="../static/img/startup/idback_dft.png" %}#}
+{#                                                            {% if id_verify %}#}
+{#                                                              src={{ id_verify.get("back", "") or default_back_img }}#}
+{#                                                                      {% else %}#}
+{#                                                                      src={{ default_back_img }}#}
+{#                                                            {% end %}/>#}
+{#                                                    </div>#}
+{#                                                    <div class="shenfenzhen sfz-item">身份证背面照：</div>#}
+{#                                                    <div class="sfzBtn">#}
+{#                                                        <input type="button" value="点击上传" class="sfzsbmit"#}
+{#                                                               onclick="document.getElementById('sfbm').click()"/>#}
+{#                                                        <input type="file" style="display: none" id="sfbm">#}
+{#                                                        <input type="text" id="id_card_back_url" style="display: none"#}
+{#                                                               name="id_card_back"#}
+{#                                                                {% if id_verify %}#}
+{#                                                               value={{ id_verify.get("back", default_back_img) }}#}
+{#                                                                       {% end %}#}
+{#                                                                />#}
+{##}
+{#                                                        <div>保证文字清晰，内容真实。</div>#}
+{##}
+{#                                                    </div>#}
+{#                                                </td>#}
+{#                                            </tr>#}
+{#                                        </table>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                                <tr>#}
+{#                                    <td height="100"></td>#}
+{#                                    <td style="vertical-align: top">#}
+{#                                        &nbsp;<input type="submit"#}
+{#                                                     class="button button-primary button-small follow-project"#}
+{#                                                     value="保存">#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            </table>#}
+{#                            {% else %}#}
+{#                            <table width="100%">#}
+{#                                <tr>#}
+{#                                    <td style="text-align: center;color:#00A0EA;font-size: 25px;">#}
+{#                                        <div style=" font-size: 50px;display: inline-block; vertical-align: middle;  margin-right: 10px;#}
+{#                                                        margin-bottom: 10px;;#}
+{#                                                        ">#}
+{#                                            ✔#}
+{#                                        </div>#}
+{#                                        已认证#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            </table>#}
+{#                            {% end %}#}
+{#                        </form>#}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <p class="clear"></p>
+</div>
+
+<script>
+    $(function () {
+        var uploader = new plupload.Uploader({
+            browse_button: ['sfzm','sfbm'],
+            url: "/ajax/upload_image?path=id_card",
+            multipart_params: {
+                '_xsrf': $("input[name='_xsrf']").val(),
+            },
+            filters: {
+                max_file_size: '2mb',
+                mime_types:[
+                    {title: "Image files",extensions: "jpg,gif,png"}//图片限制
+                ]
+            },
+        });
+        uploader.init();
+
+        // 文件添加后立即上传
+        uploader.bind('FilesAdded', function (up, files) {
+            plupload.each(files, function (file) {
+                uploader.start();
+            });
+        });
+
+        // 上传正面
+        uploader.bind('FileUploaded', function (up, file, info) {
+            var response = $.parseJSON(info.response);
+            console.log(up);
+            console.log(file);
+            console.log(info);
+            if (response.status === 'ok') {
+                $('#id_card_front').attr('src', "/static/media/id_card/" + response.name);
+                $('#id_card_front_url').val("/static/media/id_card/" + response.name)
+            } else {
+                alert(response.msg);
+            }
+        });
+    });
+    $('#rqin').click(function () {
+        $('.list-div-item').toggle();
+    });
+</script>
+{#<script>#}
+{#    $(function () {#}
+{#        var uploader = new plupload.Uploader({#}
+{#            browse_button: 'sfzm',#}
+{#            url: "/ajax/upload_image?path=id_card",#}
+{#            multipart_params: {#}
+{#                '_xsrf': $("input[name='_xsrf']").val()#}
+{#            }#}
+{#        });#}
+{#        uploader.init();#}
+{##}
+{#        // 文件添加后立即上传#}
+{#        uploader.bind('FilesAdded', function (up, files) {#}
+{#            plupload.each(files, function (file) {#}
+{#                uploader.start();#}
+{#            });#}
+{#        });#}
+{##}
+{#        // 上传正面#}
+{#        uploader.bind('FileUploaded', function (up, file, info) {#}
+{#            var response = $.parseJSON(info.response);#}
+{#            if (response.status === 'ok') {#}
+{#                $('#id_card_front').attr('src', "/static/media/id_card/" + response.name);#}
+{#                $('#id_card_front_url').val("/static/media/id_card/" + response.name)#}
+{#            } else {#}
+{#                $('.upload-error-info').text(response.error.message);#}
+{#            }#}
+{#        });#}
+{#    });#}
+{##}
+{#    $('#rqin').click(function () {#}
+{#        $('.list-div-item').toggle();#}
+{#    });#}
+{#</script>#}
+
+{#<script>#}
+{#    $(function () {#}
+{#        var uploader = new plupload.Uploader({#}
+{#            browse_button: ['sfzm','sfbm']#}
+{#            url: "/ajax/upload_image?path=id_card",#}
+{#            multipart_params: {#}
+{#                '_xsrf': $("input[name='_xsrf']").val()#}
+{#            }#}
+{#        });#}
+{#        uploader.init();#}
+{##}
+{#        // 文件添加后立即上传#}
+{#        uploader.bind('FilesAdded', function (up, files) {#}
+{#            plupload.each(files, function (file) {#}
+{#                uploader.start();#}
+{#            });#}
+{#        });#}
+{##}
+{#        // 上传背面#}
+{#        uploader.bind('FileUploaded', function (up, file, info) {#}
+{#            alert(up.settings.browse_button);#}
+{#            console.log(up);#}
+{#            console.log(up.settings);#}
+{#            console.log(up.settings.browse_button);#}
+{#            var response = $.parseJSON(info.response);#}
+{#            if (response.status === 'ok') {#}
+{#                $('#id_card_back').attr('src', "/static/media/id_card/" + response.name);#}
+{#                $('#id_card_back_url').val("/static/media/id_card/" + response.name)#}
+{#            } else {#}
+{#                $('.upload-error-info').text(response.error.message);#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#</script>#}
+{##}
+{#<script>#}
+{#    $(function () {#}
+{#        var uploader = new plupload.Uploader({#}
+{#            browse_button: 'sfbm',#}
+{#            url: "/ajax/upload_image?path=id_card",#}
+{#            multipart_params: {#}
+{#                '_xsrf': $("input[name='_xsrf']").val()#}
+{#            }#}
+{#        });#}
+{#        uploader.init();#}
+{##}
+{#        // 文件添加后立即上传#}
+{#        uploader.bind('FilesAdded', function (up, files) {#}
+{#            plupload.each(files, function (file) {#}
+{#                uploader.start();#}
+{#            });#}
+{#        });#}
+{##}
+{#        // 上传背面#}
+{#        uploader.bind('FileUploaded', function (up, file, info) {#}
+{#            var response = $.parseJSON(info.response);#}
+{#            if (response.status === 'ok') {#}
+{#                $('#id_card_back').attr('src', "/static/media/id_card/" + response.name);#}
+{#                $('#id_card_back_url').val("/static/media/id_card/" + response.name)#}
+{#            } else {#}
+{#                $('.upload-error-info').text(response.error.message);#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#</script>#}
+<script>
+
+    $(function () {
+        var a = $('a.Security11'),
+                b = $('a.Security12'),
+                c = $('a.Security13'),
+                d = $('a.Security14'),
+                g = $('a.Security15'),
+                h = $('a.Security16'),
+                e = function (f) {
+                    f.click(function () {
+                        //$('form.' + a.prop('class')+',form.'+b.prop('class')+',form.'+c.prop('class')+'form.'+d.prop('class')).not('form.' + $(this).prop('class')).hide();
+                        $('form.' + $(this).prop('class')).slideToggle('fast');
+                    });
+                };
+        e(a);
+        e(b);
+        e(c);
+        e(d);
+        e(g);
+        e(h);
+    });
+
+    var type = "{{ type }}";
+    var scroll_array = {"reset_phone": 1000, "reset_email": 500, "id_card_info": 900,"investor_auth": 1100};
+    if (type != "None") {
+{#        alert(type);#}
+{#        alert(scroll_array[type]);#}
+        $(window).scrollTop(scroll_array[type]);
+        $('#' + type + '_form').show();
+    }
+
+    function refresh() {
+{#        window.location.href = "/user/safe-setting"#}
+        window.location.reload();
+    }
+    
+    $("#modifypwd").click(function () {
+        var data = {};
+        data["opwd"] = $("input[name='opwd']").val();
+        data["npwd"] = $("input[name='npwd']").val();
+        data["npwd2"] = $("input[name='npwd2']").val();
+        data['_xsrf'] = $("input[name='_xsrf']").val();
+        jQuery.ajax({
+            url: "/user/settings?type=login_pwd",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                if (jsons.status == "ok") {
+                    $("#update_login_pwd_tip").text("登录密码修改成功");
+                    setInterval(refresh(), 4000);
+                }
+                else {
+                    alert(jsons.msg);
+                }
+            }
+        });
+        return false;
+    });
+
+    $("#modifymobile").click(function () {
+        var data = {};
+        data["old_phone"] = $("input[name='old_phone']").val();
+        data["new_phone"] = $("input[name='new_phone']").val();
+        data["phone_code"] = $("input[name='phone_code']").val();
+        data['_xsrf'] = $("input[name='_xsrf']").val();
+        jQuery.ajax({
+            url: "/user/settings?type=phone",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                alert(jsons.msg);
+                if (jsons.status == "ok") {
+                    $("#update_phone_tip").text("手机验证已修改");
+                    setInterval(refresh(), 4000);
+                }
+            }
+        });
+        return false;
+    });
+    
+    $("#modifyemail").click(function () {
+        var data = {};
+        data["old_email"] = $("input[name='old_email']").val();
+        data["new_email"] = $("input[name='new_email']").val();
+        data["email_code"] = $("input[name='email_code']").val();
+        data['_xsrf'] = $("input[name='_xsrf']").val();
+        jQuery.ajax({
+            url: "/user/settings?type=email",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                if (jsons.status == "ok") {
+                    $("#update_email_tip").text("邮箱验证已修改");
+                    setInterval(refresh(), 4000);
+                }
+                else {
+                    alert(jsons.msg);
+                }
+            }
+        });
+        return false;
+    });
+
+    $("#modifypaypwd").click(function () {
+        var data = {};
+        var new_pay_pwd2 = $("input[name='new_pay_pwd2']").val();
+        data["old_pay_pwd"] = $("input[name='old_pay_pwd']").val();
+        data["new_pay_pwd"] = $("input[name='new_pay_pwd']").val();
+        data['paypwd_code'] = $("input[name='paypwd_code']").val();
+        data['_xsrf'] = $("input[name='_xsrf']").val();
+        if (data["new_pay_pwd"] != new_pay_pwd2) {
+            alert("新密码不一致");
+            return false;
+        }
+        jQuery.ajax({
+            url: "/user/settings?type=pay_pwd",
+            type: "post",
+            data: data,
+            success: function (msg) {
+                var jsons = jQuery.parseJSON(msg);
+                alert(jsons.msg);
+                if (jsons.status == "ok") {
+                    location.reload();
+                }
+            }
+        });
+        return false;
+    });
+
+    function refreshCode(tag) {
+        document.getElementById(tag).src = "/imagecode?" + Math.random();
+    }
+
+    //发送验证码
+    var wait;
+    $("#send_phone_code").click(function () {
+        wait = 60;
+        var data = {};
+        var mobile_number = $("#new_phone").val();
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        if (!myreg.test(mobile_number)) {
+            alert("手机号码格式不正确！");
+            $("#phone").focus();
+            return false;
+        }
+
+        var imgcode = $("#mobile_code").val();
+        if (imgcode == "") {
+            alert("手机验证码不能为空！");
+            $("#mobile_code").focus();
+            return false;
+        }
+
+        else {
+            $(this).removeAttr("disabled").text("等待" + wait + "秒");
+            time1($(this));
+            data['mobile'] = mobile_number;
+            data['imgcode'] = imgcode;
+            data['_xsrf'] = $("input[name='_xsrf']").val();
+            $.ajax({
+                type: 'get',
+                url: '/smscode',
+                data: data,
+                success: function (data) {
+                    var jsons = jQuery.parseJSON(msg);
+                    alert(jsons.msg);
+                }
+            });
+        }
+    });
+    function time1(o) {
+        if (wait == 0) {
+            o.removeAttr("disabled");
+            wait = 60;
+            o.text("重新获取");
+        } else {
+            o.attr("disabled", "true");
+            o.text("等待" + wait + "秒");
+            wait--;
+            setTimeout(function () {
+                        time1(o)
+                    },
+                    1000)
+        }
+    }
+
+
+    //发邮箱送验证码
+    $("#send_email_code").click(function () {
+        wait = 60;
+        var data = {};
+        var email_number = $("#new_email").val();
+        var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        if (!reg.test(email_number)) {
+            alert("邮箱格式不正确！");
+            $("#email").focus();
+            return false;
+        }
+        else {
+            $(this).removeAttr("disabled").text("等待" + wait + "秒");
+            time2($(this));
+            data['email_number'] = email_number;
+            data['_xsrf'] = $("input[name='_xsrf']").val();
+            $.ajax({
+                type: 'get',
+                url: '/emailcode',
+                data: data,
+                success: function (data) {
+
+                }
+            });
+        }
+    });
+
+    function time2(o) {
+        if (wait == 0) {
+            o.removeAttr("disabled");
+            wait = 60;
+            o.text("重新获取");
+        } else {
+            o.attr("disabled", "true");
+            o.text("等待" + wait + "秒");
+            wait--;
+            setTimeout(function () {
+                        time2(o)
+                    },
+                    1000)
+        }
+    }
+
+
+</script>
+{% end %}

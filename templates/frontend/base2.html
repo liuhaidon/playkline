@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block other_head %}
+<script type="text/javascript" src="{{ static_url('js/jquery-3.2.1.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/k_line_js.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/my_socket.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('plupload/js/plupload.full.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('kindeditor-4.1.10/kindeditor-min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('kindeditor-4.1.10/lang/zh_CN.js') }}"></script>
+<link rel="stylesheet" href="{{ static_url('css/k_line_css.css') }}"/>
+{% end %}
+
+{% block header %}
+{% include 'header.html' %}
+{% end %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% end %}

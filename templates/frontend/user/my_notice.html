@@ -1,0 +1,189 @@
+{% extends "../base.html" %}
+{% block page_title %}消息中心|创业孵化平台{% end %}
+
+{% block content %}
+<script>
+    $(function () {
+        $('.fbdcy').click(function () {
+            $(this).addClass('fbdcy2').siblings().removeClass('fbdcy2');
+        });
+
+{#        var a = $('.xiaoxi-tongzhi')[0].style.display == 'block' ? true : false;#}
+{#        $('.fbdcy.item0').click(function () {#}
+{#            if (a) return false;#}
+{#            if (!a) {#}
+{#                $('.xiaoxi-tongzhi').fadeIn();#}
+{#            }#}
+{#        });#}
+{##}
+{#        $('.fbdcy.item1').click(function () {#}
+{#            if (b) return false;#}
+{#            if (!b) {#}
+{#                $('.xiaoxi-tongzhi')[0].style.display = 'none';#}
+{#            }#}
+{#        });#}
+
+        $('.notice11').click(function () {
+            var Arr = new Array();
+            $('.notice2').each(function (k, v) {
+                if ($(v).is(':checked')) {
+                    Arr.push($(v).attr('data-id'));
+                }
+            });
+            $.ajax({
+                type: 'post',
+                url: '/notice/delete',
+                data: {'ids': Arr},
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    console.log(data);
+                    console.log(json);
+                    if (json.status == 'ok') {
+                        for (var i in Arr) {
+                            $('.notice2').each(function (k, v) {
+                                if ($(v).attr('data-id') == Arr[i]) {
+                                    $(v).parent().slideUp('slow').remove();
+                                }
+                            });
+                        }
+                        alert(json.msg);
+                    }
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        });
+    });
+</script>
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+{#            <div class="fbdcy item0 {% if type=='notice' %}fbdcy2{% end %}" onclick="location='?type=notice'">&emsp;&emsp;通知&emsp;#}
+{#                {% if unread_notices.count()>0 %}#}
+{#                <sup style="color:#ffffff;background: red;border-radius: 50%;padding: 0px 5px;">{{ unread_notices.count() }}</sup>#}
+{#                {% end %}#}
+{#            </div>#}
+{#            {% if unread_notices.count()>0 %}#}
+{#            <sup style="color:#ffffff;background: red;border-radius: 50%;padding: 0px 5px;position: relative;right: 30px">{{ unread_notices.count() }}</sup>#}
+{#            {% end %}#}
+{#            <div class="fbdcy item1 pldcy {% if type=='message' %}fbdcy2{% end %}"#}
+{#                 onclick="location='?type=message'">&emsp;&emsp;私信&emsp;#}
+{##}
+{#            </div>#}
+{#            {% if unread_messages.count()>0 %}#}
+{#            <sup style="color:#ffffff;background: red;border-radius: 50%;padding: 0px 5px;position: relative;right: 30px">{{ unread_messages.count() }}</sup>#}
+{#            {% end %}#}
+
+{#            <div class="fbdcy jhclick" id="gqjh">通知</div>#}
+{#            <div class="fbdcy pldcy" id="zpjh">私信</div>#}
+            <div class="fbdcy item0 jhclick" onclick="location='/user/notices'">通知</div>
+            <div class="fbdcy item1 pldcy" onclick="location='/user/messages'">私信</div>
+            <script>
+                $('.fbdcy').eq(0).addClass('jhclick').siblings().removeClass('jhclick');
+            </script>
+        </div>
+
+        <div class="xiaoxi-center">
+            <div class="xiaoxi-tongzhi">
+                <div class="notice1">
+                    <input type="button" value="删除" class="notice11"/>
+                    <input type="button" value="标记为已读" class="notice12"/>
+                </div>
+                {% if notices.count()>0 %}
+{#                {% if unread_notices.count()>0 %}#}
+                <div class="xiaoxi-list">
+                    <input type="checkbox" class="notice2">
+                    <img src="/static/img/startup/message_dft.png" border="none" align="absmiddle">
+
+                    <div class="div-inline" style="color:red;">Hi，您有{{ notices.count() }}条未读系统通知，请注意查看。</div>
+                </div>
+{#                {% end %}#}
+                {% for n in notices %}
+
+                <div class="xiaoxi-list">
+                    <input type="checkbox" class="notice2" data-id="{{ n.get('_id') }}">
+                    {% module noticeTpl(n) %}
+                    {% set user_avatar=user_info(n.get('uid')) %}
+                {% if not user_avatar %}
+                {% set  user_avatar='/static/img/startup/message_dft.png' %}
+                {% else %}
+                {% set  user_avatar='/static/media/avatar/'+user_avatar %}
+                {% end %}
+                    <img src="{{ user_avatar }}" border="none" align="absmiddle">
+
+                </div>
+                {% end %}
+
+                <div class="Login-record">
+                    <div class="Login-record">
+                        <div class="Login-record-page">
+{#                            {{ notices.count() }}条记录&emsp;{{ current_page }}/{{ notice_counts }}页&emsp;#}
+{##}
+{#                            {% set start=start_index %}#}
+{#                            {% set end=start + 7 if current_page<notice_counts-7 else notice_counts %}#}
+{#                            {% if current_page>1 %}#}
+{#                            <a href="?type=notice&page=1" class="">首页</a>#}
+{#                            <a href="?type=notice&page={{ current_page - 1 }}" class="">上一页</a>#}
+{#                            {% end %}#}
+{#                            {% for i in range(start,int(end) + 1) %}#}
+{#                            <a href="?type=notice&page={{ i }}"#}
+{#                               class="{% if current_page==i %}lrpage{% end %}">{{ i }}</a>#}
+{#                            {% end %}#}
+{#                            {% if end <notice_counts %}#}
+{#                            <a href="?type=notice&page={{ end }}" class="{% if current_page==end %}{% end %}">...</a>#}
+{#                            <a href="?type=notice&page={{ current_page + 1 }}" class="">下一页</a>#}
+{#                            {% end %}#}
+{#                            {% if current_page>1 %}#}
+{#                            <a href="?type=notice&page={{ notice_counts }}"#}
+{#                               class=" {% if current_page ==notice_counts %}lrpage{% end %}">末页</a>#}
+{#                            {% end %}#}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="no-infomation">
+                    <div>
+                        <img src="/static/img/startup/notice_dft.png" alt="" border="none"/>
+                        <p>暂无通知</p>
+                    </div>
+                </div>
+                {% end %}
+            </div>
+
+        </div>
+    </div>
+    <p class="clear"></p>
+</div>
+<!--mask-->
+<div class="_mask"></div>
+<div class="_alert">
+    <div class="parkHatchTitle">面试邀请</div>
+    <form action="javascript:;" method="post" enctype="multipart/form-data" name="parkHatch" id="parkHatch">
+        {% module xsrf_form_html() %}
+        <table class="parkHatch">
+            <tr>
+                <td>时间：</td>
+                <td><input class="input270" name="time" readonly onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                </td>
+            </tr>
+            <tr>
+                <td>地点：</td>
+                <td><input class="input100" name="address"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <a href="javascript:;" class="abtn button button-primary button-small" id="submit">提交</a>
+                    <a href="javascript:;" class="abtn button button-primary button-small" id="_cancel">取消</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+{% end %}
+
+

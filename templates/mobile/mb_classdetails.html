@@ -1,0 +1,123 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+        课程详情
+
+    </div>
+</div>
+<div class="nbig_box" style="padding-bottom: 0;padding-top: 40px;">
+    <div class="ban_box">
+		   	 <span class="kece_box">
+		    	<p class="kece_ming">{{ course.get('title',"未知") }}</p>
+		    	<p class="kece_zhujiang">主讲人：{{ speaker_info(course.get('speaker',0)) }}</p>
+		    </span>
+        <video class="vid" controls="controls">
+            {% if 'http'  not in   course.get('video_name') %}
+            {% set video_url='../../static/media/videos/'+course.get('video_name') %}
+            {% else %}
+            {% set video_url= course.get('video_name','') %}
+            {% end %}
+            <source src="{{ video_url }}">
+            {#            <source src="../static/media/mp4/FINAL.mp4">#}
+            Your browser does not support the video tag.
+        </video>
+
+        <!--kece_faburen-->
+        <div class=" kece">
+            <div class="kece_touxiangs">
+            <span class="kece_touxi_ren">
+                <img src="../static/media/avatar/{{ publisher.get('avatar_thumb','') }}"
+                     onerror="javascript:this.src='{{ static_url('img/startup/avatar_sample.png') }}'"
+                     style="width: 100%; height: 100%; border-radius: 50%;">
+            </span>
+            </div>
+            <div class="jizhong">
+                <a href="/mb_liaotian" class="huodong_touxi_sixin">私信</a>
+                {% if not user_has_followed %}
+                <a href="javascript:;" class="huodong_touxi_guanzhu" data-uid="{{ publisher['uid'] }}">关注他</a>
+                {% else %}
+                <a href="javascript:;" class="yihuodong_touxi_guanzhu btnClick"
+                   data-uid="{{ publisher['uid'] }}">取消关注</a>
+                {% end %}
+                <div style=" clear: both;"></div>
+            </div>
+        <span class="kece_ziliao">
+				  	<p class="kece_name">发布人:{{ publisher['name'] }}</p>
+			  	</span>
+        </div>
+
+        <div class="class_maegin huodmen">
+            <div class="class_time">
+                <span class="class_timeicon"></span>
+                <span class="class_timer">发布时间：{{ course['time'] }}</span>
+            </div>
+
+        </div>
+        <!--class_maegin-->
+
+        <div class="kece_biaoqian">
+            <span class="shipin kecehuaxian" id="keshipin">视频简介</span>
+
+            <span class="jiangshi" id="jiangshi">讲师介绍</span>
+            <span class="zhuanji" id="zhuanji">专辑介绍</span>
+        </div>
+        <div class="jiesxiq">
+            <p class="kece_jieshao">{{ course.get("desc","无") }}</p>
+
+            <p class="kece_jieshaoa">{{ course_speaker.get('desc',"无") }}</p>
+
+            <p class="kece_jieshaob">{{ course_special.get('desc',"无") }}</p>
+        </div>
+
+    </div>
+
+
+</div>
+<script>
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    //关注人
+    $('a.yihuodong_touxi_guanzhu,a.huodong_touxi_guanzhu').click(function () {
+        var data = {};
+        var that = $(this);
+        data['uid'] = $(this).data("uid");
+        data['_xsrf'] = getCookie("_xsrf");
+        if ($(this).is(".btnClick")) {
+            data['handle'] = 'remove';
+        }
+        else {
+            data['handle'] = 'add';
+        }
+        if (data['handle'] == 'remove') {
+            this.setAttribute("class", "huodong_touxi_guanzhu");
+            that.text("关注他");
+        }
+        else {
+            this.setAttribute("class", "yihuodong_touxi_guanzhu btnClick");
+            that.text("取消关注");
+        }
+        $.ajax({
+            type: 'post',
+            url: '/follow/user',
+            data: data,
+            success: function (re) {
+                var jsons = jQuery.parseJSON(re);
+                if (jsons.status == 'ok') {
+                }
+                else {
+                    alert("其他错误");
+                }
+            }
+        });
+    });
+</script>
+{% end %}
+{% block footer %}
+{% end %}

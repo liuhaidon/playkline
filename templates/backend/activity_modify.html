@@ -1,0 +1,982 @@
+{% extends "base.html" %}
+{% block title %}活动信息修改{% end %}
+{% block content %}
+<script type="text/javascript" src="{{ static_url('plupload/js/plupload.full.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('WdatePicker/WdatePicker.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('kindeditor-4.1.11/kindeditor-all-min.js') }}"></script>
+<link rel="stylesheet" href="{{ static_url('css/merge.css') }}&version={% module random() %}" type="text/css">
+<style>
+    .ctv select{ width: 50%; float: left;}
+    .ctv input{ float: left; width: 50%;}
+    .timev input{ float: left; width: 50%;}
+    .list1 ul{ float: left; padding: 0;}
+    .list1 li{ float: left; padding: 5px; margin:5px 5px 5px 0; list-style: none; cursor: pointer;}
+    tr.tr-margin {height: 6px;}
+</style>
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {% include 'admin_nav.html' %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include 'header_nav.html' %}
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>活动信息管理</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/admin/home">主页</a>
+                    </li>
+                    <li>
+                        <a>活动信息管理</a>
+                    </li>
+                    <li>
+                        <strong>活动信息修改</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>基本信息
+                                <!--<small>共计：</small>-->
+                            </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+
+        <form  method="post" enctype="multipart/form-data" name="issue_activity_form"
+          id="issue_activity_form">
+        {% module xsrf_form_html() %}
+        <div class="issueActiveCotent1">
+
+            <input type="hidden" name="tickets" id="tickets">
+            <input type="hidden" name="activityid" id="activityid" value="{{activity.get('_id')}}">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tr class="list1-tr">
+                    <td>活动名称：</td>
+                    <td>
+                        <input placeholder="不多于50个字"  class="form-control" value="{{ activity.get('title','') }}" id="name">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>活动场次：</td>
+                    <td>
+                        <input placeholder="活动场次" value="{{ activity.get('session',4) }}" id="session"  class="form-control">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>活动类型：</td>
+                    <td>
+                        <select name="category" id="category" class="form-control">
+                            {% for t in categories %}
+                            <!--<option value="{{ t.get('name') }}">{{ t.get('name') }}</option>-->
+                            <option value="{{ t.get('name') }}" data-tags="{{ t.get('tags') }}">{{ t.get('name') }}</option>
+                            {% end %}
+                        </select>
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>活动标签：</td>
+                    <td>
+                        <input class="form-control" name="tag" id="tag" value="{{ ','.join([t for t in activity.get('tag')]) }}">
+                        <p class="showInfo"></p>
+{#					    <ul><li>请先选择活动类型</li>#}
+{#                            <p class="showInfo"></p>#}
+{#                        </ul>#}
+                    </td>
+                </tr>
+
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>活动地点：</td>
+                    <td>
+{#                        <select name="province" id="province"  class="form-control">#}
+{#                            {% for p in provinces %}#}
+{#                            <option value="{{ p['name'] }}" {% if get_province ==p['name'] %}selected{% end %}#}
+{#                                    data-id="{{ p['id'] }}">{{ p['name'] }}</option>#}
+{#                            {% end %}#}
+{#                        </select>#}
+{#                        <select name="city" id="city"  class="form-control">#}
+{#                            {% for c in cities %}#}
+{#                            <option value="{{ c['name'] }}" {% if get_city ==c['name'] %}selected{% end %}#}
+{#                                    data-id="{{ c['id'] }}">{{ c['name'] }}</option>#}
+{#                            {% end %}#}
+{#                        </select>#}
+{#                        <select name="region" id="region"  class="form-control">#}
+{#                            {% for r in regions %}#}
+{#                            <option value="{{ r['name'] }}" data-id="{{ r['id'] }}">{{ r['name'] }} </option>#}
+{#                            {% end %}#}
+{#                        </select>#}
+
+                        <input placeholder="详细地址"  class="form-control" id="address" value="{{ activity.get('address','') }}">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr class="start-time">
+                    <td>开始时间：</td>
+                    <td>
+                        <input  class="form-control" placeholder="开始时间" id="begin" onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd HH:mm'})"
+                               onblur="$('.showInfo1').text('')" value="{{ activity.get('begin','') }}"
+                               name="begin" readonly="readonly">
+                        <p class="showInfo"></p>
+{#                        <input  class="form-control" placeholder="开始时间" id="start_time" onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd HH:mm'})"#}
+{#                               value="{{ activity.get('start_time','') }}" name="start_time" readonly="readonly">#}
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr class="start-time">
+                   <td>结束时间：</td>
+                    <td>
+                        <input  class="form-control" placeholder="截止时间" id="end" name="end"
+                               onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd HH:mm'});" onblur="checkEndTime()"
+                               value="{{ activity.get('end','') }}" readonly="readonly">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <p class="showInfo1" style=" display: inline-block"></p>
+
+                        <p class="showInfo2" style="display: inline-block;margin-left: 375px;"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>海报图片：</td>
+                    <td>
+                        <a class="btn new_btn-w-m btn-primary" href="#" id="index_image">上传海报</a>
+                        <input type="text" name="poster" id="image_url" style="display: none" value="{{ activity.get('poster','')}}">
+                        <span class="color-gray">支持jpg、jpeg、png、gif格式，大小不超过2M.建议尺寸：260X200</span>
+
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="upload_img_box">
+                        <div class="loading"></div>
+                        {% set index_image=activity.get('poster','') %}
+                        {% if index_image %}
+                        <img id="poster" src="{{ static_url('media/activity_img/'+index_image) }}" style="margin-top: 10px;max-width: 400px;width: 100%;"  class="imageview">
+                        {% else %}
+                        <img src="" id="poster" style="margin-top: 10px;max-width: 400px;width: 100%;"  class="imageview">
+                        {% end %}
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>活动简介：</td>
+                    <td>
+                        <textarea onpropertychange="if(value.length>300) value=value.substr(0,300)" class="form-control" placeholder="不多于300个字" rows="6" id="brief">{{ activity.get('brief','') }}</textarea>
+
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>活动详情：</td>
+                    <td>
+                            <textarea class="form-control" id="desc" name="desc">
+                                {{ activity.get('desc','') }}
+                            </textarea>
+
+                        <p class="textarea"></p>
+                    </td>
+                </tr>
+
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>设置票种：</td>
+                    <td>
+                        <a href="javascript:;" class="setTicketAdd">+</a>
+
+                        <div class="setTicketContent">
+                            {% set tickets = activity.get("ticket",[]) %}
+                            {% if not tickets %}
+                            <div class="setTicket">
+                                <input type="hidden" name="ticket[]" value='{"title":"免费票","price":0,"amount":100}' id="ticket">
+
+                                <div class="setTicketTitle" name="">免费票</div>
+                                <div>
+                                    <div class="setTicketAmount ">
+                                        金额：<span name="单击修改!" class="PriceSpan">0</span>
+                                        <input name="price" value="0" class="setTicketPriceInput" style="display: none">元
+                                    </div>
+                                    <div class="setTicketPlaces">
+                                        名额：<span name="单击修改!" class="AmountSpan">100</span>
+                                        <input name="amount" value="100" class="setTicketAmountInput" style="display: none;">人
+                                        <!--（前<span class="index">100</span>名）-->
+                                    </div>
+                                </div>
+                                <div class="setTicketClose">×</div>
+                            </div>
+                            {% else %}
+
+                            {% for x in tickets %}
+                            <div class="setTicket">
+                                <input type="hidden" name="ticket[]" value="{{ json_encode(x) }}" id="ticket">
+                                <div class="setTicketTitle" name="">{{x.get('title')}}</div>
+                                <div>
+                                    <div class="setTicketAmount ">
+                                        金额：<span name="单击修改!" class="PriceSpan">{{x.get('price',0)}}</span>
+                                        <input name="price" class="setTicketPriceInput" style="display: none">元
+                                    </div>
+                                    <div class="setTicketPlaces">
+                                        名额：<span name="单击修改!" class="AmountSpan">{{x.get('amount',100)}}</span>
+                                        <input name="amount" class="setTicketAmountInput" style="display: none;">人
+                                        <!--（前<span class="index">100</span>名）-->
+                                    </div>
+                                </div>
+                                <div class="setTicketClose">×</div>
+                            </div>
+                            {% end %}
+
+                            {% end %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+                                </li>
+                                <li class="list-group-item">
+                                    <p class="submitsc" align="center">
+                                        <button type="button" class="btn btn-primary modifyActivityProfile" onclick="postmessage()">更新</button>
+                                    </p>
+                                </li>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>活动排期</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p id="scheduletbl" data-id="{{activity.get('_id')}}">
+                                        <table id="dt_schedule" class="table table-striped table-bordered table-hover dataTables-schedule">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" class="i-checks" id="schdCheck"/></th>
+                                                <th>场次</th>
+                                                <th>演讲者</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="schedule" data-dat="{{json_encode(activity.get('speakers'))}}">
+                                        <tr class="gradeX">
+                                            <td><input type="checkbox" class="i-checks"></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                        </table>
+
+                                        <table class="table table-striped table-bordered table-hover dataTables-speakers">
+                                            <thead>
+                                                <tr>
+                                                    <th><input type="checkbox" class="i-checks" id="schdCheck"/></th>
+                                                    <th>姓名</th>
+                                                    <th>性别</th>
+                                                    <th>职位</th>
+                                                    <th>主题</th>
+                                                    <th>口才</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="speakers">
+                                            {% set sex={"male":'男',"female":"女"} %}
+                                            {% set talks={1:'A级：杰出演讲家',2:"B级：口才出众者",3:"C级：不错的演讲者",4:"D级：能当众演讲",5:"E级：不习惯当众说话",6:"N/A"} %}
+                                            {% for x in speakers %}
+                                            {% set sp = x.get('speaker') %}
+                                            <tr data-id="{{ x.get('_id') }}" class="gradeX form-group draggable ui-draggable" draggable="true">
+                                                <td><input type="checkbox" class="i-checks"></td>
+                                                <td>{{ sp.get('name') }}</td>
+                                                <td>{{ sex.get(sp.get('sex')) }}</td>
+                                                <td>{{ sp.get('title') }}</td>
+                                                <td>{{ sp.get('subject') }}</td>
+                                                <td>{{ talks.get(int(sp.get('talk',6))) }}</td>
+                                            </tr>
+                                            {% end %}
+                                            </tbody>
+                                        </table>
+                                    </p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p style="position: relative;" class="files" align="center">
+                                        <button type="button" class="btn btn-primary activitySchedule" data-dismiss="modal" id="activitySchedule">
+                                        日程排定
+                                        </button>
+                                        <button type="button" class="btn btn-primary scheduleClear" data-dismiss="modal" id="scheduleclear">
+                                        日程清除
+                                        </button>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>报名情况</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   href="http://www.zi-han.net/theme/hplus/index_3.html#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content no-padding">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p>
+                                        <select name="xticket" id="xticket"  class="form-control">
+                                            {% for c in activity.get('ticket') %}
+                                            <option value="{{ c.get('title') }}" data-entrants="{{ json_encode(c.get('entrants',[])) }}" >{{ c.get('title') }}</option>
+                                            {% end %}
+                                        </select>
+                                    </p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p id="entrantlist">
+                                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" class="i-checks" id="userCheck"/></th>
+                                                <th>ID</th>
+                                                <th>姓名</th>
+                                                <th>手机号码</th>
+                                                <th>校验码</th>
+                                                <th>报名时间</th>
+                                                <th>状态</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="entrants">
+                                        </tbody>
+                                        </table>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+
+<div type="text" id="setTicketList" style="display:none">
+    <div class="setTicket">
+        <input type="hidden" name="ticket[]" id="ticket">
+        <div class="setTicketTitle">收费票</div>
+        <div>
+            <div class="setTicketAmount ">
+                金额：<span name="单击修改!" class="PriceSpan">100</span><input value="100" class="setTicketPriceInput" style="display:none">元
+            </div>
+            <div class="setTicketPlaces">
+                名额：<span name="单击修改!" class="AmountSpan">100</span><input value="100" class="setTicketAmountInput" style="display:none">人
+                <!--（前<span class="index">100</span>名）-->
+            </div>
+        </div>
+        <div class="setTicketClose">×</div>
+    </div>
+</div>
+<script>
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#desc', {
+            allowFileManager: true,
+            minWidth:"560px",
+            width: '580px',
+            height: '400px',
+            resizeType: 0,       //2时可以拖动改变宽度和高度，1时只能改变高度，0时不能拖动。
+            uploadJson: K.undef('/kindeditor_upload_json'),
+            extraFileUploadParams: {
+                _xsrf: getCookie("_xsrf")
+            },
+            items : [
+				'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
+				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+				'insertunorderedlist', '|', 'emoticons', 'image', 'link'],
+
+            afterFocus: function () {
+            },
+            afterBlur: function () {
+                if (editor.html() == '') {
+                    $('p.textarea').html('详情不能为空！');
+                } else {
+                    $('p.textarea').html('');
+                }
+            }
+        });
+    });
+
+    function checkEndTime() {
+        var startTime = $("#begin").val();
+        var start = new Date(startTime.replace("-", "/").replace("-", "/"));
+        var endTime = $("#end").val();
+        var end = new Date(endTime.replace("-", "/").replace("-", "/"));
+        if (end < start) {
+            $(".showInfo2").text("活动结束时间应大于开始时间");
+            return false;
+        }
+        $(".showInfo2").text("");
+        return true;
+    }
+
+    $(function () {
+        edit({'.setTicketPriceInput': '.PriceSpan', '.setTicketAmountInput': '.AmountSpan'});
+
+        $(".list1 li").click(function () {
+            if ($(".list1").find(".active").length > 4) {
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                }
+                else {
+                    alert("最多选择5个");
+                }
+            }
+            else {
+                $(this).toggleClass("active");
+            }
+        });
+        function edit(obj) {
+            $.each(obj, function (xinput, span) {
+                $(xinput).on('blur', function () {
+                    var value = $(this).val();
+                    var hidden = $(this).parents('div.setTicket').find('input[type="hidden"]');
+                    var val = JSON.parse(hidden.val());
+                    if (value == '') {
+                        return false;
+                    }
+//                    alert(hidden.val());
+                    if (!/^[0-9]*$/.test(value)) {
+                        alert('仅允许输入数字！');
+                        return false;
+                    }
+                    if ($(this).attr('class') == 'setTicketPriceInput') {
+                        val['price'] = value;
+                        val['title'] = value+"元票";
+                    }
+                    if ($(this).attr('class') == 'setTicketAmountInput') {
+                        val['amount'] = value;
+//                        alert($(this).parent().children('span.index').val());
+                        $(this).parent().children('span.index').html(value);
+                    }
+                    hidden.val(JSON.stringify(val));
+                    $(this).hide().parent().children(span).html(value).show();
+                });
+                $(span).on('click', function () {
+                    var v = $(this).html();
+                    if ($(this).parent().children(xinput)[0].style.display == 'none') {
+                        $(this).hide().parent().children(xinput).val(v).show().focus();
+                    }
+                });
+            });
+        };
+
+        $('a.setTicketAdd').click(function () {
+            var list = $('div.setTicketContent div.setTicket:last-child');
+            var index = 0;
+            if (list.html() != null && list.find('span.AmountSpan').html() != '' && /^[0-9]*$/.test(list.find('span.AmountSpan').html())) {
+//                index = parseInt(list.find('span.AmountSpan').html()) + parseInt(list.find('span.index').html());
+//                alert(index);
+                index = 100 + parseInt(list.find('span.index').html());
+            }
+
+            var html = $('#setTicketList').html();
+            var val = {"title": 1, "amount": index, "price": 100};
+            if ($('div.setTicketContent .setTicket').length < 5) {
+                $('div.setTicketContent').append(html);
+                var t = $('div.setTicketContent div.setTicket:last-child');
+                t.find('span.index').html(index);
+                t.find('input.setTicketPriceInput').focus();
+                t.find('input[type="hidden"]').val(JSON.stringify(val));
+
+            } else {
+                alert('最多只能添加五张票种!');
+            }
+
+            $('.setTicketClose').on('click', function () {
+                $(this).parent().hide().remove();
+            });
+
+            edit({'.setTicketPriceInput': '.PriceSpan', '.setTicketAmountInput': '.AmountSpan'});
+        });
+
+    });
+</script>
+
+<script>
+    $(function () {
+        $('.btn.btn-primary.activitySchedule').click(function () {
+
+            var cond = 1;
+            var xjson = {
+                "_xsrf": getCookie("_xsrf"),
+                "activityid": $('#activityid').val(),
+            };
+
+            $("#schedule tr").each(function (k, v) {
+                var v1 = $(this).children('td').eq(2).text();
+                var dataid = $(this).attr("data-id");
+                if (v1 == "" || v1 == '待定') {
+                    cond = 0;
+                    alert("第" + (k + 1) + "场还未排定，请把每一场次排满再提交！");
+                } else
+                    xjson[k] = dataid;
+            });
+
+            if (cond < 1)
+                return false;
+
+            $.ajax({
+                url: '/admin/activity/schedule',
+                type: 'post',
+                data: xjson,
+                success: function (data) {
+                    var json = $.parseJSON(data);
+                    alert(json.msg);
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        });
+
+    $('.btn.btn-primary.scheduleClear').click(function () {
+
+            var cond = 1;
+            var xjson = {
+                "_xsrf": getCookie("_xsrf"),
+                "activityid": $('#activityid').val(),
+            };
+
+            $("#schedule tr").each(function (k, v) {
+                var v1 = $(this).children('td').eq(2).text();
+                if (v1 != '待定') {
+                    $(this).children('td').eq(2).text("待定");
+                    $(this).attr("data-id","0");
+                }
+            });
+
+            $.ajax({
+                url: '/admin/activity/scheduleclear',
+                type: 'post',
+                data: xjson,
+                success: function (data) {
+                    var json = $.parseJSON(data);
+                    alert(json.msg);
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        });
+    });
+
+    $(function () {
+        var uploader = new plupload.Uploader({
+            browse_button: 'index_image',
+            url: "/ajax/upload_image?path=activity_img",
+
+            filters: {
+              max_file_size : '4mb',
+              prevent_duplicates : true,
+            },
+            multipart_params: {
+                '_xsrf': $("input[name='_xsrf']").val()
+            }
+        });
+
+        uploader.init();
+
+        // 文件添加后立即上传
+        uploader.bind('FilesAdded', function (up, files) {
+
+            plupload.each(files, function (file) {
+                uploader.start();
+            });
+        });
+
+        // 上传资讯图片
+        uploader.bind('FileUploaded', function (up, file, info) {
+            var base = '/static/media/activity_img/';
+            var response = $.parseJSON(info.response);
+            if (response.status == 'ok') {
+                $("#poster").show().attr("src", base + response.name);
+                $("#image_url").val(response.name);
+            }
+            else {
+                alert(response.error);
+            }
+        });
+
+		uploader.bind('UploadProgress',function(up,file){
+//            $('#Progress').css('width', file.percent+'%');
+		});
+
+        uploader.bind('Error', function (up, errObject) {
+            alert(errObject.code+errObject.message);
+        });
+    });
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    $(function () {
+        initiate();
+    });
+
+    function postmessage() {
+        if ($('#poster').attr('src') == '') {
+            alert('您还未上传封面！');
+            return false;
+        }
+
+{#        if ($('.list1').find('li.active').length == 0) {#}
+{#            alert('您还未选择标签！');#}
+{#            return false;#}
+{#        }#}
+{##}
+{#        var tags= [];#}
+{#        $(".list1 li").each(function () {#}
+{#            if ($(this).hasClass("active")) {#}
+{#                tags.push($(this).text());#}
+{#            }#}
+{#        });#}
+{#        $("input[name='tag']").val(tags);#}
+
+        var tickets= [];
+        $("input[id='ticket']").each(function(){
+//            alert($(this).val());
+            tickets.push($(this).val());
+        });
+
+//        $("#tickets").val(tickets);
+//        alert(tickets);
+        var data = {
+            "title": $("#name").val(),
+            "session": $('#session').val(),
+            "category": $("#category").val(),
+            "tag": $("#tag").val(),
+{#            "province": $("#province").val(),#}
+{#            "city": $('#city').val(),#}
+{#            "region": $("#region").val(),#}
+            "address": $("#address").val(),
+            "begin": $("#begin").val(),
+            "end": $("#end").val(),
+{#            "end_date": $("#end_date").val(),#}
+{#            "end_time": $("#end_time").val(),#}
+            "poster": $("#image_url").val(),
+            "brief": $("#brief").val(),
+//            "desc": $("#desc").val(),
+            "desc": window.editor.html(),
+//            "ticket": JSON.stringify(tickets),
+            "ticket[]": tickets,
+            '_xsrf': $("input[name='_xsrf']").val(),
+        };
+
+        var err = 0;
+        $.each(data,function(k,v){
+            if(v==''){
+                alert(k+"信息填写有误!都填写全！");
+                err = 1;
+                return false;
+            }
+//            alert(v);
+        });
+
+        if (err >0)
+            return false;
+
+        editor.sync();
+        $.ajax({
+            type: 'post',
+            url: window.location.pathname,
+            data: data,
+            success: function (data) {
+                var json=$.parseJSON(data);
+                alert(json.msg);
+                if(json.status !="ok")
+                    return false;
+
+//                alert("i am here!");
+//                history.go(-1);
+            }
+        });
+        return true;
+    }
+
+    function schedule_init(){
+        var sessions = parseInt("{{activity.get('session')}}");
+        var data = $("#schedule").attr('data-dat');
+        var dat=$.parseJSON(data);
+
+        $("#schedule").children('tr').remove();
+        for (var i = 0; i < sessions; i++) {
+            var xhtml = '<tr class="gradeX droppable draggable" draggable="true" data-id="%3">\
+                    <td><input type="checkbox" class="i-checks"></td>\
+                    <td>第%1场</td><td>%2</td></tr>';
+            var speaker = "待定";
+            var datid= 0;
+            for(var j=0;j<dat.length; j++){
+                var sessionid = 0;
+                if(typeof(dat[j].session) != 'undefined')
+                    sessionid= dat[j].session;
+                else
+                    sessionid = dat[j].id;
+                if(sessionid != i)
+                    continue;
+
+                speaker = dat[j].name;
+                datid = dat[j].speakerid;
+                break;
+            }
+            var s=String.format(xhtml,i+1,speaker,datid);
+            $("#schedule").append(s);
+        }
+
+        $("#schedule tr").droppable({
+            drop: function(event,ui){
+                var draggable = ui.draggable;
+                var name = draggable.children('td').eq(1).text();
+                $(this).parent().find('tr').each(function(idx,element){
+                    var v=$(this).children('td').eq(2).text();
+                    if (v== name)
+                    {
+                        $(this).children('td').eq(2).text("待定");
+//                        alert($(this).attr("data-id"));
+                        $(this).attr("data-id","0");
+                    }
+                });
+                $(this).children('td').eq(2).text(name);
+                $(this).attr("data-id", draggable.attr("data-id"));
+            }
+        });
+    }
+
+    function entrants_list() {
+        var dat = $(this).find('option:selected').attr('data-entrants');
+        var xhtml = '';
+        var status = ["报名","签到"];
+        for(var i=0;i<dat.length;i++){
+            xhtml += '<tr class="gradeX"><td><input type="checkbox" class="i-checks"></td>';
+            xhtml += '<td>'+i+'</td>';
+            xhtml += '<td>'+dat[i].name+'</td>';
+            xhtml += '<td>'+dat[i].mobile+'</td>';
+            xhtml += '<td>'+dat[i].verification+'</td>';
+            xhtml += '<td>'+dat[i].time+'</td>';
+            xhtml += '<td>'+status[parseInt(dat[i].status)]+'</td>';
+            xhtml +='</tr>';
+        }
+        $("#entrants").html(xhtml);
+    }
+
+    $('#xticket').change(function () {
+        entrants_list();
+    });
+
+    function tags_show() {
+        var tagsdat = $('#category').find('option:selected').attr('data-tags');
+        if(!tagsdat)
+            return;
+
+        var tags = tagsdat.split(',');
+        xfmt = "<li value='%1'>%2</li>";
+        $('.list1 ul').children("li").remove();
+        for(var i=0;i<tags.length;i++)
+            $('.list1 ul').append(String.format(xfmt,tags[i],tags[i]));
+
+        $(".list1 li").click(function () {
+            if ($(".list1").find(".active").length > 4) {
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                }
+                else {
+                    alert("最多选择5个");
+                }
+            }
+            else {
+                $(this).toggleClass("active")
+            }
+        });
+    }
+
+    $('#category').change(function () {
+        tags_show();
+    });
+
+    $('#province').change(function () {
+        var pid = $(this).find('option:selected').attr('data-id');
+        if (!pid) {
+            return false;
+        }
+        else {
+            $.getJSON('/ajax/city.json?pid=' + pid, function (json) {
+                var city = '';
+                var region = '';
+
+                $.each(json['city'], function (k, v) {
+                    city += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                });
+                $('#city').html(city);
+                $.each(json['region'], function (k, v) {
+                    region += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                });
+                $('#region').html(region);
+
+            });
+        }
+    });
+    $('#city').change(function () {
+        var pid = $('#province').find('option:selected').attr('data-id');
+        var cid = $(this).find('option:selected').attr('data-id');
+        if (!pid) {
+            alert('请选择省份！');
+        }
+        else if (!cid) {
+            alert('请选择市！');
+        }
+        else {
+            $.getJSON('/ajax/city.json?pid=' + pid + '&cid=' + cid, function (json) {
+                var region = '';
+
+                $.each(json['region'], function (k, v) {
+                    region += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                });
+                $('#region').html(region);
+            });
+        }
+    });
+
+
+    function initiate(){
+        $('#speakers tr').draggable({ helper: 'clone'});
+
+        var cat = "{{ activity.get('category')}}";
+//        alert(cat);
+        $('#category').val(cat);
+{##}
+{#        tags_show();#}
+{#        var stags = "{{ activity.get('tag')}}";#}
+{#        if(stags){#}
+{#            var tags = stags.split(",");#}
+{#            for(var i=0;i<tags.length;i++){#}
+{#    //            alert(tags[i]);#}
+{#                $(".list1 li").each(function(index){#}
+{#    //                alert($(this).html());#}
+{#                    if($(this).html() == tags[i]){#}
+{#                        $(this).addClass('active');#}
+{#                        return false;#}
+{#                    }#}
+{#                })#}
+{#            }#}
+{#        }#}
+{##}
+{#        schedule_init();#}
+    }
+
+</script>
+<style>
+    .active {
+        background-color: #2a8ce6 !important;
+        color: white !important;
+    }
+
+    th:first-child,
+    .gradeX td:first-child {
+        width: 20px;
+        cursor: pointer;
+    }
+
+    th:first-child input,
+    .gradeX td:first-child input {
+        cursor: pointer;
+    }
+    .labels{ padding: 5px 10px 5px 10px; background: #ddd; position: relative; cursor: pointer;margin-left: 10px}
+    .labels i{ cursor: pointer; width: 14px; height: 14px;
+            background: #999; border-radius: 50%; opacity: 0.8;
+            position: absolute; right: -5px; top: 50%; margin-top: -7px;
+            text-align: center; line-height: 14px; font-style: normal; color: #fff;
+    }
+
+</style>
+{% end %}

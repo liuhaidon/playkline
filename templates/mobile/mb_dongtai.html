@@ -1,0 +1,56 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbprojeDetailHead" style="border-bottom: 1px solid #EAEAEA;">
+    <table class="mbprojeDetailTab">
+        <tr class="mbprojeDetailTabTR">
+            <td class="mbprojeDetailTabTD1">
+                <img src="../../static/mobile/img/mbProjectMore/001.png" alt="" onclick="javascript:history.back(-1);"">
+            </td>
+            <td>项目动态</td>
+            <td class="mbprojeDetailTabTD2">
+                {#                    <img src="../../static/mobile/img/mbProjectMore/0022.png" alt="" onclick="location='javascript:;'">#}
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="big_box">
+
+    <div class="mb_dongtai">
+
+        <ul>
+            {% for k,d in enumerate(project_dynamics) %}
+            {% if k % 2 ==0 %}
+            <li>
+                <span class="mb_dongtai_time">{{ d.get('date',d['time']) }}</span>
+            <li class="mb_dongtai_wenzi">
+                <p class="mb_dongtai_wenzibi">{{ d['title'] }}</p>
+
+                <p class="mb_dongtai_wenziwn">{{ d['content'] }}</p>
+            </li>
+            </li>
+            {% else %}
+            <li>
+                <span class="mb_dongtai_time">{{ d.get('date',d['time']) }}</span>
+            <li class="mb_dongtai_wenzi">
+                <p class="mb_dongtai_wenzibi">{{ d['title'] }}</p>
+
+                <p class="mb_dongtai_wenziwn">{{ d['content'] }}</p>
+            </li>
+            </li>
+            {% end %}
+            {% else %}
+            <br>
+            暂无动态
+            {% end %}
+        </ul>
+
+
+    </div>
+
+
+</div><!--big_class-->
+{% end %}
+
+
+

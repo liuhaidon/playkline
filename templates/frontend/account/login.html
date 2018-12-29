@@ -1,0 +1,125 @@
+{% extends "../base.html" %}
+{% block page_title %}登录|创业孵化平台{% end %}
+{% block header %}
+{% end %}
+
+{% block content %}
+
+<style></style>
+<div class="content_width1">
+    <br><br>
+
+    <h1 style="font-weight: 100;text-align: center;">欢迎登录</h1><br>
+
+    <h3 style="font-weight: 100;text-align: center;color:#9C9C9C;margin-bottom: 5px;">Hi，朋友，登录创业孵化平台与我们一起成长，共同见证。</h3>
+
+    <h3 style="font-weight: 100;text-align: center;color:#9C9C9C;margin-bottom: 15px;">Hi，my friends，login '
+        <ked></ked>
+        ou' grow
+        up with you,share ideas !
+    </h3>
+    <hr style="border:none;border-bottom:1px solid #D3D3D3; ">
+    <form action="/login" method="post" name="login_form" id="login_form">
+        {% module xsrf_form_html() %}
+        <input type="hidden" id="url" name="url" value="{{ url }}">
+
+        <div class="login-content">
+            <div class="login-img" style="vertical-align: top;margin-top: 60px;"><img
+                    src="/static/img/login/mxzlsz.jpg" border="none"></div>&emsp;&emsp;&emsp;
+
+            <div class="login-input">
+                <p>用户名/邮箱</p>
+                <input type="text" id="name" name="name">
+
+                <p></p>
+
+                <p>密码</p>
+                <input type="password" id="pwd" name="pwd">
+
+                <p></p>
+
+                <p>验证码</p>
+                <input type="text" name="imgcode" style="width: 42%;vertical-align: top;">
+                <img src='/imagecode' id="imgcode" onclick="refreshCode()" title="单击切换下一张"><br>
+                {#                <a href="javascript:refreshCode()">换一张</a><br>#}
+                {#                <label><input type="checkbox">&nbsp;&nbsp;&nbsp;下次自动登陆</label>#}
+                {#                <span>（公共电脑勿勾选）</span>#}
+
+                <p style="color:red">{{ error }}</p>
+                <a href="/forgetpwd">忘记密码？</a>
+
+                <div class="login-sub">
+                    <a href="javascript:void(0)" id="login">登陆</a>
+                    <a href="/register">注册账户</a>
+                </div>
+                {#                <div>#}
+                {#                    <span>其他账号登陆</span>&emsp;&emsp;&nbsp;&nbsp;&nbsp;#}
+                {#                    <a href="{{ qq_login_url }}"><img border="none" align="absmiddle" src="../../static/img/qq.jpg">QQ登陆</a>&nbsp;&nbsp;#}
+                {#                    <a href="#"><img border="none" align="absmiddle" src="../../static/img/weibo.jpg">微博登陆</a>#}
+                {#                </div>#}
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    document.onkeydown = function (e) {
+        var ev = window.event || e;
+        var code = ev.keyCode || ev.which;
+        if (code == 116) {
+            if (ev.preventDefault) {
+                ev.preventDefault();
+            } else {
+                ev.keyCode = 0;
+                ev.returnValue = false;
+            }
+        }
+    };
+
+    //判断是否敲击了Enter键
+    $(document).keyup(function(event){
+        if(event.keyCode ==13){
+          $("#login").trigger("click");
+        }
+    });
+
+    function refreshCode() {
+        document.getElementById("imgcode").src = "/imagecode?" + Math.random();
+    };
+
+    $("#login").click(function () {
+        if ($('#name').val() == '') {
+            $('#name+p').html('用户名不能为空！').css({'color': 'red', 'font-size': '15px', 'margin-top': '-20px'});
+            return false;
+        }
+        if ($('#pwd').val() == '') {
+            $('#pwd+p').html('密码不能为空！').css({'color': 'red', 'font-size': '15px', 'margin-top': '-20px'});
+            return false;
+        }
+        $("#login_form").submit();
+
+    });
+
+    $(function () {
+        $('#name').blur(function () {
+            if ($(this).val() == '') {
+                $('#name+p').html('用户名不能为空！').css({'color': 'red', 'font-size': '15px', 'margin-top': '-20px'});
+            } else {
+                $('#name+p').html('');
+            }
+        });
+        $('#pwd').blur(function () {
+            if ($(this).val() == '') {
+                $('#pwd+p').html('密码不能为空！').css({'color': 'red', 'font-size': '15px', 'margin-top': '-20px'});
+            } else {
+                $('#pwd+p').html('');
+            }
+        });
+    })
+
+</script>
+</div>
+
+
+{% end %}

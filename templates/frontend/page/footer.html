@@ -1,0 +1,89 @@
+<div class="bisai_foot">
+    <img class="bishai_black" src="{{ static_url('img/sell.png') }}" id="Sell">
+
+    <div class="bishai_touxiang" id="myinfo">
+        <div class="nicheng_box">
+            <div class="nicheng">
+                <p class="name">{{ myuser.get('nick','') }}</p>
+                <p class="jinbi">{{ myuser.get('gold','') }}</p>
+            </div>
+        </div>
+        <img id="MyAvatar" src="{{ static_url('imgs/avatar/'+str(myuser.get('avatar','1'))+'.png') }}" data-userid="{{ myuser.get('userid') }}" data-nick="{{ myuser.get('nick') }}">
+        <span class="shuju">1.6%↑</span>
+    </div>
+
+    <img class="bishai_shezhi" src="{{ static_url('img/buy.png') }}" id="buy">
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#buy").click(function () {
+            var html = "<span style='display:inline-block;background:red;position:absolute;left:-5px;bottom:-14px; height:14px;width:12px;color: white;border-radius:2px;font-size: 12px;text-align: center;'>B</span>";
+            $("#kline").children().eq(count - 1).append(html);
+        });
+
+        $("#Sell").click(function () {
+            var html = "<span style='display:inline-block;background:green;position:absolute;left:-5px;top:-14px; height:14px;width:12px;color: white;border-radius:2px;font-size: 12px;text-align: center;'>s</span>";
+            $("#kline").children().eq(count - 1).append(html);
+        });
+    })
+</script>
+
+<style>
+    .anniuzhu {
+        width: 100%;
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+    }
+
+    .anniuzhu div {
+        -webkit-box-flex: 1;
+        margin-top: 6px;
+        text-align: center;
+    }
+
+    .anniuzhu div img {
+        width: 70%;
+        height: auto;
+    }
+</style>
+
+<div class="activity" id="result" style="display: none;">
+    <img class="activity_titler" src="/static/img/activity_title.png?v=6e33b17c00259b3438625bd35ac924f2">
+    <img class="guanbi" src="/static/img/guanbi.png?v=2d3675f970479c5bdd723503f327d305">
+    <div class="activity_beijing">
+        <div class="activity_beijing_s">
+            <div class="next">
+                <span class="activity_text" id="activity_text">比赛结果</span>
+                <span class="activity_text_nei" id="activity_text_nei">YOU WIN!!</span>
+            </div>
+
+            <div class="anniuzhu">
+                <div>
+                    <img id="homepage" src="{{ static_url('img/huifu_anniu.png') }}">
+                </div>
+                <div>
+                    <img id="sharegame" src="{{ static_url('img/baocun_anniu.png') }}">
+                </div>
+                <div>
+                    <img id="continuegame" src="{{ static_url('img/baocun_anniu.png') }}">
+                </div>
+            </div>
+        </div>
+        <!--activity_beijing_s-->
+    </div>
+    <!--activity_beijing-->
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#homepage").click(function () {
+            window.location.href="/";
+        });
+
+        $("#continuegame").click(function () {
+            window.location.reload();
+        });
+
+    });
+</script>

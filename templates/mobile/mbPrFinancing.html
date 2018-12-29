@@ -1,0 +1,64 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目详情|创业孵化平台{% end %}
+{% block content %}
+<style>
+   .subscribe {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  background: #00A0EA;
+  padding: 10px 0;
+  color: white;
+  position: fixed;
+  bottom: 65px;
+}
+</style>
+<div class="mbprojeDetailHead" style="border-bottom: 1px solid #EAEAEA;">
+    <table class="mbprojeDetailTab">
+        <tr class="mbprojeDetailTabTR">
+            <td class="mbprojeDetailTabTD1">
+                <img src="../../static/mobile/img/mbProjectMore/001.png" alt="" onclick="javascript:history.back(-1);">
+            </td>
+            <td>融资计划</td>
+            <td class="mbprojeDetailTabTD2">
+                {#                    <img src="../../static/mobile/img/mbProjectMore/0022.png" alt="" onclick="location='javascript:;'">#}
+            </td>
+        </tr>
+    </table>
+</div>
+{% if interest_plan %}
+{% set i=interest_plan %}
+{% if i['status'] not in ['editing','confirmed'] %}
+{% if investor_authed %}
+<div class="TheFinancingPlan">
+    <div>融资金额：{{ i['info']['total_amount'] }}万</div>
+    <div>认购份数：{{ i['info']['piece'] }}份</div>
+    <div>个人最低投资金额：10000元</div>
+    <div>其他需求：{{ i['info']['other_require'] }}</div>
+    {#    <div>出让股权：25%</div>#}
+    <div>资金用途：{{ i['info']['purpose'] }}</div>
+</div>
+ <div class="subscribe"><a style="color: #fff;" href="/mb_yuyuesq?id={{ project['id'] }}">预约认购</a></div>
+{% else %}
+<div>想查看项目的融资计划、成长数据、商业计划书等重要信息，你需要
+    <a href="/mb_touzhirenrenzheng">申请成为投资人</a>
+</div>
+{% end %}
+{% end %}
+{% else %}
+<div>无</div>
+<div class="mbProjectFocusOn">
+{#    <div class="FocusOn">#}
+{#        <a href="javascript:;" class="followbtn" data-id="{{ project['id'] }}">#}
+{#            {% if not has_followed %}#}
+{#            关注活动#}
+{#            {% else %}#}
+{#            取消关注#}
+{#            {% end %}#}
+{#        </a>#}
+{#    </div>#}
+
+</div>
+{% end %}
+
+{% end %}

@@ -1,0 +1,79 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    附加材料
+</div>
+<div class="nbig_box">
+    <form action="/mobile/projectcenter" method="post" enctype="multipart/form-data" name="project_attachment_form"
+          id="project_attachment_form">
+        {% module xsrf_form_html() %}
+        <input name="id" type="hidden" value="{{ id }}">
+        <input name="filename" type="hidden" value="{{ project.get("attachment",{}).get("filename","") }}">
+        <input name="raw_filename" type="hidden" value="{{ project.get("attachment",{}).get("raw_filename","") }}">
+
+
+        <div class="xmliche_a">
+        <span>
+            <img class="shangchuangziliao" src="../static/imges/shangziliao.png"
+                 onclick="document.getElementById('file1').click()"
+                    >
+            <div class="filename" style="text-align: center;">
+                {% if project.get("attachment",{}).get("raw_filename") %}
+                文件名：{{ project.get("attachment",{}).get("raw_filename") }}
+                {% end %}
+                <input type="file" id="file1" name="file" onchange="ajaxFileUpload(this)" style="display: none">
+            </div>
+            <p class="td_jieshaozl">
+                团队负责人简历、相关证书、团队组成、人员情况简介知识产权相关证明其他材料......
+            </p>
+        </span>
+            <div class="xiayibu xiayibub">完成</div>
+        </div>
+    </form>
+</div>
+</div><!--nbig_box-->
+<script type="text/javascript">
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+    function ajaxFileUpload(re) {
+        var raw_filename = document.getElementById("file1").files[0].name;
+        var data = {name: raw_filename, _xsrf: getCookie("_xsrf"), "project_id": {{ id }}, "path": "attachment"};
+
+        $.ajaxFileUpload({
+                    url: '/ajax/upload_attachment', //用于文件上传的服务器端请求地址
+                    secureuri: false, //一般设置为false
+                    data: data,
+                    fileElementId: 'file1', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                    dataType: 'json', //返回值类型 一般设置为json
+                    success: function (re)  //服务器成功响应处理函数
+                    {
+                        if (re.status == 'ok') {
+                            $(".filename").text("文件名:" + raw_filename);
+                            $("input[name='raw_filename']").val(raw_filename);
+                            $("input[name='filename']").val($.parseJSON(re.data)[0]['uploaded_filename']);
+                        }
+                        else {
+                            alert(re.msg);
+                        }
+                    },
+                    error: function (re)//服务器响应失败处理函数
+                    {
+                        alert(re.msg);
+                    }
+                }
+        )
+        return false;
+    }
+
+    $(".xiayibu").click(function () {
+        $("#project_attachment_form").submit();
+    });
+
+</script>
+{% end %}
+{% block footer %}
+{% end %}

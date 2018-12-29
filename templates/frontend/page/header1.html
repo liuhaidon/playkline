@@ -1,0 +1,85 @@
+
+<img class="beijing" src="{{ static_url('img/melee_background.png') }}"/>
+<div class="bisai_head">
+    <img class="bishai_black" src="{{ static_url('img/fanhui.png') }}"
+         onclick="javascript:window.location.href='/'">
+
+    <div class="bishai_touxiang">
+        <div class="nicheng_box">
+            <div class="nicheng">
+                {% if len(players)>1%}
+                <p class="name">{{ players[0].get('nick','昵称') }}</p>
+                <p class="jinbi">{{ players[0].get('gold','1000') }}</p>
+                {% end %}
+            </div>
+        </div>
+
+        <img id="rival" src="{{ static_url('imgs/avatar/'+str(rival.get('avatar','1'))+'.png') }}" data-userid="{{ rival.get('userid',0) }}" data-nick="{{ rival.get('nick',0) }}">
+        <span class="shuju">1.2%↓</span>
+    </div>
+    <div id="chat">
+        <img class="bishai_shezhi liaot" src="{{ static_url('img/liaotian.png') }}">
+        <img class="remind" src="{{ static_url('img/remind.png') }}" style="  position: absolute;width: 2%;right: 8%;top: 2%;">
+    </div>
+    <!--聊天-->
+    <div class="bishai_liaotian" style="display: none;">
+        <div class="l_bgs">
+            <ul>
+                <li><span>欢迎你。{{ myuser.get('nick','') }}@<script>document.write(new Date().toLocaleString())</script></li>
+            </ul>
+        </div>
+        <div class="l_tk">
+            <input class="send_t" type="text" style=""  placeholder="请输入内容">
+            <div class="us" style="float: left;">常用语句</div>
+            <input class="send" type="button" value="发送" style="">
+            <div style="clear: both;"></div>
+        </div>
+
+        <select id="orz" size="9" style="display: none;">
+              <option>你真厉害！</option>
+              <option>你也玩这个呀</option>
+              <option>玩了有一段时间了</option>
+              <option>我不会输的哟</option>
+              <option>你好(ˇˍˇ)～</option>
+              <option>准备开局了(ˇˍˇ)～</option>
+              <option>来PK下</option>
+              <option>挺有意思的！</option>
+              <option>挺好玩的！</option>
+        </select>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#chat').click(function(){
+            $('.bishai_liaotian').toggle();
+         });
+
+        $("#orz").change(function(){
+            $(".send_t").val($(this).val());
+            $('#orz').hide();
+        });
+
+        $('.us').click(function(){
+            $('#orz').toggle();
+        });
+
+        $(".send").click(function () {
+             var myid = $("#MyAvatar").data('userid');
+             var nick = $("#MyAvatar").data('nick');
+             var words = $(".send_t").val();
+             alert(words);
+             if(words.length < 1)
+                 return;
+
+             var xhtml = '<li><span>' + nick +':</span>'+ words +'</li>';
+
+             //send message
+             var message = {"from":myid, "to": $("#rival").data("userid"), "msgid": 2, 'content': xhtml};
+             MySocket.socket.send(JSON.stringify(message));
+
+             $(".send_t").val("");
+             $(".l_bgs ul").append(xhtml);
+             $(".l_bgs").scrollTop($(".l_bgs")[0].scrollHeight);
+        });
+    })
+</script>

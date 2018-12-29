@@ -1,0 +1,77 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    详细信息
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_fabuchyylc_d" method="post" enctype="multipart/form-data" name="park_detail_form"
+          id="park_detail_form">
+        {% module xsrf_form_html() %}
+        <input name="id" type="hidden" value="{{ park_id }}">
+
+        <div class="xmliche_a fabucyy_b">
+		   	 
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>园区概括</p>
+		   	  	<input type="text" name="summary"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>园区优势</p>
+		   	  	<input type="text" name="advantage"/>
+		   	  </span>
+		   	  
+		   	  	<span class="xmwz_biao zhishi">
+		   	  	<p>入园条件</p>
+		   	  	<input type="text" name="conditions"/>
+		   	  </span>
+
+            <div class="xiayibu xiayibuA">下一步</div>
+        </div>
+    </form>
+
+</div><!--nbig_box-->
+<script>
+    $(".xiayibu").click(function () {
+        $("#park_detail_form").validate({
+            rules: {
+                summary: {
+                    required: true,
+                },
+                advantage: {
+                    required: true,
+                },
+
+                conditions: {
+                    required: true,
+
+                }
+
+            },
+            messages: {
+                summary: {
+                    required: "园区概括不能为空！",
+                },
+                advantage: {
+                    required: "园区优势不能为空！",
+                },
+                conditions: {
+                    required: "入园条件不能为空！",
+                },
+            },
+
+        });
+
+        $("#park_detail_form").submit()
+    });
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}
+

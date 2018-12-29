@@ -1,0 +1,121 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    费用和配套
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_fabuchyylc_c" method="post" enctype="multipart/form-data" name="park_cost_info_form"
+          id="park_cost_info_form">
+        {% module xsrf_form_html() %}
+        <input name="id" type="hidden" value="{{ park_id }}">
+
+        <div class="xmliche_a fabucyy_b">
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>可提供面积</p>
+		   	  	<input type="text" placeholder="例如：200平方米以上" name="area"/>
+		   	  	<a>㎡</a>
+                <div style="clear: both"></div>
+		   	  </span>
+
+              <span class="xmwz_biao zhishi">
+		   	  	<p>租金</p>
+		   	  	<input type="text" placeholder="例如：2元以下/平米/天" name="rent"/>
+		   	  		<a>元</a>
+		   	  </span>
+		   	  <div style="clear: both"></div>
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>物业费</p>
+		   	  	<input type="text" placeholder="例如：1000元/月，没有填无即可" name="property"/>
+		   	  		<a>元</a>
+		   	  </span>
+		   	  	
+		   	  	<span class="xmwz_biao zhishi">
+		   	  	<p>基本租期</p>
+		   	  	<input type="text" placeholder="例如：1年起租" name="basic_lease"/>
+		   	  		<a>月</a>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>水费</p>
+		   	  	<input type="text" placeholder="例如：3元/吨" name="water"/>
+		   	  	<a>元/吨</a>
+		   	  </span>
+		   	  	
+		   	  	 <span class="xmwz_biao zhishi">
+		   	  	<p>电费</p>
+		   	  	<input type="text" placeholder="例如：3元/度" name="energy"/>
+		   	  	<a>元/度</a>
+		   	  </span>
+		   	  
+		   	   <span class="xmwz_biao zhishi">
+		   	  	<p>停车费</p>
+		   	  	<input type="text" placeholder="例如：3元/天" name="parking"/>
+		   	  	<a>元/天</a>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>付款方式</p>
+		   	  	<input type="text" placeholder="例如：半年一付" name="payment"/>
+		   	  </span>
+		   	 
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>物业管理</p>
+		   	  	<input type="text" placeholder="请填写物业管理" name="management"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>层数</p>
+		   	  	<input type="text" placeholder="请填写层数" name="number"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>标准层高</p>
+		   	  	<input type="text" placeholder="例如：3米" name="standard"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao zhishi">
+		   	  	<p>交通</p>
+		   	  	<input type="text" placeholder="请输入园区详细地址" style="width: 98.5%" name="traffic"/>
+		   	  </span>
+
+            <div class="xiayibu xiayibuA">下一步</div>
+
+
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+    $(".xiayibu").click(function () {
+        $("#park_cost_info_form").validate({
+            rules: {
+                area: {
+                    required: true,
+
+                },
+                rent: {
+                    required: true,
+                },
+
+
+            },
+            messages: {
+                area: {
+                    required: "可提供面积不能为空！",
+                },
+                rent: {
+                    required: "租金不能为空！",
+                },
+            },
+
+        });
+        $("#park_cost_info_form").submit()
+    });
+</script>
+{% end %}
+
+{% block footer %}
+
+{% end %}

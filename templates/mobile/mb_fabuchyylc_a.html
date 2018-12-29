@@ -1,0 +1,236 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    创业园基本信息
+
+</div>
+<div class="nbig_box">
+    <form action="/mb_fabuchyylc_b" method="post" enctype="multipart/form-data" name="park_info_form"
+          id="park_info_form">
+        {% module xsrf_form_html() %}
+        <input name="id" type="hidden" value="{{ park_id }}">
+
+        <div class="xmliche_a">
+		   	  <span class="xmwz_biao" style="height: auto;">
+		   	  	<div class="demo-box">
+                    <table class="demo-table">
+                        <tr>
+                            <td class="biaoqiank">类型</td>
+                            <td>
+                                {#                                <select class="ui-select" id="sel_01" name="tag">#}
+                                {#                                <option value="1">园区孵化器</option>#}
+                                {#                                <option value="2">企业孵化器</option>#}
+                                {#                                <option value="3">创业咖啡馆</option>#}
+                                {#                                <option value="4">创业服务中心</option>#}
+                                {#                                <option value="4">留学人员创业园</option>#}
+                                {#                                <option value="4">留学人员创业园大学科技孵化器</option>#}
+                                {#                            </select>#}
+                                <ul class="Labels">
+                                    <input type="hidden" name="tag">
+                                    <li>园区孵化器</li>
+                                    <li>企业孵化器</li>
+                                    <li>创业咖啡馆</li>
+                                    <li>创业服务中心</li>
+                                    <li>留学人员创业园</li>
+                                    <li>留学人员创业园大学科技孵化器</li>
+                                    <p class="clear"></p>
+
+                                    <p class="showInfo"></p>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+		   	  	
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao">
+		   	  	<p>园区名称</p>
+		   	  	<input type="text" name="name" value="{{ park.get('basic',{}).get('name','') }}"/>
+		   	  </span>
+		   	  
+		   	  	 <span class="xmwz_biao">
+		   	  	<p>所在地方</p>
+		   	  	
+		   	  	<div class="info">
+                    <div>
+                        <select class="select" name="province" id="province">
+                            {% for p in provinces %}
+                            <option value="{{ p['name'] }}"
+                                    {% if get_province==p['name'] %}selected{% end %}
+                                    data-id="{{ p['id'] }}">{{ p['name'] }}</option>
+                            {% end %}
+                        </select>
+                        <select class="select" name="city" id="city">
+                            {% for c in cities %}
+                            <option value="{{ c['name'] }}"
+                                    {% if get_city==c['name'] %}selected{% end %}
+                                    data-id="{{ c['id'] }}">{{ c['name'] }}</option>
+                            {% end %}
+                        </select>
+                        <select class="select" name="region" id="region">
+                            {% for r in regions %}
+                            <option value="{{ r['name'] }}"
+                                    {% if park.get('basic',{}).get('region')==p['name'] %}selected{% end %}
+                                    data-id="{{ r['id'] }}">{{ r['name'] }}</option>
+                            {% end %}
+                        </select>
+                        <script>
+                            $(function () {
+                                $('#province').change(function () {
+                                    var pid = $(this).find('option:selected').attr('data-id');
+                                    if (!pid) {
+                                        return false;
+                                    } else {
+                                        $.getJSON('/ajax/city.json?pid=' + pid, function (json) {
+                                            var city = '';
+                                            var region = '';
+                                            $.each(json['city'], function (k, v) {
+                                                city += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                                            });
+                                            $('#city').html(city);
+                                            $.each(json['region'], function (k, v) {
+                                                region += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                                            });
+                                            $('#region').html(region);
+                                        });
+                                    }
+                                });
+                                $('#city').change(function () {
+                                    var pid = $('#province').find('option:selected').attr('data-id');
+                                    var cid = $(this).find('option:selected').attr('data-id');
+                                    if (!pid) {
+                                        alert('请选择省份！');
+                                    }
+                                    else if (!cid) {
+                                        alert('请选择市！');
+                                    }
+                                    else {
+                                        $.getJSON('/ajax/city.json?pid=' + pid + '&cid=' + cid, function (json) {
+                                            var region = '';
+
+                                            $.each(json['region'], function (k, v) {
+                                                region += '<option data-id=' + v.id + '>' + v.name + '</option>';
+                                            });
+                                            $('#region').html(region);
+                                        });
+                                    }
+                                });
+                            })
+                        </script>
+                    </div>
+                    <div id="show"></div>
+                </div>
+		   	  </span>
+		   	  
+		   	  	 <span class="xmwz_biao">
+		   	  	<p>详细地址</p>
+		   	  	<input type="text" name="address" value="{{ park.get('basic',{}).get('name',"") }}"/>
+		   	  	
+		   	  </span>
+		   	  <span class="xmwz_biao">
+		   	  	<p>联系方式</p>
+		   	  	<input type="text" name="tel"
+                       value="{{ park.get('basic',{}).get('tel',"") }}"/>
+		   	  	
+		   	  </span>
+		   	  
+		   	  	<span class="xmwz_biao xmwz_ding">
+		   	  	<p>园区图片</p>
+{#		   	  	<input class="xmwz_biao_shang" type="file">#}
+		   	  	<input class="xmwz_biao_button" onclick="document.getElementById('shangchuan').click()" type="button"
+                       value="上传图片"/>
+		   	  </span>
+            <ul class="xmliche_a_tupian">
+                <li>
+		   	  	<span class="mb_zhanghu_tu">
+			    <div id="preview">
+                    <img id="imghead" border=0 src="imges/dada.png" width="180" height="180"/>
+                </div>
+                <input style="top:385px;left:50px; display: none;" class="shangchuan" type="file" id="shangchuan"
+                       onchange="previewImage(this)" name="image"/>
+		        </span>
+                </li>
+            </ul>
+
+
+            <div class="xiayibu xiayibuA">下一步</div>
+
+
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+    $(".Labels li").click(function () {
+        if ($(".Labels").find(".active").length > 2) {
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active")
+            }
+            else {
+                alert("最多选择3个");
+            }
+        }
+        else {
+            $(this).toggleClass("active")
+        }
+    });
+    $(".xiayibu").click(function () {
+        $.validator.addMethod("ismobile", function (value, element) {
+            var length = value.length;
+            var mobile = /^(((1[3689][0-9])|(15[0-9]{1}))+\d{8})$/;
+            return (length == 11 && mobile.exec(value)) ? true : false;
+        }, "请正确填写您的手机号码");
+        $("#park_info_form").validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 25,
+                },
+                address: {
+                    required: true,
+                },
+
+                tel: {
+                    required: true,
+                    ismobile: true,
+
+                }
+
+            },
+            messages: {
+                name: {
+                    required: "园区名称不能为空！",
+                    maxlength: "项目名称不多于25个字!",
+                },
+                address: {
+                    required: "地址不能为空！",
+                },
+                tel: {
+                    required: "联系方式不能为空！",
+                },
+            },
+            debug: false,
+            submitHandler: function (form) {
+                var tags = new Array();
+                $(".Labels li").each(function () {
+                    if ($(this).hasClass("active")) {
+                        tags.push($(this).text());
+                    }
+                });
+                $("input[name='tag']").val(tags);
+                form.submit();
+            }
+
+        });
+        $("#park_info_form").submit();
+    });
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}
+

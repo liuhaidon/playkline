@@ -1,0 +1,68 @@
+{% extends "../base.html" %}
+<title>{% block page_title %}玩转K线{% end %}</title>
+
+{% block content %}
+
+<div class="k_line_bigbox">
+    <form action="/login" method="post" name="login_form" id="login_form">
+        {% module xsrf_form_html() %}
+        <input type="hidden" id="url" name="url" value="{{ url }}">
+
+        <div class="k_line_box">
+            <img class="beijing" src="{{ static_url('img/loading_beijing.png') }}"/>
+
+            <div class="loading_box reg_box">
+                <img class="loadingimg" src="{{ static_url('img/loading.png') }}">
+
+                <div class="clear"></div>
+                <ul>
+                    <li>
+                    <span>
+                        <a>手机号</a>
+                        <input type="text" id="mobile" name="mobile">
+                    </span>
+                    </li>
+                    <li>
+                    <span>
+                        <a>密码</a>
+                        <input type="password" id="pwd" name="pwd"/>
+                    </span>
+                    </li>
+                </ul>
+                <p style="color:red; position:absolute; top: 75%; left: 45%; z-index: 1000;">{{ error }}</p>
+
+                <div class="wanzhucs">
+                    登录
+                </div>
+                <a class="waji">忘记密码？请联系客服</a>
+                <a href="/register" class="zaha">没有账号？</a>
+
+            </div>
+
+        </div>
+    </form>
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn">粤ICP备15062238号</a>深圳市奇遇投资管理有限公司</div>
+</div>
+
+<script>
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    };
+
+    $(".wanzhucs").click(function () {
+        if ($('#mobile').val() == '') {
+            alert("帐号不能为空");
+            return false;
+        }
+        if ($('#pwd').val() == '') {
+            alert('密码不能为空！');
+            return false;
+        }
+        $("#login_form").submit();
+    });
+</script>
+
+{% end %}
+

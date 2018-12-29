@@ -1,0 +1,117 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    实名认证
+
+</div>
+<div class="nbig_box">
+    <form method="post" action="/mb_shimingrenzheng" enctype="multipart/form-data"
+          name="id_card_info_form" id="id_card_info_form">
+        {% module xsrf_form_html() %}
+        <div class="xmliche_a">
+		   	  <span class="xmwz_biao">
+		   	  	<p>身份证号： </p>
+		   	  	<input type="text" value="{{ id_verify and id_verify.get("id_number", '') or "" }}"
+                       placeholder="请输入您的身份证号" name="id_number"/>
+		   	  </span>
+
+            <div class="renzheng">
+		   	  	<span class="xmwz_biao xmwz_ding">
+		   	  	<p>上传身份证</p>
+		   	  	<input class="xmwz_biao_shang" type="file" onchange="previewImage(this)" name="id_card_front">
+		   	  	<input class="xmwz_biao_button" type="button" value="上传正面"/>
+		   	  </span>
+
+                <div id="preview">
+                    <img id="imghead" class="shenfenzheng"
+                         src="{{ id_verify and id_verify.get("front", "") or "../static/img/startup/idfront_dft.png" }}">
+                </div>
+            </div>
+
+            <div class="renzheng">
+		   	  	<span class="xmwz_biao xmwz_ding">
+		   	  	<p>上传身份证</p>
+		   	  	<input class="xmwz_biao_shang" type="file" onchange="previewImage2(this)" name="id_card_back">
+		   	  	<input class="xmwz_biao_button" type="button" value="上传反面"/>
+		   	  </span>
+
+                <div id="preview2">
+                    <img id="imghead2" class="shenfenzheng"
+                         src="{{ id_verify and id_verify.get("back", "") or "../static/img/startup/idback_dft.png" }}">
+                </div>
+            </div>
+
+
+            </span>
+
+
+            <div class="xiayibu xiayibuA">完成验证</div>
+
+
+        </div>
+    </form>
+</div><!--nbig_box-->
+<script>
+    $.validator.addMethod("isIdNumber", function (value, element) {
+        var length = value.length;
+        var IdNumber = /(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        return (length == 18 && IdNumber.exec(value)) ? true : false;
+    }, "请正确填写您的身份证号码");
+
+    $("#id_card_info_form").validate({
+        rules: {
+            id_number: {
+                required: true,
+                isIdNumber: true,
+            }
+        },
+        messages: {
+            id_number: {
+                required: '身份证号不能为空！',
+            }
+        },
+        debug: false,
+        submitHandler: function (form) {
+            collect_data()
+            form.submit();
+        }
+    });
+    function collect_data() {
+        var watch_fields = new Array();
+        $("#watch_fields div").each(function () {
+            if ($(this).hasClass("selected")) {
+                watch_fields.push($(this).text());
+            }
+        });
+        $("input[name='watch_fields']").val(watch_fields);
+
+        var exp_invest = new Array();
+        $("#exp_invest div").each(function () {
+            if ($(this).hasClass("selected")) {
+                exp_invest.push($(this).text());
+            }
+        });
+        $("input[name='exp_invest']").val(exp_invest);
+
+        var amount_stage = new Array();
+        $("#amount_stage div").each(function () {
+            if ($(this).hasClass("selected")) {
+                amount_stage.push($(this).text());
+            }
+        });
+        $("input[name='amount_stage']").val(amount_stage);
+    }
+    $(".xiayibu").click(function () {
+        $("#id_card_info_form").submit()
+    })
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}
+
+

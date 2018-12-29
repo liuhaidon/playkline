@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no"/>
+    <meta property="qc:admins" content="251143032761465645166375"/>
+    <title>{% block page_title %}创业孵化平台{% end %}</title>
+    <link rel="shortcut icon" href="../../static/ziben/favicon.ico" type="image/x-icon"/>
+    <script type="text/javascript" src="{{ static_url('js/jquery-1.7.2.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ static_url('bootstrap/buttons.css') }}" type="text/css">
+    <script type="text/javascript" src="{{ static_url('kindeditor-4.1.10/kindeditor-min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('kindeditor-4.1.10/lang/zh_CN.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('WdatePicker/WdatePicker.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/mb_myjs.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/ajaxfileupload.js') }}"></script>
+    <script src="{{ static_url('js/iscroll.js') }}"></script>
+    <script src="{{ static_url('js/pullToRefresh.js') }}"></script>
+    <link rel="stylesheet" href="../../static/jquery.validation/css/screen.css"/>
+    <script src="../../static/jquery.validation/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="../../static/mobile/css/mbMerge.css?v={% module random() %}">
+    <link rel="stylesheet" href="../static/css/css_mb.css"/>
+    <link rel="stylesheet" href="/static/css/reset.css"/>
+    <link rel="stylesheet" href="/static/css/pullToRefresh.css"/>
+
+
+    {% block bootstrap %}
+    {% end %}
+    {% block other_head %}
+    {% end %}
+    {% block other_css %}
+    {% end %}
+    {% block other_js %}
+    {% end %}
+</head>
+<body>
+
+{% block banner %}
+{% end %}
+
+{% block header %}
+{% end %}
+
+<!--登录状态判断-->
+{% block loginstatus %}
+{% try %}
+{% if 'uid' in myuser %}
+<script>var Login_status = 'online';</script>
+{% end %}
+{% except %}
+<script>var Login_status = 'offline';</script>
+{% finally %}
+{% end %}
+{% end %}
+<!--登录状态判断借宿-->
+
+{% block content %}
+{% end %}
+
+{% block footer %}
+{% include 'mbFooter.html' %}
+{% end %}
+
+{% block script %}
+{% end %}
+</body>
+</html>

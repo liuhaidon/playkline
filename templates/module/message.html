@@ -1,0 +1,88 @@
+{% set notice_type={1:'简历通知',2:'我有场地请联系我'} %}
+<div class="xiaoxi-list Direct">
+    <div class="perlogo1">
+        <img src="/static/media/avatar/{{ user_info(m.get('uid')).get('avatar') }}"
+             onerror="javascript:this.src='/static/img/startup/message_dft.png'" border="none"
+             align="absmiddle" class="perlogo2"/>
+    </div>
+
+    <div class="div-inline">
+        {% if m.get('type')==1 %}
+        <div class="sixitt1">{{ m.get('sender_name','未知') }}-投了简历 应聘:{{ m.get('content').get('job') }}
+            <div>{{ m.get('time') }}</div>
+            <a href="javascript:;">
+                {% if m.get('unread') ==1 %}
+                未读
+                {% else %}
+                已读
+                {% end %}
+            </a></div>
+        <div class="sixitt2">
+            <div>
+                <a href="/resumeView/{{ m.get('uid') }}?msgid={{ m.get('id') }}">查看简历</a>
+                {% if not m.get("invited",None) %}
+                <a href="#" class="invite_interview" data-id="{{ m.get('id',0) }}" data-uid="{{ m.get('uid') }}"
+                   data-target="#invitation" data-toggle="modal">邀请面试</a>
+                {% else %}
+                <a href="javascript:;">已发送面试邀请</a>
+                <a href="#" class="invite_interview" data-id="{{ m.get('id',0) }}" data-uid="{{ m.get('uid') }}" data-target="#invitation"
+                   data-toggle="modal">再次邀请</a>
+                {% end %}
+            </div>
+        </div>
+
+        {% elif m.get('type')==2 %}
+        <div class="sixitt1">{{ m.get('sender_name','未知') }}-邀请您面试
+            <div>{{ m.get('time') }}</div>
+            {% if m.get('unread')==1 %}
+                <a href="javascript:;">未读</a>
+            {% end %}
+        </div>
+        <div class="sixitt2">
+            <div>
+                <span>时间:{{ m.get('interview_time',"10-1 08:30") }}</span>
+                <span>地址:{{ m.get('address','南山智园') }}</span>
+            </div>
+        </div>
+        {% elif m.get('type') ==3 %}
+        <div class="sixitt1">{{ m.get('sender_name','未知') }}-我有场地请联系我
+            <div>{{ m.get('time') }}</div>
+            {% if m.get('unread')==1 %}
+                <a href="javascript:;">未读</a>
+            {% end %}
+        </div>
+        <div class="sixitt2">
+            <div>
+                创业园:{{ m.get('content').get('park_name') }}
+                <a href="javascript:;" class="sixitt2a1">回复</a>
+                <a href="javascript:;" class="sixitt2a2" data-id="{{ m.get("_id") }}">详细内容</a>
+            </div>
+            <div class="sixicontent">
+                备注:{{ m.get('content').get('mark') }}
+            </div>
+        </div>
+        {% elif m.get('type')==4 %}
+        <div class="sixitt1">{{ m.get('sender_name','未知用户') }}-申请入孵
+            <div>{{ m.get('time') }}</div>
+            {% if m.get('unread')==1 %}
+                <a href="javascript:;">未读</a>
+            {% end%}
+        </div>
+        <div class="sixitt2">
+            <div>
+                申请理由:{{ m.get('content').get('reason')[0:10] }}...
+                <a href="/project/{{ m.get('content').get('project').get('id') }}?arg=rfjh&msgid={{ m.get("id") }}" target="_blank" class="sixitt2a1">查看申请入孵的项目</a>
+                <a href="javascript:;" class="sixitt2a2" data-id="{{ m.get("_id") }}">详细内容</a>
+            </div>
+            <div class="sixicontent">
+                面积:{{ m.get('content').get('area') }}
+                人数：{{ m.get('content').get('count') }}
+                拥有的项目:{{ m.get('content').get('project').get('name') }}
+                申请理由:{{ m.get('content').get('reason') }}
+                备注:{{ m.get('content').get('mark') }}
+                {#                <a href="javascript:;" class="sixitt2a1">同意入孵</a>#}
+            </div>
+        </div>
+        {% end %}
+    </div>
+</div>

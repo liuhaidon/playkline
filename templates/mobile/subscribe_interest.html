@@ -1,0 +1,49 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<style>
+  .ideaSub3{margin:auto;  border: 1px solid #cbcbcb;  background: #F9F9F9;  padding: 20px 10px;  font-size: 0.8em; }
+  .color { color: #00A0EA; }
+    .buy_success_tip3{ color: #8B8882;}
+    .buy_success_btn{margin-top: 30px; width: 100%;}
+    .ui-btn-a{ width: 100%; background: #00A0EA; color: #fff; height: 30px; line-height: 30px;}
+
+</style>
+ <div class="mbProjectMoreTitle">
+     <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+            项目认购信息
+
+     </div>
+		<div class="nbig_box">
+			<div class="yuyuerg">
+			<ul>
+				<li>
+                  <div class="ideaSub11" style="float: none;text-align: center">恭喜您,认购成功!</div>
+				</li>
+				<li>
+                    <div class="ideaSub3" style="text-align: center;">
+                         您认购的项目是：<span class="color">{{ project_info()['name'] }}</span></br>
+                         认购的份数是：<span class="color">{{ record['paid_piece'] }}</span></br>
+                         认购的总金额为：<span class="color">{{ record['unit_price'] *record['paid_piece'] }}元</span></br>
+                        </br>
+                        <p class="buy_success_tip2">到了项目付款阶段，你将会收到我们平台信息或客服人员的联系电话，将会通知您打剩余的投资款</p>
+                        </br>
+                        <p class="buy_success_tip3">
+                            <span>温馨提示：1.请确认需要认购的份数与金额。</span></br>
+                            <span>2.请确保已阅读与同意，<a class="lowsc color" target="_blank">《创业孵化平台风险揭示书》</a></span>
+                        </p>
+                    </div>
+
+				</li>
+			</ul>
+			<div class="buy_success_btn" style="text-align: center">
+              <a href="/mb_rengouximu" class="ui-btn-a">查看融资订单</a>
+            </div>
+	</div>
+ </div>
+		
+{% end %}
+
+{%block footer%}
+
+{%end%}

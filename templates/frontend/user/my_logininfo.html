@@ -1,0 +1,56 @@
+{% extends "../base.html" %}
+{% block page_title %}登录信息|创业孵化平台{% end %}
+
+{% block content %}
+
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            {% include 'account_nav.html' %}
+            <script>
+                $('.fbdcy').eq(5).addClass('jhclick').siblings().removeClass('jhclick');
+            </script>
+        </div>
+        <div class="Login-record">
+            <table>
+                <tr>
+                    <td>登陆日期</td>
+                    <td>IP地址</td>
+                    <td>地区</td>
+                    <td>登陆类型</td>
+                </tr>
+                {% for l in logininfos %}
+                <tr>
+                    <td>{{ l.get('time') }}</td>
+                    <td>{{ l.get('ip') }}</td>
+                    <td>广东省深圳市 电信</td>
+                    <td>web</td>
+                </tr>
+                {% end %}
+            </table>
+            <div class="Login-record-page">
+                {{ len(logininfos) }}条记录 1 页
+{#                <a href="?page=1" class="">首页</a>#}
+{#                {% set start=start_index %}#}
+{#                {% set end=start + 5 if current_page<page_count-5 else page_count %}#}
+{#                {% if current_page>1 %}#}
+{#                <a href="?page={{ current_page - 1 }}" class="">上一页</a>#}
+{#                {% end %}#}
+{#                {% for i in range(start,int(end) + 1) %}#}
+{#                <a href="?page={{ i }}" class="{% if current_page==i %}lrpage{% end %}">{{ i }}</a>#}
+{#                {% end %}#}
+{#                {% if end <page_count %}#}
+{#                    <a href="?page={{ end }}" class="{% if current_page==end %}{% end %}">...</a>#}
+{#                    <a href="?page={{ current_page + 1 }}" class="">下一页</a>#}
+{#                {% end %}#}
+{##}
+{#                <a href="?page={{ page_count }}" class=" {% if current_page ==page_count %}lrpage{% end %}">末页</a>#}
+            </div>
+        </div>
+    </div>
+    <p class="clear"></p>
+</div>
+
+
+{% end %}

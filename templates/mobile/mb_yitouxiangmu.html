@@ -1,0 +1,81 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        项目中心
+    </div>
+</div>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 ">
+            <p><a href="/mobile/projectcenter">发布的项目</a></p>
+        </div>
+        <div class="box2">
+            <p><a href="/mb_rengouximu">认购的项目</a></p>
+        </div>
+        <div class="box3 onclik">
+            <p><a href="/mb_yitouxiangmu">已投简历项目</a></p>
+        </div>
+        <div class="box4">
+            <p><a href="/mb_yaoqing">邀请入孵项目</a></p>
+        </div>
+    </div>
+    {% if send_jd_messages.count()>0 %}
+    {% for m in send_jd_messages %}
+    {% if  m['content'].get('pid') %}
+    {# TODO 这里取出的信息有None记录，检查一下 #}
+    {% set p=project_info(m['content'].get("pid",0)) %}
+    {% if p %}
+    <div class="pro_pro ">
+        <div class="pro_proer regouxiangmu">
+            <img src="../static/media/project_img/{{ p.get("image") }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                 onclick="javascript:window.location.href='/mbProjectDetail?id={{ p['id'] }}'">
+
+            <div class="pro_text">
+                <p class="pro_textbiao">{{ p['name'] }}</p>
+
+                <div class="pro_biaoqian yitouicon">
+                                <span class="pro_bqin">
+                                    <p class="pro_bqinicon"></p>
+                                    <p>{{ ','.join(list(p['tag'])) }}</p>
+                                </span>
+                                <span class="pro_bqiner">
+                                    <p class="pro_bqiniercon"></p>
+                                    <p>广东深圳</p>
+                                </span>
+                </div>
+                <!--pro_biaoqian-->
+                <div class="yitou">
+                    <p>投递岗位：{{ m['content']['job'] }}</p>
+                </div>
+
+                <div class="jindu yitoujindu">
+                        <span>
+                            <a>投递时间:</a>
+                            <a>{{ m['time'] }}</a>
+                        </span>
+                    {#                        <div class="jindutiao">#}
+                    {#                            <span class="jindutiao_gre"></span>#}
+                    {#                            <span class="jindutiao_bule"></span>#}
+                    {#                        </div>#}
+                </div>
+            </div>
+            <!--pro_text-->
+        </div>
+
+    </div>
+    {% end %}
+    {% end %}
+    {% end %}
+    {% else %}
+    <br>
+    暂无已投简历的项目
+    {% end %}
+    <!--pro_pro-->
+
+
+</div><!--nbig_box-->
+{% end %}

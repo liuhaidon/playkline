@@ -1,0 +1,70 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    申请入孵
+
+</div>
+<div class="nbig_box">
+    <form action="/park/apply" method="post" enctype="multipart/form-data" name="parkHatch" id="parkHatch">
+        {% module xsrf_form_html() %}
+        <input name="park_id" type="hidden" value="{{ park['id'] }}">
+        <input name="type" type="hidden" value="phone">
+
+        <div class="rufushqin">
+            <p class="sqrf">申请入孵</p>
+            <ul>
+                <li>
+                    <span>面积/㎡</span>
+                    <input type="number" name="area" placeholder="请输入需求场地面积"/>
+                </li>
+                <li>
+                    <span>人数/人</span>
+                    <input type="number" placeholder="请输入入驻的人数" name="count"/>
+                </li>
+                <li>
+                    <span>选择项目</span>
+                    <td>
+                        {% if myproject.count()==0 %}
+                        <a href="javascript:;" class="a1 button button-primary button-small">+</a>
+                        你还没有发布项目，赶快去<a href="/project/issue" class="a2">发布</a>吧!
+                        {% else %}
+                        <select name="project">
+                            {% for m in myproject %}
+                            <option value="{{ m['id'] }}">{{ m['name'] }}</option>
+                            {% end %}
+                        </select>
+                        {% end %}
+                    </td>
+                </li>
+                <li>
+                    <span>申请理由</span>
+                    <input name="reason"/>
+                </li>
+                <li>
+                    <span>备注</span>
+                    <input name="mark"/>
+                </li>
+            </ul>
+
+            <div class="rufushqin_an">
+                <a class="rufushqin_tijiao">提交</a>
+                <a class="rufushqin_quxiao">取消</a>
+            </div>
+
+        </div>
+    </form>
+</div>
+<script>
+    $('.rufushqin_tijiao').click(function () {
+        $("#parkHatch").submit();
+    });
+    $('.rufushqin_quxiao').click(function () {
+        location.href = '/mb_cyy_xiangqing/{{ park['id'] }}';
+    });
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}

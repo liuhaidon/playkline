@@ -1,0 +1,103 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+
+ <div class="mbprojeDetailHead">
+        <table class="mbprojeDetailTab">
+            <tr class="mbprojeDetailTabTR">
+                <td class="mbprojeDetailTabTD1">
+                    <img src="../../static/mobile/img/mbProjectMore/001.png" alt="" onclick="location='javascript:history.back(-1);'">
+                </td>
+                <td>项目详情</td>
+                <td class="mbprojeDetailTabTD2">
+                    <img src="../../static/mobile/img/mbProjectMore/0022.png" alt="" onclick="location='javascript:;'">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <img src="../../static/mobile/img/mbProjectMore/hdxq.png" alt="" style="width: 100%;height: 200px;">
+    <div class="mbprojeDetailContent">
+        <div class="mbprojeDetailContentBold">以运动为创意的棒球</div>
+        <div class="mbprojeDetailContentSmall">认购20人&emsp;最低投资金额10000元&emsp;关注100人</div>
+    </div>
+
+    <div class="mbprojeDetailContentTXT">为了美好的明天而战，蝴蝶太阳能灯上经过大家认同终于得到...</div>
+
+    <div class="mbprojeDetailContentInternal">
+        <div class="mbprojeDetailContentInternal1"></div>
+    </div>
+
+    <table class="mbPrJeprogressTab">
+        <tr>
+            <td>
+                <p>筹集进度</p>
+                <p>42%</p>
+            </td>
+            <td>
+                <p>已筹金额</p>
+                <p>6,800,905元</p>
+            </td>
+            <td>
+                <p>剩余时间</p>
+                <p>28天</p>
+            </td>
+        </tr>
+    </table>
+<div class="hd_xiangqing">
+		   	<img src="../static/imges/huoxian.png">
+		   	<span>
+		   		<p>现场布置：</p>
+		   		这次活动我们邀请了一个神秘嘉宾为大家讲解一下现在股市风云中的一些比较自身的知识，目的就是为了让大家在此刻的股市背景下活得更加精彩，让生活更加美满。
+		   	</span>
+		   </div>
+    <div class="viewImgDetail">
+        <div class="viewImgDetailLeft" onclick="javascript:window.location.href='mb_xiangmutuwen'">查看图文详情</div>
+        <div class="viewImgDetailRight"></div>
+        <p class="clear"></p>
+    </div>
+    <div style="width: 100%;height: 15px;background: #F2F2F2;"></div>
+
+
+    <table class="TheFinancingPlan">
+        <tr>
+            <td onclick="location='/mbPrFinancing'">融资计划</td>
+            <td onclick="location='/mb_tuandui'">团队介绍</td>
+            <td onclick="location='/mb_zhaopinjihua'">招聘计划</td>
+        </tr>
+        <tr>
+            <td onclick="location='/mb_rufujihua'">入孵计划</td>
+            <td onclick="location='/mb_dongtai'">项目动态</td>
+            <td onclick="location='/mb_zhuanjiapinyu'">专家评语</td>
+        </tr>
+    </table>
+
+    <div class="mbProjectAuthor">
+        <img src="../../static/img/startup/avatar_sample.png" alt="">
+        <span>嘚瑟文化传媒</span>发布
+    </div>
+    <div style="width: 100%;height: 15px;background: #F2F2F2;"></div>
+    <div class="mbProjectComments">
+        <div class="mbProjectCommentsCount">评论（11）</div>
+        <div class="mbProjectCommentsList">
+            {% for i in range(3) %}
+            <div class="mbProjectCommentsListDiv">
+                <img src="../../static/img/startup/avatar_sample.png" alt="">
+                <div class="mbProjectCommentsListDivLeft">
+                    <p class="name">墨白的小痴</p>
+                    <p class="text">
+                        {% for x in range(i+1) %}
+                        项目的撒发生大
+                        {% end %}
+
+                    </p>
+                </div>
+                <div class="mbProjectCommentsListDivRight">昨天22:10</div>
+            </div>
+            {% end %}
+        </div>
+        <div class="loadMoreComments">更多▼</div>
+    </div>
+
+{% end %}
+
+

@@ -1,0 +1,292 @@
+{% extends "../base.html" %}
+<title>{% block page_title %}玩转K线{% end %}</title>
+{% block other_css %}
+{% end %}
+
+{% block head %}
+{% end %}
+
+{% block content %}
+<div class="k_line_bigbox">
+    <div class="k_line_box bisai_box">
+        <img class="beijing" src="{{ static_url('img/melee_background.png') }}"/>
+
+        <div class="bisai_head">
+            <img class="bishai_black" src="{{ static_url('img/fanhui.png') }}"
+                 onclick="javascript:window.location.href='/classic'">
+
+            <div class="melee_touxiang">
+                <div class="nicheng_box">
+                    <div class="nicheng">
+                        <p class="name">旭日东升</p>
+
+                        <p class="jinbi">3900</p>
+                    </div>
+                </div>
+                <img src="{{ static_url('img/touxiang.png') }}">
+                <span class="shuju">1.2%↓</span>
+            </div>
+            <img class="bishai_shezhi" src="{{ static_url('img/shezhi_b.png') }}">
+        </div>
+        <!--bisai_head-->
+        <script>
+            $(function () {
+                $(".bishai_shezhi").click(function () {
+                    $(".Setup_beijing").show();
+                })
+            })
+            $(function () {
+                $("#Toprepare").click(function () {
+                    $("#Toprepare").hide();
+                    $("#my_ok").show();
+                })
+            })
+        </script>
+        <div class="melee_backgroundFrame">
+            <img src="{{ static_url('img/melee_beijing.png') }}">
+        </div>
+        <div class="melee_time">
+            <p id="second_show">
+                120<br/>秒
+            </p>
+        </div>
+        <div class="melee_cen">
+            <div class="bisaiyou_ok">
+                <img src="{{ static_url('img/ok.png') }}">
+            </div>
+            <img class="bisai_cen_text" src="{{ static_url('img/bisai_text.png') }}"/>
+
+            <div class="bisaiher_ok">
+                <img src="{{ static_url('img/ok.png') }}">
+            </div>
+            <div class="bisaimy_ok">
+                <img id="my_ok" src="{{ static_url('img/ok.png') }}">
+                <img id="Toprepare" src="{{ static_url('img/Toprepare.png') }}">
+            </div>
+        </div>
+        <div class="melee_cen_right">
+            <div class="nicheng_box">
+                <div class="nicheng">
+                    <p class="name">旭日东升</p>
+
+                    <p class="jinbi">3900</p>
+                </div>
+            </div>
+            <img src="{{ static_url('img/touxiang.png') }}">
+            <span class="shuju">1.2%↓</span>
+        </div>
+        <div class="bisai_foot">
+            <img class="bishai_black" src="{{ static_url('img/sell.png') }}">
+
+            <div class="bishai_touxiang">
+                <div class="nicheng_box">
+                    <div class="nicheng">
+                        <p class="name">会飞的鸟</p>
+
+                        <p class="jinbi">3900</p>
+                    </div>
+                </div>
+                <img src="{{ static_url('img/touxiang.png') }}">
+                <span class="shuju">1.6%↑</span>
+            </div>
+            <img class="bishai_shezhi" src="{{ static_url('img/buy.png') }}">
+        </div>
+
+        <div class="Setup"><!--设置弹窗-->
+            <div class="Setup_beijing">
+                <div class="Setup_beijing_s">
+                    <div class="Setup_kaung">
+                        <ul class="Setup_navbox">
+                            <li>
+                                <a id="onclickt_a" class="onclickt_a dise">参数设置</a>
+                            </li>
+                            <li>
+                                <a id="onclickt_b" class="bianjitouxiang_a">编辑头像</a>
+                            </li>
+                            <li>
+                                <a id="onclickt_c" class="xiugainice_a ">修改昵称</a>
+                            </li>
+                        </ul>
+                        <div class="Setup_canshubox">
+                            <p class="ma_text">MA价格均线（限选三种）</p>
+                            <ul class="ma_anniubox">
+                                <li class="ma_anniubox_li">
+                                    <a>MA（5）</a>
+                                    <img id="off1" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on1" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                                <li class="ma_anniubox_li">
+                                    <a>MA（10）</a>
+                                    <img id="off2" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on2" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                                <li class="ma_anniubox_li">
+                                    <a>MA（20）</a>
+                                    <img id="off3" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on3" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                                <li class="ma_anniubox_li">
+                                    <a>MA（30）</a>
+                                    <img id="off4" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on4" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                                <li class="ma_anniubox_li">
+                                    <a>MA（60）</a>
+                                    <img id="off5" class="off" src="{{ static_url('img/off.png') }}">
+                                    <img id="on5" class="on" src="{{ static_url('img/on.png') }}">
+                                </li>
+                            </ul>
+
+                            <p class="ma_text">指标说明</p>
+
+                            <div class="ma_text_lule">
+                                <p>1:股票高于平均线视为强势；股价低于平均线视为弱势</p>
+
+                                <p>2:平均线向上看涨，有助长力道；平均线向上跌降，有助于跌力道</p>
+
+                                <p>3:二条以上平均线向上交叉时，买进参考</p>
+
+                                <p>4:二条以上平均线向下交叉时，卖进参考</p>
+
+                                <p class="jianbianxiana"></p>
+                            </div>
+                            <!--ma_text_lule-->
+                            <div class="anniuzhu">
+                                <div>
+                                    <img id="huifua" src="{{ static_url('img/huifu_anniu.png') }}">
+                                </div>
+                                <div>
+                                    <img class="baocuna" src="{{ static_url('img/baocun_anniu.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <!--Setup_canshubox-->
+
+                        <div class="Setup_touxiangbox">
+                            <p class="ma_text">请选择人物头像</p>
+
+                            <div class="Setup_touxiang" id="Setup_touxiang">
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span class="gou"><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                                <span><img src="{{ static_url('img/touxiang.png') }}"></span>
+                            </div>
+
+
+                            <p class="jianbianxiana"></p>
+
+                            <div class="anniuzhu">
+                                <div>
+                                    <img src="{{ static_url('img/huifu_anniu.png') }}">
+                                </div>
+                                <div>
+                                    <img class="baocuna" src="{{ static_url('img/baocun_anniu.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <!--Setup_touxiangbox-->
+
+                        <div class="Setup_nichengbox">
+                            <p class="ma_text">请在下方框内输入昵称</p>
+						<span class="Setup_nichengboxspan">
+						<input class="shurukuang"/>
+						</span>
+
+                            <p class="jianbianxiana"></p>
+
+                            <div class="anniuzhu">
+                                <div>
+                                    <img src="{{ static_url('img/huifu_anniu.png') }}">
+                                </div>
+                                <div>
+                                    <img class="baocuna" src="{{ static_url('img/baocun_anniu.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <!--Setup_nichengbox-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--设置弹窗结束-->
+        <div class="He_succeeds" style="display: none"><!--挑战成功弹窗-->
+            <img class="activity_titler" src="{{ static_url('img/succeeds.png') }}">
+
+            <div class="activity_beijing">
+                <div class="activity_beijing_s">
+                    <div class="gold_shuliang">
+                        <img class="gold_not_gold" src="{{ static_url('img/succeedser.png') }}">
+                        <ul class="He_succeeds_ranking">
+                            <li>
+                                <a>排名</a>
+                                <a>玩家</a>
+                                <a>收益</a>
+                                <a>金币</a>
+                            </li>
+                            <li>
+                                <a>1</a>
+                                <a>旭日东升</a>
+                                <a>1.2%</a>
+                                <a>300</a>
+                            </li>
+                            <li>
+                                <a>2</a>
+                                <a>清风徐来</a>
+                                <a>-1.2%</a>
+                                <a>0</a>
+                            </li>
+                            <li>
+                                <a>3</a>
+                                <a>劳资不服</a>
+                                <a>-1.2%</a>
+                                <a>0</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="gold_not_anniu">
+                        <div>
+                            <img id="succeeds_again" src="{{ static_url('img/succeeds_again.png') }}">
+                        </div>
+                        <div>
+                            <img id="biack_alv" src="{{ static_url('img/biack_alv.png') }}"
+                                 onclick="javascript:window.location.href='/'">
+                        </div>
+                    </div>
+                </div>
+                <!--activity_beijing_s-->
+            </div>
+            <!--activity_beijing-->
+        </div>
+        <!--He_succeeds-->
+        <!--挑战成功弹窗-->
+        <script>
+            $(function () {
+                $("#succeeds_again").click(function () {
+                    $(".He_succeeds").hide();
+                })
+            })
+        </script>
+    </div>
+    <!--k_line_box-->
+
+</div>    <!--k_line_bigbox-->
+
+{% end %}
+
+
+
+
+
+
+

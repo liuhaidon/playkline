@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+{% block title %}专辑信息修改{% end %}
+{% block content %}
+<script type="text/javascript" src="{{ static_url('plupload/js/plupload.full.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('WdatePicker/WdatePicker.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('kindeditor-4.1.11/kindeditor-all-min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('kindeditor-4.1.11/lang/zh_CN.js') }}"></script>
+<script type="text/javascript">
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#brief', {
+            allowFileManager: true,
+            minWidth:"520px",
+            width: '680px',
+            height: '320px',
+            imageSizeLimit : '2MB', //批量上传图片单张最大容量
+            imageUploadLimit : 32, //批量上传图片同时上传最多个数
+            resizeType: 0,       //2时可以拖动改变宽度和高度，1时只能改变高度，0时不能拖动。
+            uploadJson: K.undef('/kindeditor_upload_json'),
+            extraFileUploadParams: {
+                _xsrf: getCookie("_xsrf")
+            },
+{#            items : [#}
+{#				'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',#}
+{#				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',#}
+{#				'insertunorderedlist', '|', 'emoticons', 'image', 'link'],#}
+
+            afterFocus: function () {
+            },
+            afterBlur: function () {
+                if (editor.html() == '') {
+                    $('p.textarea').html('简介不能为空！');
+                } else {
+                    $('p.textarea').html('');
+                }
+            }
+        });
+    });
+</script>
+<style>
+    #video_tags{ float: left; padding: 0;}
+    #video_tags li{ float: left; padding: 5px; margin-right: 5px; list-style: none;}
+</style>
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {% include 'admin_nav.html' %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include 'header_nav.html' %}
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>专辑信息管理</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/admin/home">主页</a>
+                    </li>
+                    <li>
+                        <a>专辑信息管理</a>
+                    </li>
+                    <li>
+                        <strong>专辑信息修改</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>基本信息
+                                <!--<small>共计：</small>-->
+                            </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+
+        <form method="post" enctype="multipart/form-data" name="issueCourseForm" id="issueCourseForm">
+        <div class="issueActiveCotent1">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tr >
+                    <td>专辑姓名：</td>
+                    <td>
+                        <input type="hidden" value="{{ special.get('_id')}}" name="speakerid" id="speakerid">
+                        <input class="form-control" placeholder="不多于32个字" id="name" name="name" value="{{ special.get('name')}}">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td valign="top" style="vertical-align: top">专辑简介：</td>
+                    <td>
+                        <textarea class="form-control" id="brief" name="brief" rows="6" placeholder="不多于256字">{{special.get('brief','')}}</textarea>
+                        <p class="textarea"></p>
+                    </td>
+                </tr>
+
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>专辑封面：</td>
+                    <td>
+                        <a class="btn new_btn-w-m btn-primary" href="#" id="index_image">上传封面</a>
+                        <input type="text" name="image" id="image_url" style="display: none" value="{{ special.get('cover')}}">
+                        <span class="color-gray">&nbsp;支持jpg、jpeg、png、gif格式</span>
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr >
+                    <td></td>
+                    <td>
+                        <img src="/static/media/special/{{special.get('cover')}}" alt="" width="260" style="margin-top: 20px;" id="cover">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr class="tr-margin"><br></tr>
+                <tr>
+                    <td valign="top" style="vertical-align: top">备注：</td>
+                    <td>
+                        <textarea class="form-control" id="desc" name="desc" rows="10" cols="76" placeholder="专辑备注">{{special.get('comment','')}}</textarea>
+                        <p class="textarea"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>发布人:</td>
+                    <td>
+                        <input class="form-control" placeholder="请输入发布人" id="user_id" name="user_id" value="{{special.get('userid')}}">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>发布时间：</td>
+                    <td>
+                        <input  class="form-control" placeholder="发布日期" id="time" onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+                               onblur="$('.showInfo1').text('')" value="{{ special.get('time','') }}" name="time">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </form>
+
+                                </li>
+                                <li class="list-group-item">
+                                    <p class="submitsc" align="center">
+                                        <button type="button" class="btn btn-primary modifyVideoProfile" onclick="postmessage()">更新</button>
+                                    </p>
+                                </li>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>最新评论</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   href="http://www.zi-han.net/theme/hplus/index_3.html#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content no-padding">
+                            <ul class="list-group">
+{#                                {% for x in special.get('comment',[])%}#}
+{#                                <li class="list-group-item">#}
+{#                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> {{x.get('time')}}</small>#}
+{#                                    <!--<a href="/admin/videoomment/delete"></a>-->#}
+{#                                    <p><a class="text-info" href="#"><img src="{{x.get('avatar')}}" width="32px" height="32px">@{{x.get('nick','')}}</a>:{{x.get('content','')}}</p>#}
+{#                                </li>#}
+{#                                {% end %}#}
+                                <li class="list-group-item ">
+                                    <p><a class="text-info" href="http://www.zi-han.net/theme/hplus/index_3.html#">@爱nimen</a>
+                                        记得费希特在《论学者的使命》中说：“你们都是最优秀的知识分子。如果最优秀的分子丧失了自己的力量，那又用什么去感召呢？如果出类拔萃的人都腐化了，那还到哪里去寻找道德善良呢？”
+                                    </p>
+                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> 1小时前</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+
+</body>
+
+</html>
+
+<script>
+    $(function () {
+
+{#        {% if "http" not in special.get('videourl') %}#}
+{#//            video_win("h03258hr5e0");#}
+{#            video_win("{{ special.get('videourl') }}");#}
+{#        {% end %}#}
+
+
+        var uploader = new plupload.Uploader({
+            browse_button: 'index_image',
+            url: "/ajax/upload_image?path=special",
+
+            filters: {
+              max_file_size : '4mb',
+              prevent_duplicates : true,
+            },
+            multipart_params: {
+                '_xsrf': $("input[name='_xsrf']").val()
+            }
+        });
+
+        uploader.init();
+
+        // 文件添加后立即上传
+        uploader.bind('FilesAdded', function (up, files) {
+
+            plupload.each(files, function (file) {
+                uploader.start();
+            });
+        });
+
+        // 上传资讯图片
+        uploader.bind('FileUploaded', function (up, file, info) {
+            var base = '/static/media/special/';
+            var response = $.parseJSON(info.response);
+            if (response.status == 'ok') {
+                $("#cover").show().attr("src", base + response.name);
+                $("#image_url").val(response.name);
+            }
+            else {
+                alert(response.error);
+            }
+        });
+
+		uploader.bind('UploadProgress',function(up,file){
+            $('#Progress').css('width', file.percent+'%');
+		});
+
+        uploader.bind('Error', function (up, errObject) {
+            alert(errObject.code+errObject.message);
+        });
+    });
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    function postmessage() {
+{#        alert($("#image_url").val());#}
+        if ($("#image_url").val() == '') {
+            alert('您还未上传专辑封面！');
+            return false;
+        }
+
+        if ($('#name').val() == '') {
+            alert("专辑名称不能为空！");
+            return false;
+        }
+
+        var xjson = {
+            "id": $("#speakerid").val(),
+            "name": $("#name").val(),
+            "cover": $("#image_url").val(),
+            "brief": window.editor.html(),
+            "comment": $("#comment").val(),
+            "userid" : $("#user_id").val(),
+            "time" : $("#time").val(),
+{#            "status" : $("#status").val(),#}
+            '_xsrf': getCookie("_xsrf"),
+        };
+
+        editor.sync();
+        $.ajax({
+            url: window.location.pathname,
+            type: 'post',
+            data: xjson,
+            success: function (data) {
+               var json=jQuery.parseJSON(data);
+                alert(json.msg);
+                if(json.status!='ok'){
+                    return false;
+                }
+            },
+            error: function () {
+                alert('error');
+            }
+        });
+        return true;
+    }
+</script>
+<style>
+    .active {
+        background-color: #2a8ce6 !important;
+        color: white !important;
+    }
+
+    th:first-child,
+    .gradeX td:first-child {
+        width: 20px;
+        cursor: pointer;
+    }
+
+    th:first-child input,
+    .gradeX td:first-child input {
+        cursor: pointer;
+    }
+    .labels{ padding: 5px 10px 5px 10px; background: #ddd; position: relative; cursor: pointer;margin-left: 10px}
+    .labels i{ cursor: pointer; width: 14px; height: 14px;
+            background: #999; border-radius: 50%; opacity: 0.8;
+            position: absolute; right: -5px; top: 50%; margin-top: -7px;
+            text-align: center; line-height: 14px; font-style: normal; color: #fff;
+
+    }
+
+</style>
+{% end %}

@@ -1,0 +1,77 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="/mb_anquanshezhi" class="mbPrMoreBackBtn"></a>
+    修改登录密码
+</div>
+<div class="nbig_box">
+
+    <div class="xmliche_a">
+		   	  <span class="xmwz_biao">
+		   	  	<p>原来密码： </p>
+		   	  	<input type="text" name="oldpwd"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao">
+		   	  	<p>修改密码： </p>
+		   	  	<input type="text" name="newpwd1"/>
+		   	  </span>
+		   	  
+		   	   <span class="xmwz_biao">
+		   	  	<p>再次输入： </p>
+		   	  	<input type="text" name="newpwd2"/>
+		   	  </span>
+
+        <div class="xiayibu xiayibuA">确定修改</div>
+
+
+    </div>
+
+</div><!--nbig_box-->
+<script>
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    $(".xiayibu").click(function () {
+        var data = {};
+        data['_xsrf'] = getCookie("_xsrf");
+        data['oldpwd'] = $("input[name='oldpwd']").val();
+        data['newpwd1'] = $("input[name='newpwd1']").val();
+        data['newpwd2'] = $("input[name='newpwd2']").val();
+        if(data['newpwd1']!=data['newpwd2']){
+            alert("两次密码输入不一致");
+            return false;
+        }
+        $.ajax({
+            url: '/mb_anquanshezhi_delumima',
+            type: 'post',
+            data: data,
+            success: function (response) {
+                var jsons = $.parseJSON(response)
+                if (jsons['status'] == "ok") {
+                    alert("密码修改成功，请重新登录");
+                    location.href="./mobile/login"
+                }
+                else{
+                    alert(jsons['msg']);
+                }
+            },
+            error: function () {
+                alert('密码修改失败');
+            }
+        });
+    })
+</script>
+
+{% end %}
+
+{% block footer %}
+
+{% end %}
+
+
+

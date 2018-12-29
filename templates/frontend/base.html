@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html xml:lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no"/>
+    <meta property="qc:admins" content="251143032761465645166375"/>
+    <title>{% block page_title %}玩转K线{% end %}</title>
+    <script type="text/javascript" src="{{ static_url('js/jquery-3.2.1.js') }}"></script>
+    <link rel="stylesheet" href="{{ static_url('css/k_line_css.css') }}"/>
+
+    {% block other_head %}
+    {% end %}
+    {% block other_css %}
+    {% end %}
+    {% block other_js %}
+    {% end %}
+    {% block script %}
+    {% end %}
+    {% block style %}
+    {% end %}
+</head>
+<body>
+<div class="k_line_bigbox">
+    <div class="k_line_box">
+
+    {% block banner %}
+    {% end %}
+
+    {% block header %}
+    {% end %}
+
+    {% module xsrf_form_html() %}
+    {% block content %}
+    {% end %}
+
+    {% block footer %}
+    {% end %}
+
+    </div>
+</div>
+</body>
+</html>

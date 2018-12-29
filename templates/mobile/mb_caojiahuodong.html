@@ -1,0 +1,78 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        活动中心
+
+    </div>
+</div>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 ">
+            <p><a href="/mobile/activitycenter">发布的活动</a></p>
+        </div>
+
+        <div class="box4 onclik">
+            <p><a href="/mb__caojiahuodong">参与的活动</a></p>
+        </div>
+    </div>
+    {% if attend_record.count()>0 %}
+    {% for r in attend_record %}
+    {% set a =attend_activity(r['aid']) %}
+    {% set a_allrecord =activity_record(r['aid']) %}
+    {# TODO 取到None #}
+    {% if a %}
+    <div class="pro_pro ace_ace">
+        <div class="ace_cen">
+            <a class="lianjie" href="/mb_huodongxiangqing/{{ a['id'] }}">
+                <img src="../static/media/activity_img/{{ a.get('image','404.png') }}"
+                     onerror="javascript:this.src='{{ static_url('img/error.png') }}';">
+            </a>
+
+            <div class="pro_text">
+                <p class="ace_ace_biao">
+                    {% if len(a['name'])>10 %}
+                    {{ a['name'][0:10] }}...
+                    {% else %}
+                    {{ a['name'] }}
+                    {% end %}</p>
+
+                <div class="ace_biaoqian">
+			   				<span class="pro_bqin">
+			   					<p class="ace_cenicon"></p>
+			   					<p>{{ ','.join(list(a['tag'])) }}</p>
+			   				</span>
+			   				<span class="pro_bqiner">
+			   					<p class="ace_cenrcon"></p>
+			   					<p>2015-11-22</p>
+			   				</span>
+                </div>
+                <!--pro_biaoqian-->
+			   			<span class="ace_shenhe">
+			   				<a>地点：{{ a.get("address","") }}</a>
+			   				
+			   			</span>
+
+                <div class="ace_baoming">
+                    <a>已参与人数：</a>
+                    <a>{{ a_allrecord.count() }}</a>
+                </div>
+            </div>
+            <!--pro_text-->
+        </div>
+
+    </div>
+    {% end %}
+    {% end %}
+    {% else %}
+    <br>
+    暂无参活动
+    {% end %}
+    <!--pro_pro-->
+
+
+</div><!--nbig_box-->
+{% end %}
+

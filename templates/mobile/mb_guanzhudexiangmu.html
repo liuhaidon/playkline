@@ -1,0 +1,183 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        我的关注
+
+    </div>
+</div>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 ">
+            <p><a href="/mb_Focus">关注的用户</a></p>
+        </div>
+
+        <div class="box3 onclik">
+            <p><a href="/mb_guanzhudexiangmu">关注的项目</a></p>
+        </div>
+        <div class="box4">
+            <p><a href="/mb_guangzhuhuodong">关注的活动</a></p>
+        </div>
+    </div>
+    {% if follow_projects.count()>0 %}
+    {% for f in follow_projects %}
+    {% set p=follow_projectsInfo(f['ref']) %}
+    {% set i=interest_plan(p['id']) %}
+    {% if i %}
+    {# 有融资计划 #}
+    <div class="pro_pro ">
+        <div class="pro_proer regouxiangmu">
+            <img src="../static/media/project_img/{{ p['image'] }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                 onclick="javascript:window.location.href='/mbProjectDetail?id={{ p['id'] }}'">
+
+            <div class="pro_text">
+                <p class="pro_textbiao">
+                    {% if len(p['name'])>10 %}
+                    {{ p['name'][:10]+"..." }}
+                    {% else %}
+                    {{ p['name'] }}
+                    {% end %}
+                </p>
+
+                <div class="pro_biaoqian yitouicon">
+                    <span class="pro_bqin">
+                        <p class="pro_bqinicon"></p>
+                        {% set list=p.get('tag',"") %}
+                        <p>{{ ','.join(list) }}</p>
+                    </span>
+                    <span class="pro_bqiner">
+                        <p class="pro_bqiniercon"></p>
+                        <p>广东深圳</p>
+                    </span>
+                </div>
+                <!--pro_biaoqian-->
+                {% if i.get('status','')=='online' %}
+                {% set get_amount=i.get("progress",0) %}
+                {% set left_amount= i['info']['total_amount'] %}
+                {% set current_percent=percent(get_amount,left_amount) *100 /10000 %}
+                <div class="yitou">
+                    <p>总金额：{{ get_amount }}元</p>
+                </div>
+
+                <div class="jindu yitoujindu">
+			   				<span>
+			   					<a>项目进度：</a>
+			   					<a class="baifen">{{ current_percent }}%</a>
+			   				</span>
+
+                    <div class="jindutiao">
+                        <span class="jindutiao_gre"></span>
+                        <span class="jindutiao_bule"></span>
+                    </div>
+                </div>
+
+            </div>
+            <!--pro_text-->
+            <div class="guangzhuannui">
+                <a class="guangzhuannui_chakan" href="/mbProjectDetail?id={{ p['id'] }}">查看详情</a>
+                <a class="guangzhuannui_quxiao" data-id="{{ p['id'] }}"> 取消关注</a>
+            </div>
+
+        </div>
+
+    </div>
+    {% end %}
+    {% else %}
+    {# 无融资计划 #}
+    <div class="pro_pro ">
+        <div class="pro_proer regouxiangmu">
+            <img src="../static/media/project_img/{{ p['image'] }}"
+                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                 onclick="javascript:window.location.href='/mbProjectDetail?id={{ p['id'] }}'">
+
+            <div class="pro_text">
+                <p class="pro_textbiao">
+                    {% if len(p['name'])>10 %}
+                    {{ p['name'][:10]+"..." }}
+                    {% else %}
+                    {{ p['name'] }}
+                    {% end %}
+                </p>
+
+                <div class="pro_biaoqian yitouicon">
+                    <span class="pro_bqin">
+                        <p class="pro_bqinicon"></p>
+                        {% set list=p.get('tag',"") %}
+                        <p>{{ ','.join(list) }}</p>
+                    </span>
+                    <span class="pro_bqiner">
+                        <p class="pro_bqiniercon"></p>
+                        <p>广东深圳</p>
+                    </span>
+                </div>
+                <!--pro_biaoqian-->
+                <div class="yitou">
+                    {% set list = render(p['id']) %}
+                    <p>
+                        投资指数：{{ list[0] }}
+                        关注度：{{ list[1] }}
+
+                    <p>
+                        科技指数：{{ list[2] }}
+                        总得分：{{ list[3] }}
+                    </p>
+                    </p>
+                </div>
+                {#                <div class="jindu yitoujindu">#}
+                {#			   				<span>#}
+                {#			   					<a>项目进度：</a>#}
+                {#			   					<a class="baifen">{{ current_percent }}%</a>#}
+                {#			   				</span>#}
+                {##}
+                {#                    <div class="jindutiao">#}
+                {#                        <span class="jindutiao_gre"></span>#}
+                {#                        <span class="jindutiao_bule"></span>#}
+                {#                    </div>#}
+                {#                </div>#}
+            </div>
+            <!--pro_text-->
+            <div class="guangzhuannui">
+                <a class="guangzhuannui_chakan" href="/mbProjectDetail?id={{ p['id'] }}">查看详情</a>
+                <a class="guangzhuannui_quxiao" data-id="{{ p['id'] }}"> 取消关注</a>
+            </div>
+
+        </div>
+
+    </div>
+    {% end %}
+    {% end %}
+    {% else %}
+    <br>
+    暂无关注的项目
+    {% end %}
+    <!--pro_pro-->
+
+</div><!--nbig_box-->
+<script>
+    $('.guangzhuannui_quxiao').click(function () {
+        var data = {};
+        var text = "";
+        data['id'] = $(this).data("id");
+        if ($.trim($(this).text()) == '关注') {
+            text = "取消关注";
+            data['handle'] = 'add';
+        }
+        else {
+            text = "关注";
+            data['handle'] = 'remove';
+        }
+        $.ajax({
+            type: 'post',
+            url: '/follow/project',
+            data: data,
+            success: function (re) {
+                $('.follow-project').text(text);
+            }
+        });
+    })
+</script>
+{% end %}
+

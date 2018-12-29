@@ -1,0 +1,66 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}活动|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+        <div class="mbProjectMoreTitle" style="border-bottom: 1px solid #F2F2F2;">
+            <a href="javascript:;" class="mbPrMoreBackBtn Activity" style="width: auto;">
+                {% if type %}
+                    {{ arg_type }}
+                {% else %}
+                    分类
+                {% end %}
+            </a>
+            活动
+{#            <a href="javascript:;" class="mbPrMoreSeacher"></a>#}
+        </div>
+        <div class="mbactivitySelect">
+            <div onclick="location='/mobile/activity'">全部</div>
+            {% for t in activity_types %}
+            <div onclick="location='/mobile/activity?type={{ t['index'] }}&sort={{ sort }}'">{{ t['name'] }}</div>
+            {% end %}
+            <div onclick="location='/mb_fabuhuodonglc_a'">发布活动</div>
+        </div>
+</div>
+    <div class="mbProjectList" style="padding-top: 42px;">
+        {% for a in activities %}
+        <div class="mbProjectListDiv activity">
+            <a href="/mb_huodongxiangqing/{{ a['id'] }}">
+            <img src="../static/media/activity_img/{{ a.get('image','404.jpg') }}" onerror="javascript:this.src='{{ static_url('img/error.png') }}';" alt="" class="mbProjectListDivImg">
+            <div class="mbProjectListDivRight">
+                <div class="mbProjectListDivRightTitle">
+                    {{ a['name'][0:20] }}...
+                </div>
+                <div class="mbPrLiDivRightBottom activity">
+                    <div>
+                        <span class="time">{{ a.get('start_date','') }}&emsp;{{ a.get('start_time','') }}</span> <span class="address">{{ a.get('province','') }}{{ a.get('city','') }}</span>
+                    </div>
+                    <div>
+                        <span class="count">200起</span> <span class="people">{{ a.get('count',0) }}人</span>创业路演<span class="text"></span>
+                    </div>
+                </div>
+            </div></a>
+            <p class="clear"></p>
+        </div>
+        {% end %}
+        {% if activities.count()==0 %}
+            <p>还没有活动噢~，来<a href="#">发布一个</a>吧</p>
+        {% end %}
+    </div>
+{% end %}
+{% block script %}
+<script>
+    $('.mbFooterDiv a').eq(3).addClass('selected');
+    $('.mbFooterDiv a').click(function(){
+        $(this).addClass('selected').siblings().removeClass('selected');
+    });
+    $('.mbPrMoreBackBtn.Activity').click(function(){
+        $('.mbactivitySelect').slideToggle('fast');
+    });
+    $('.mbactivitySelect div').click(function(){
+        $('.mbactivitySelect').slideUp('fast');
+    });
+</script>
+{% end %}
+
+
+

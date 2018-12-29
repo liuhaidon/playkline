@@ -1,0 +1,222 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        资讯中心
+    </div>
+
+</div>
+<style>
+    .clear {
+        clear: both;
+    }
+
+    .content {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .works {
+        background: #fff;
+        margin-bottom: 5px;
+        border-bottom: #e0e0e0 1px solid;
+    }
+
+    .pd5 {
+        padding: 5px;
+    }
+
+    .article_ct p {
+        font-size: 12px;
+        color: #666;
+        line-height: 20px;
+        max-width: 100%;
+        display: block;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .article_ct img {
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+        height: auto;
+        max-height: 180px;
+    }
+
+    .title h3 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .title h5 {
+        height: 20px;
+        line-height: 18px;
+        font-weight: 500;
+        font-size: 12px;
+        color: #a2a2a2;
+    }
+
+    .title span {
+        margin-left: 5px;
+        color: #777777;
+    }
+
+    .title h5 em {
+        font-style: normal;
+        margin-left: 8px;
+    }
+
+    .title .title-text {
+        font-size: 0.6em;
+        color: #999999;
+    }
+
+    .time {
+        overflow: hidden;
+        color: #999999;
+        margin-top: 15px;
+    }
+
+    .time p {
+        line-height: 28px;
+        font-size: 1em;
+        float: left;
+    }
+
+    .course_bqiniercon {
+        background-image: url(/static/imges/my_icona@x2.png);
+        width: 22px;
+        height: 24px;
+        display: block;
+        background-position: -202px -37px;
+        display: block;
+    }
+</style>
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav ">
+        <div class="box1 onclik" id="project-issued">
+            <p><a>发布的资讯</a></p>
+        </div>
+
+        <div class="box4" id="project-subscription">
+            <p><a>待审核的资讯</a></p>
+        </div>
+    </div>
+    <div style="  width: 98%; margin: auto; padding-top: 7px;">
+        <div class="content project-issued">
+            {% for i in info %}
+            {% set ch = channel( i.get('channel', 0) ) %}
+            {% set u = byuser(i.get('uid', 0)) %}
+            <div class="works">
+                <div class="pd5">
+                    <div class="article_ct">
+                        <p>
+                            <img src="../static/media/information_img/{{ i.get('image','404.jpg') }}"
+                                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';">
+                        </p>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="title" style="margin-top: 5px;">
+                        <h3>{{ i.get('name','') }}</h3>
+                        <h5>by
+                            <span>
+                                {{ ch.get('name','') }}
+                            </span>
+                            <em>
+                                (作者：{{ u.get('name','') }})
+                            </em>
+                        </h5>
+
+                        <p class="title-text">
+                            简介：{{ i.get('brief', '') }}
+                        </p>
+
+                        <div class="time">
+                            <p class="course_bqiniercon"></p>
+
+                            <p>创建于{{ i.get('time', '') }}</p>
+
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            {% end %}
+        </div>
+
+        <div class="content project-subscription" style="display: none">
+            {% for p in pass_info %}
+            {% set ch = channel( p.get('channel', 0) ) %}
+            {% set u = byuser(p.get('uid', 0)) %}
+            <div class="works">
+                <div class="pd5">
+                    <div class="article_ct">
+                        <p>
+                            <img src="../static/media/information_img/{{ p.get('image','404.jpg') }}"
+                                 onerror="javascript:this.src='{{ static_url('img/error.png') }}';">
+                        </p>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="title" style="margin-top: 5px;">
+                        <h3>{{ p.get('name','') }}</h3>
+                        <h5>by
+                            <span>
+                                {{ ch.get('name','') }}
+                            </span>
+                            <em>
+                                (作者：{{ u.get('name','') }})
+                            </em>
+                        </h5>
+
+                        <p class="title-text">
+                            简介：{{ p.get('brief', '') }}
+                        </p>
+
+                        <div class="time">
+                            <p class="course_bqiniercon"></p>
+
+                            <p>创建于{{ p.get('time', '') }}</p>
+
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            {% end %}
+        </div>
+    </div>
+
+    <div class="ace_ace_fabu" onclick="window.location.href=''">
+        +发布资讯
+    </div>
+</div>
+<script>
+    (function ($) {
+        var a = $('.box1'),
+                b = $('.box4'),
+                c = $('.project-issued'),
+                d = $('.project-subscription'),
+                r = {
+                    a: function (e) {
+                        var t = this;
+                        e.click(function () {
+                            c.hide();
+                            d.hide();
+                            a.removeClass();
+                            b.removeClass();
+                            $('.' + $(this).attr('id')).show();
+                            $(this).addClass('onclik');
+                        });
+                        return t;
+                    }
+                };
+        r.a(a).a(b);
+    })(jQuery);
+</script>
+{% end %}
+

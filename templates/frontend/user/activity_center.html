@@ -1,0 +1,104 @@
+{% extends "../base.html" %}
+{% block page_title %}活动中心|创业孵化平台{% end %}
+
+<!-- header -->
+
+<!-- end_header -->
+{% block content %}
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            <div class="fbdcy" style="background:#333;color: white ">发布的活动</div>
+            <div class="fbdcy pldcy">参与的活动</div>
+        </div>
+        {% set status={"refuse":"审核拒绝","editing":"未提交","confirm":"待审核","published":"已发布","online":'已上线'} %}
+        <div class="fbdhd">
+            {% for a in activities %}
+            <div class="person-idea-list">
+                <div class="p-i-l-l">
+                    <a href="/activity/{{ a.get('_id') }}" class="active-a">
+                        <img src="/static/media/activity_img/{{ a.get('poster','404.png') }}"
+                             onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+                             width="76" height="76" >
+                    </a>
+                </div>
+                <div class="p-i-l-r  left">
+                    <ul class="per-idea-ul active">
+                        <li>{{ a.get('title')[0:10] }}...</li>
+                        <li>{{ ','.join(list(a.get('tag')))}}</li>
+                        <li>{{ a.get('time') }}</li>
+                        <li class="color-blue">状态:{{ status.get(a.get('status')) }}
+                            {% if a.get('status')=='editing' %}<a href="/activity/issue?id={{ a.get('_id') }}">去发布</a>{% end %}
+                        </li>
+                        <li><a href="/user/activity-center?status=bmxq&activity={{ a.get('_id') }}" class="active-a">报名详情</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% end %}
+            {% if activities.count()==0 %}
+            <div class="person-idea-list-none">
+                您还没有发布的活动哦，赶快去<a href="/activity/issue" style="color:#00A0EA ">发布</a>吧
+            </div>
+            {% end %}
+
+        </div>
+        <div class="cydhd" style="display: none">
+            {% for r in attend_record %}
+            {% set a =attend_activity(r['aid']) %}
+             TODO 取到None
+            {% if a %}
+            <div class="person-idea-list">
+                <div class="p-i-l-l">
+                    <img src="/static/media/activity_img/{{ a.get('image','404.png') }}" width="76" height="76">
+                </div>
+                <div class="p-i-l-r  left">
+                    <ul class="per-idea-ul active">
+                        <li>{{ a.get('title')[0:10] }}...</li>
+                        <li>{{ ','.join(list(a.get('tag')))}}</li>
+                        <li>{{ a.get('time') }}</li>
+                        <li class="color-blue">
+                            {% if a.get('status')=='editing' %}<a href="/activity/issue?id={{ a.get('_id') }}">去发布</a>{% end %}
+                        </li>
+
+                        <li><a href="/activity/{{ a.get('_id') }}" class="active-a">查看详情</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% end %}
+            {% end %}
+            {% if attend_record.count()==0 %}
+            <div class="person-idea-list-none">
+                您还没有参加的活动哦，赶快去<a href="/activities" style="color:#00A0EA ">瞧瞧</a>吧
+            </div>
+            {% end %}
+        </div>
+
+    </div>
+    <p class="clear"></p>
+</div>
+
+<script>
+    $(function () {
+        var a = $('.fbdcy'),
+                b = $('.fbdcy.pldcy'),
+                c = $('.fbdhd'),
+                d = $('.cydhd'),
+                e = function () {
+                    c.hide();
+                    d.hide();
+                },
+                f = function (a, b) {
+                    a.click(function () {
+                        $('.fbdcy').css({'background': 'white', 'color': '#333'});
+                        $(this).css({'background': '#333', 'color': 'white'});
+                        e();
+                        b.show();
+                    });
+                };
+        f(a, c);
+        f(b, d);
+
+    })
+</script>
+{% end %}

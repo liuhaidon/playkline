@@ -1,0 +1,132 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        公开课
+
+    </div>
+</div>
+
+<div class="nbig_box" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 onclik">
+            <p><a href="mb_class_course">发布的课程</a></p>
+        </div>
+
+        <div class="box4">
+            <p><a href="mb_yixuekece">已学习课程</a></p>
+        </div>
+    </div>
+    <div class="coue_fenlei">
+        <span id="shipin" class="coue_fenleibott">视频<a>{{ courses.count() }}</a></span>
+        <span id="zhangji">专辑<a>{{ course_groups.count() }}</a></span>
+        <span id="zhujiang">主讲人<a>{{ course_speakers.count() }}</a></span>
+    </div>
+
+    <div class="hi_bigbox">
+        {% if courses.count()>0 %}
+        {% for v in courses %}
+        {% set speaker=speaker_info(v.get("speaker","")) %}
+        <div class="pro_pro course_pro">
+            <div class="pro_proer course_proer">
+                <!--视频-->
+                <video class="vid" controls="controls">
+                    {% if 'http'  not in   v and v.get('video_name') or "" %}
+                    {% set video_url='../../static/media/videos/'+v.get('video_name') %}
+                    {% else %}
+                    {% set video_url= v.get('video_name','') %}
+                    {% end %}
+                    <source src="{{ video_url }}" type="video/ogg">
+                    <source src="{{ video_url }}" type="video/webm">
+                    <source src="{{ video_url }}" type="video/mp4">
+                    <source src="http://7ktrca.com1.z0.glb.clouddn.com/exmax_s" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="pro_text course_txt">
+                    <p class="course_txt_biao">{{ v.get("title","") }}</p>
+
+                    <p class="course_zhujiang">主讲人：{{ speaker and speaker.get("name","未知") or "" }}</p>
+
+                    <p class="course_jianjie">简介：{{ speaker and speaker.get("desc","未知") or "" }}</p>
+
+                    <div class="pro_biaoqian course_text">
+			   				<span class="pro_bqin">
+			   					<p class="course_bqinicon"></p>
+			   					<p>{{ v.get("visit","0") }}</p>
+			   				</span>
+			   				<span class="pro_bqiner">
+			   					<p class="course_bqiniercon"></p>
+			   					<p>创建于{{ v.get("time","") }}</p>
+			   				</span>
+                    </div>
+                    <!--pro_biaoqian-->
+                </div>
+                <!--pro_text-->
+            </div>
+        </div>
+        <!--pro_pro-->
+        {% end %}
+        {% else %}
+        <br>
+        暂无发布的视频
+        {% end %}
+    </div>
+
+    <!--hi_bigbox-->
+    <div class="hi_bigbox2">
+        {% if course_groups.count()>0 %}
+        {% for g in course_groups %}
+        <div class="pro_pro course_pro">
+            <div class="pro_proer course_proer">
+                {#                <img src="../static/imges/class_activity.png">#}
+                <div class="pro_text course_txt">
+                    <p class="course_txt_biao">{{ g['name'] }}</p>
+
+                    <p class="course_jianjie">简介：{{ g['desc'][0:20] }}</p>
+                </div>
+                <!--pro_text-->
+            </div>
+        </div>
+        <!--pro_pro-->
+        {% end %}
+        {% else %}
+        <br>
+        暂无专辑
+        {% end %}
+    </div>
+
+
+    <!--hi_bigbox2-->
+    <div class="hi_bigbox3">
+        {% if course_speakers.count()>0 %}
+        {% for s in course_speakers %}
+        <div class="pro_pro course_pro">
+            <div class="pro_proer course_proer">
+                {#                <img src="../static/imges/class_activity.png">#}
+
+                <div class="pro_text course_txt">
+                    <p class="course_txt_biao">{{ s['name'] }}</p>
+
+                    <p class="course_jianjie">简介：{{ s['desc'][0:20] }}</p>
+                </div>
+                <!--pro_text-->
+            </div>
+        </div>
+        <!--pro_pro-->
+        {% end %}
+        {% else %}
+        <br>
+        暂无主讲人
+        {% end %}
+    </div>
+
+    <!--hi_bigbox3-->
+    <div class="ace_ace_fabu" onclick="window.location.href='mb_fabugkk_a'">
+        +发布课程
+    </div>
+
+</div><!--nbig_box-->
+
+{% end %}

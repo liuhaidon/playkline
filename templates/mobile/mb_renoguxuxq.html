@@ -1,0 +1,134 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbProjectMoreTitle">
+    <a href="javascript:history.back(-1);" class="mbPrMoreBackBtn"></a>
+    认购详情
+
+</div>
+<div class="nbig_box yiotuxq">
+    <div class="huodong_box">
+        <img src="../static/media/project_img/{{ project['image'] }}"
+             onerror="javascript:this.src='../../static/mobile/img/mbProjectMore/hdxq.png';">
+    </div>
+
+    <div class="class_title">
+        <p>{{ project['name'] }}</p>
+
+        <p class="sm_jianjie">{{ ','.join(list(project.get('tag',''))) }}</p>
+    </div>
+    <div class="class_avti">
+        <div class="projects">
+            <div class="projects_touxiang">
+            <span class="projects_touxi_ren"><img src="../static/media/avatar/{{ organiser.get('avatar_thumb','') }}"
+                                                  onerror="javascript:this.src='../static/imges/mayun.png'"
+                                                  style="width: 100%; height: 100%; border-radius: 50%;"></span>
+            </div>
+            <div class="jizhong">
+                <a href="/mb_liaotian" class="huodong_touxi_sixin">私信</a>
+                {% if not user_has_followed %}
+                <a href="javascript:;" class="huodong_touxi_guanzhu" data-uid="{{ project['uid'] }}">关注他</a>
+                {% else %}
+                <a href="javascript:;" class="yihuodong_touxi_guanzhu btnClick" data-uid="{{ project['uid'] }}">取消关注</a>
+                {% end %}
+
+                <div style=" clear: both;"></div>
+            </div>
+        <span class="projects_ziliao">
+            <p class="projects_name">发布人：{{ organiser.get('name','') }}</p>
+        </span>
+        </div>
+        <table class="TheFinancingPlan">
+            <tr>
+                <td onclick="location='/mb_tuandui?id={{ project['id'] }}'">团队介绍</td>
+                <td onclick="location='/mb_dongtai?id={{ project['id'] }}'">项目动态</td>
+                <td onclick="location='/mb_zhuanjiapinyu?id={{ project['id'] }}'">专家评语</td>
+            </tr>
+            <tr>
+                <td onclick="location='/mbPrFinancing?id={{ project['id'] }}'">融资计划</td>
+                <td onclick="location='/mb_zhaopinjihua?id={{ project['id'] }}'">招聘计划</td>
+                <td onclick="location='/mb_rufujihua?id={{ project['id'] }}'">入孵计划</td>
+            </tr>
+        </table>
+        <div class="meony">
+            <span class="meony_icon"></span>
+            <span class="meony_nab">认购金额:{{ money }}元</span>
+        </div>
+
+    </div>
+    <!--class_avti-->
+
+    <div class="yaoqidabuxqin">
+        <p>项目简介</p>
+        <span>{{ project.get('brief','暂无简介') }}</span>
+    </div>
+    <!--dabuxqin-->
+    <div class="class_maegin">
+
+        <div class="class_time">
+            <span class="class_timeicon"></span>
+            <span class="class_timer">认购时间：{{ subscribe_record.get('time','') }}</span>
+        </div>
+        <div class="class_dizhi">
+            <span class="class_dizhiicon"></span>
+            <span class="class_dizhier">{{ project.get('brief','暂无简介') }}</span>
+        </div>
+    </div>
+    <!--class_maegin-->
+
+    <div class="shenhe_zhaungtai_ren">
+        {% if subscribe_record['status']=='confirmed' %}
+        <span>已认购,等待确认</span>
+        {% elif subscribe_record['status']=='paid' %}
+        <span>已支付</span>
+        {% end %}
+    </div>
+
+
+</div><!--big_class-->
+<script>
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    //关注人
+    $('a.yihuodong_touxi_guanzhu,a.huodong_touxi_guanzhu').click(function () {
+        var data = {};
+        var that = $(this);
+        data['uid'] = $(this).data("uid");
+        data['_xsrf'] = getCookie("_xsrf");
+        if ($(this).is(".btnClick")) {
+            data['handle'] = 'remove';
+        }
+        else {
+            data['handle'] = 'add';
+        }
+        if (data['handle'] == 'remove') {
+            this.setAttribute("class", "huodong_touxi_guanzhu");
+            that.text("关注他");
+        }
+        else {
+            this.setAttribute("class", "yihuodong_touxi_guanzhu btnClick");
+            that.text("取消关注");
+        }
+        $.ajax({
+            type: 'post',
+            url: '/follow/user',
+            data: data,
+            success: function (re) {
+                var jsons = jQuery.parseJSON(re);
+                if (jsons.status == 'ok') {
+                }
+                else {
+                    alert("其他错误");
+                }
+            }
+        });
+    });
+
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}

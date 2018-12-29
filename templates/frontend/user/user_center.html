@@ -1,0 +1,69 @@
+{% extends "../base.html" %}
+{% block page_title %}用户中心|创业孵化平台{% end %}
+{% block content %}
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div class="person-userinfo">
+            <div class="userinfo-list1">
+                <span>温馨提示：</span>
+                <span class="color-gray">您还未完善账户资料，不能发布项目,活动,课程,视频。</span>
+                <a href="/user/profile" class="red">完善个人资料</a>
+            </div>
+            <div class="userinfo-list1 list2">
+                <p class="list2-p">
+                    <span class="color-gray">上午好：</span>
+                    <span class="font-blue"><a href="/profile/{{ myuser.get('uid') }}">{{ myuser.get('name') }}</a></span>
+                </p>
+
+                <p class="color-gray">您注册于{{ myuser.get('regtime') }} 最近登录时间：{{ logininfo.get('time',"未知") }}</p>
+
+                <div class="user_list mt-15">
+                    <ul class="clear">
+                        {% if myuser.get("email_check")==1 %}
+                        <li class="over">邮箱已认证</li>
+                        {% else %}
+
+                        <li><a href="/user/settings?type=reset_email" style="color: red">邮箱未认证</a></li>
+
+                        {% end %}
+                        {% if myuser.get("phone_check")==1 %}
+                        <li class="phone over">手机已认证</li>
+                        {% else %}
+
+                        <li class="phone">
+                            <a href="/user/settings?type=reset_phone" style="color: red">手机未认证</a>
+                        </li>
+                        {% end %}
+                        {% if myuser.get("is_check") %}
+                        <li class="name over">已实名认证</li>
+                        {% else %}
+                        <li class="name"><a href="/user/settings?type=id_card_info" style="color: red">未实名认证</a></li>
+                        {% end %}
+                        {% if myuser.get("investor_authed") %}
+                        <li class="investor over">投资人已认证</li>
+                        {% else %}
+{#                        <li class="investor"><a href="/user/inverstor_auth" style="color: red">投资人未认证</a></li>#}
+                        <li class="investor"><a href="/user/settings?type=investor_auth" style="color: red">投资人未认证</a></li>
+                        {% end %}
+                    </ul>
+                </div>
+            </div>
+            <div style="height: 150px;background:#F3F3F3 "></div>
+            <div class="userinfo-list3">
+                <ul>
+                    <li><a href="javascript:;" style="color: red">快速通道</a></li>
+                    <li><a href="/course/issue">发布课程</a></li>
+                    <li><a href="/video/issue">发布视频</a></li>
+                    <li><a href="/project/issue">发布项目</a></li>
+                    <li><a href="/activity/issue">发布活动</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <p class="clear"></p>
+</div>
+
+
+{% end %}

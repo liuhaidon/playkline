@@ -1,0 +1,916 @@
+{% extends "base.html" %}
+{% block title %}后台管理系统主页{% end %}
+{% block content %}
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {% include 'admin_nav.html' %}
+    <div id="page-wrapper" class="gray-bg sidebar-content">
+        <div class="row border-bottom">
+           {% include 'header_nav.html' %}
+        </div>
+        <div class="sidebard-panel" style="min-height: 1380px;">
+            <div>
+{#                <h4>审核通过消息 <span class="badge badge-info pull-right">{{ user_handle.count() }}</span></h4>#}
+                <div class="feed-element">
+                    <marquee direction='down' scrollamount="2">
+{#                    {% for i in user_handle %}#}
+{#                    <div class="media-body">#}
+{#                        {% if i['type']=="0" %}#}
+{#                        <a href="http://127.0.0.1:8000/project/{{ i['object_id'] }}" class="pull-left">#}
+{#                            <img alt="image" class="img-circle" src="{{ static_url('img/default_avatar.png') }}">#}
+{#                        </a>#}
+{#                        《项目》：{{ i['object_name'] }}#}
+{#                        {% end %}#}
+{#                        {% if i['type']=="1" %}#}
+{#                        <a href="http://127.0.0.1:8000/activity/{{ i['object_id'] }}" class="pull-left">#}
+{#                            <img alt="image" class="img-circle" src="{{ static_url('img/default_avatar.png') }}">#}
+{#                        </a>#}
+{#                        《活动》：{{ i['object_name'] }}#}
+{#                        {% end %}#}
+{#                        {% if i['type']=="2" %}#}
+{#                        <a href="http://127.0.0.1:8000/park/{{ i['object_id'] }}" class="pull-left">#}
+{#                            <img alt="image" class="img-circle" src="{{ static_url('img/default_avatar.png') }}">#}
+{#                        </a>#}
+{#                        《创业园》：{{ i['object_name'] }}#}
+{#                        {% end %}#}
+{#                        {% if i['type']=="3" %}#}
+{#                        <a href="http://127.0.0.1:8000/course/{{ i['object_id'] }}" class="pull-left">#}
+{#                            <img alt="image" class="img-circle" src="{{ static_url('img/default_avatar.png') }}">#}
+{#                        </a>#}
+{#                        《公开课》：{{ i['object_name'] }}#}
+{#                        {% end %}#}
+{#                        <br>#}
+{#                        <small class="text-muted">{{ i['time'] }}</small>#}
+{#                    </div>#}
+{#                        <br>#}
+{#                    {% end %}#}
+                    </marquee>
+                </div>
+
+
+
+
+            </div>
+            <div class="m-t-md">
+                <h4>统计</h4>
+                <p>
+                    上半年数据统计
+                </p>
+
+                <div class="row m-t-sm">
+                    <div class="col-md-6">
+                        <span class="bar" style="display: none;">5,3,9,6,5,9,7,3,5,2</span>
+                        <svg class="peity" height="16" width="32">
+                            <rect fill="#1ab394" x="0" y="7.111111111111111" width="2.3"
+                                  height="8.88888888888889"></rect>
+                            <rect fill="#d7d7d7" x="3.3" y="10.666666666666668" width="2.3"
+                                  height="5.333333333333333"></rect>
+                            <rect fill="#1ab394" x="6.6" y="0" width="2.3" height="16"></rect>
+                            <rect fill="#d7d7d7" x="9.899999999999999" y="5.333333333333334" width="2.3"
+                                  height="10.666666666666666"></rect>
+                            <rect fill="#1ab394" x="13.2" y="7.111111111111111" width="2.3"
+                                  height="8.88888888888889"></rect>
+                            <rect fill="#d7d7d7" x="16.5" y="0" width="2.3" height="16"></rect>
+                            <rect fill="#1ab394" x="19.799999999999997" y="3.555555555555557" width="2.3"
+                                  height="12.444444444444443"></rect>
+                            <rect fill="#d7d7d7" x="23.099999999999998" y="10.666666666666668" width="2.3"
+                                  height="5.333333333333333"></rect>
+                            <rect fill="#1ab394" x="26.4" y="7.111111111111111" width="2.3"
+                                  height="8.88888888888889"></rect>
+                            <rect fill="#d7d7d7" x="29.7" y="12.444444444444445" width="2.3"
+                                  height="3.5555555555555554"></rect>
+                        </svg>
+                        <h5><strong>169</strong> 项目</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="line" style="display: none;">5,3,9,6,5,9,7,3,5,2</span>
+                        <svg class="peity" height="16" width="32">
+                            <polygon fill="#1ab394"
+                                     points="0 15 0 7.166666666666666 3.5555555555555554 10.5 7.111111111111111 0.5 10.666666666666666 5.5 14.222222222222221 7.166666666666666 17.77777777777778 0.5 21.333333333333332 3.833333333333332 24.888888888888886 10.5 28.444444444444443 7.166666666666666 32 12.166666666666666 32 15"></polygon>
+                            <polyline fill="transparent"
+                                      points="0 7.166666666666666 3.5555555555555554 10.5 7.111111111111111 0.5 10.666666666666666 5.5 14.222222222222221 7.166666666666666 17.77777777777778 0.5 21.333333333333332 3.833333333333332 24.888888888888886 10.5 28.444444444444443 7.166666666666666 32 12.166666666666666"
+                                      stroke="#169c81" stroke-width="1" stroke-linecap="square"></polyline>
+                        </svg>
+                        <h5><strong>28</strong> 活动</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="m-t-md">
+                <h4>讨论</h4>
+
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge badge-primary">16</span>
+                            一般话题
+                        </li>
+                        <li class="list-group-item ">
+                            <span class="badge badge-info">12</span>
+                            热门话题
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-warning">7</span>
+                            最新话题
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content">
+
+
+            <div class="row">
+
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-primary pull-right">今天</span>
+                            <h5>访客</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">22 285</h1>
+
+                            <div class="stat-percent font-bold text-navy">20% <i class="fa fa-level-up"></i>
+                            </div>
+                            <small>新增人数</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-info pull-right">月</span>
+                            <h5>项目数</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">1200</h1>
+
+                            <div class="stat-percent font-bold text-info">40% <i class="fa fa-level-up"></i>
+                            </div>
+                            <small>新项目</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-warning pull-right">年</span>
+                            <h5>已融资金额</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">$ 120 430,800</h1>
+
+                            <div class="stat-percent font-bold text-warning">16% <i class="fa fa-level-up"></i>
+                            </div>
+                            <small>新认购</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-warning pull-right">年</span>
+                            <h5>正在融资中的项目</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">100</h1>
+
+                            <div class="stat-percent font-bold text-warning">16% <i class="fa fa-level-up"></i>
+                            </div>
+                            <small>新项目</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-warning pull-right">年</span>
+                            <h5>正在融资中的金额</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">$ 120 430,800</h1>
+
+                            <div class="stat-percent font-bold text-warning">16% <i class="fa fa-level-up"></i>
+                            </div>
+                            <small>新订单</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>数据报告</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   href="http://www.zi-han.net/theme/hplus/index_3.html#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content ibox-heading">
+                            <h3>同比融资金额增加
+                                <div class="stat-percent text-navy">34% <i class="fa fa-level-up"></i></div>
+                            </h3>
+                            <small><i class="fa fa-stack-exchange"></i> 上一季度的最新数据</small>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+
+                                <div class="pull-right text-right">
+
+                                    <span class="bar_dashboard" style="display: none;">5,3,9,6,5,9,7,3,5,2,4,7,3,2,7,9,6,4,5,7,3,2,1,0,9,5,6,8,3,2,1</span>
+                                    <svg class="peity" height="16" width="100">
+                                        <rect fill="#1ab394" x="0" y="7.111111111111111" width="2.2580645161290325"
+                                              height="8.88888888888889"></rect>
+                                        <rect fill="#d7d7d7" x="3.2580645161290325" y="10.666666666666668"
+                                              width="2.2580645161290325" height="5.333333333333333"></rect>
+                                        <rect fill="#1ab394" x="6.516129032258065" y="0" width="2.2580645161290325"
+                                              height="16"></rect>
+                                        <rect fill="#d7d7d7" x="9.774193548387098" y="5.333333333333334"
+                                              width="2.2580645161290325" height="10.666666666666666"></rect>
+                                        <rect fill="#1ab394" x="13.03225806451613" y="7.111111111111111"
+                                              width="2.2580645161290325" height="8.88888888888889"></rect>
+                                        <rect fill="#d7d7d7" x="16.290322580645164" y="0" width="2.2580645161290325"
+                                              height="16"></rect>
+                                        <rect fill="#1ab394" x="19.548387096774196" y="3.555555555555557"
+                                              width="2.2580645161290325" height="12.444444444444443"></rect>
+                                        <rect fill="#d7d7d7" x="22.806451612903228" y="10.666666666666668"
+                                              width="2.2580645161290325" height="5.333333333333333"></rect>
+                                        <rect fill="#1ab394" x="26.06451612903226" y="7.111111111111111"
+                                              width="2.2580645161290325" height="8.88888888888889"></rect>
+                                        <rect fill="#d7d7d7" x="29.322580645161292" y="12.444444444444445"
+                                              width="2.2580645161290325" height="3.5555555555555554"></rect>
+                                        <rect fill="#1ab394" x="32.58064516129033" y="8.88888888888889"
+                                              width="2.2580645161290325" height="7.111111111111111"></rect>
+                                        <rect fill="#d7d7d7" x="35.83870967741936" y="3.555555555555557"
+                                              width="2.2580645161290325" height="12.444444444444443"></rect>
+                                        <rect fill="#1ab394" x="39.09677419354839" y="10.666666666666668"
+                                              width="2.2580645161290325" height="5.333333333333333"></rect>
+                                        <rect fill="#d7d7d7" x="42.35483870967742" y="12.444444444444445"
+                                              width="2.2580645161290325" height="3.5555555555555554"></rect>
+                                        <rect fill="#1ab394" x="45.612903225806456" y="3.555555555555557"
+                                              width="2.2580645161290325" height="12.444444444444443"></rect>
+                                        <rect fill="#d7d7d7" x="48.87096774193549" y="0" width="2.2580645161290325"
+                                              height="16"></rect>
+                                        <rect fill="#1ab394" x="52.12903225806452" y="5.333333333333334"
+                                              width="2.2580645161290325" height="10.666666666666666"></rect>
+                                        <rect fill="#d7d7d7" x="55.38709677419355" y="8.88888888888889"
+                                              width="2.2580645161290325" height="7.111111111111111"></rect>
+                                        <rect fill="#1ab394" x="58.645161290322584" y="7.111111111111111"
+                                              width="2.2580645161290325" height="8.88888888888889"></rect>
+                                        <rect fill="#d7d7d7" x="61.903225806451616" y="3.555555555555557"
+                                              width="2.2580645161290325" height="12.444444444444443"></rect>
+                                        <rect fill="#1ab394" x="65.16129032258065" y="10.666666666666668"
+                                              width="2.2580645161290325" height="5.333333333333333"></rect>
+                                        <rect fill="#d7d7d7" x="68.41935483870968" y="12.444444444444445"
+                                              width="2.2580645161290325" height="3.5555555555555554"></rect>
+                                        <rect fill="#1ab394" x="71.67741935483872" y="14.222222222222221"
+                                              width="2.2580645161290325" height="1.7777777777777777"></rect>
+                                        <rect fill="#d7d7d7" x="74.93548387096774" y="15" width="2.2580645161290325"
+                                              height="1"></rect>
+                                        <rect fill="#1ab394" x="78.19354838709678" y="0" width="2.2580645161290325"
+                                              height="16"></rect>
+                                        <rect fill="#d7d7d7" x="81.45161290322581" y="7.111111111111111"
+                                              width="2.2580645161290325" height="8.88888888888889"></rect>
+                                        <rect fill="#1ab394" x="84.70967741935485" y="5.333333333333334"
+                                              width="2.2580645161290325" height="10.666666666666666"></rect>
+                                        <rect fill="#d7d7d7" x="87.96774193548387" y="1.7777777777777786"
+                                              width="2.2580645161290325" height="14.222222222222221"></rect>
+                                        <rect fill="#1ab394" x="91.22580645161291" y="10.666666666666668"
+                                              width="2.2580645161290325" height="5.333333333333333"></rect>
+                                        <rect fill="#d7d7d7" x="94.48387096774194" y="12.444444444444445"
+                                              width="2.2580645161290325" height="3.5555555555555554"></rect>
+                                        <rect fill="#1ab394" x="97.74193548387098" y="14.222222222222221"
+                                              width="2.2580645161290325" height="1.7777777777777777"></rect>
+                                    </svg>
+                                    <br>
+                                    <small class="font-bold">$ 20 054.43</small>
+                                </div>
+                                <h4>广东地区的数据报告
+                                    <br>
+                                    <small class="m-r"><a href="http://www.zi-han.net/theme/hplus/graph_flot.html">
+                                        获取最新数据 </a></small>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>最新评论</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content no-padding">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p><a class="text-info"
+                                          href="http://www.zi-han.net/theme/hplus/index_3.html#">@星探子</a>
+                                        我的目标就是想做一个跟你一样有责任感，有思想，有深度的新闻媒体从业人</p>
+                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> 1分钟前</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info"
+                                          href="http://www.zi-han.net/theme/hplus/index_3.html#">@小七是</a>
+                                        其实自己一半的大学生活也基本上是和新闻为伍了～一篇小小的稿子也许只有5、6百字，可以却可以写1、2个小时。一场会议也许3个小时，睡一觉就过去了，可是却要端着相机站3个小时，害怕错过一个经典的镜头。新闻人，更辛苦。
+                                    </p>
+
+                                    <div class="text-center m">
+                                        <span id="sparkline8"><canvas width="170" height="150"
+                                                                      style="display: inline-block; width: 170px; height: 150px; vertical-align: top;"></canvas></span>
+                                    </div>
+                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> 2天前</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="http://www.zi-han.net/theme/hplus/index_3.html#">@镜子mini</a>
+                                        大一邵老师说记者是高危职业，防火防盗防记者；大二时老师说嫁人莫嫁记者郎。可他们依然坚守岗位，培养新闻学子。现在大三，毕业了也会从事新闻工作。有时候坚持一件事情，并不是因为这样做了会改变什么，而是坚信，这样做是对的。
+                                    </p>
+                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> 2分钟前</small>
+                                </li>
+                                <li class="list-group-item ">
+                                    <p><a class="text-info" href="http://www.zi-han.net/theme/hplus/index_3.html#">@爱nimen</a>
+                                        记得费希特在《论学者的使命》中说：“你们都是最优秀的知识分子。如果最优秀的分子丧失了自己的力量，那又用什么去感召呢？如果出类拔萃的人都腐化了，那还到哪里去寻找道德善良呢？”
+                                    </p>
+                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> 1小时前</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>时间轴</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content timeline">
+
+                            <div class="timeline-item">
+                                <div class="row">
+                                    <div class="col-xs-3 date">
+                                        <i class="fa fa-briefcase"></i>
+                                        6:00
+                                        <br>
+                                        <small class="text-navy">2 小时前</small>
+                                    </div>
+                                    <div class="col-xs-7 content no-top-border">
+                                        <p class="m-b-xs"><strong>服务器已彻底崩溃</strong>
+                                        </p>
+
+                                        <p>还未检查出错误</p>
+
+                                        <p><span data-diameter="40" class="updating-chart" style="display: none;">8,4,4,4,9,1,7,4,4,3,9,5,0,9,3,9,6,4,5,2,10,10,3,2,1,7,2,6,5,3,2,7,6,4,1,10,1</span>
+                                            <svg class="peity" height="16" width="64">
+                                                <polygon fill="#1ab394"
+                                                         points="0 15 0 3.5 1.7777777777777777 9.5 3.5555555555555554 9.5 5.333333333333333 9.5 7.111111111111111 2 8.88888888888889 14 10.666666666666666 5 12.444444444444443 9.5 14.222222222222221 9.5 16 11 17.77777777777778 2 19.555555555555554 8 21.333333333333332 15.5 23.11111111111111 2 24.888888888888886 11 26.666666666666664 2 28.444444444444443 6.5 30.22222222222222 9.5 32 8 33.77777777777778 12.5 35.55555555555556 0.5 37.33333333333333 0.5 39.11111111111111 11 40.888888888888886 12.5 42.666666666666664 14 44.44444444444444 5 46.22222222222222 12.5 48 6.5 49.77777777777777 8 51.55555555555555 11 53.33333333333333 12.5 55.11111111111111 5 56.888888888888886 6.5 58.666666666666664 9.5 60.44444444444444 14 62.22222222222222 0.5 64 14 64 15"></polygon>
+                                                <polyline fill="transparent"
+                                                          points="0 3.5 1.7777777777777777 9.5 3.5555555555555554 9.5 5.333333333333333 9.5 7.111111111111111 2 8.88888888888889 14 10.666666666666666 5 12.444444444444443 9.5 14.222222222222221 9.5 16 11 17.77777777777778 2 19.555555555555554 8 21.333333333333332 15.5 23.11111111111111 2 24.888888888888886 11 26.666666666666664 2 28.444444444444443 6.5 30.22222222222222 9.5 32 8 33.77777777777778 12.5 35.55555555555556 0.5 37.33333333333333 0.5 39.11111111111111 11 40.888888888888886 12.5 42.666666666666664 14 44.44444444444444 5 46.22222222222222 12.5 48 6.5 49.77777777777777 8 51.55555555555555 11 53.33333333333333 12.5 55.11111111111111 5 56.888888888888886 6.5 58.666666666666664 9.5 60.44444444444444 14 62.22222222222222 0.5 64 14"
+                                                          stroke="#169c81" stroke-width="1"
+                                                          stroke-linecap="square"></polyline>
+                                            </svg>
+                                            <svg class="peity" height="16" width="64">
+                                                <polygon fill="#1ab394"
+                                                         points="0 15 0 2 1.7777777777777777 6.5 3.5555555555555554 8 5.333333333333333 2 7.111111111111111 9.5 8.88888888888889 5 10.666666666666666 11 12.444444444444443 12.5 14.222222222222221 2 16 3.5 17.77777777777778 5 19.555555555555554 9.5 21.333333333333332 8 23.11111111111111 14 24.888888888888886 12.5 26.666666666666664 2 28.444444444444443 8 30.22222222222222 9.5 32 5 33.77777777777778 12.5 35.55555555555556 5 37.33333333333333 5 39.11111111111111 11 40.888888888888886 8 42.666666666666664 12.5 44.44444444444444 12.5 46.22222222222222 0.5 48 3.5 49.77777777777777 12.5 51.55555555555555 3.5 53.33333333333333 9.5 55.11111111111111 9.5 56.888888888888886 9.5 58.666666666666664 2 60.44444444444444 14 62.22222222222222 5 64 9.5 64 15"></polygon>
+                                                <polyline fill="transparent"
+                                                          points="0 2 1.7777777777777777 6.5 3.5555555555555554 8 5.333333333333333 2 7.111111111111111 9.5 8.88888888888889 5 10.666666666666666 11 12.444444444444443 12.5 14.222222222222221 2 16 3.5 17.77777777777778 5 19.555555555555554 9.5 21.333333333333332 8 23.11111111111111 14 24.888888888888886 12.5 26.666666666666664 2 28.444444444444443 8 30.22222222222222 9.5 32 5 33.77777777777778 12.5 35.55555555555556 5 37.33333333333333 5 39.11111111111111 11 40.888888888888886 8 42.666666666666664 12.5 44.44444444444444 12.5 46.22222222222222 0.5 48 3.5 49.77777777777777 12.5 51.55555555555555 3.5 53.33333333333333 9.5 55.11111111111111 9.5 56.888888888888886 9.5 58.666666666666664 2 60.44444444444444 14 62.22222222222222 5 64 9.5"
+                                                          stroke="#169c81" stroke-width="1"
+                                                          stroke-linecap="square"></polyline>
+                                            </svg>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="row">
+                                    <div class="col-xs-3 date">
+                                        <i class="fa fa-file-text"></i>
+                                        7:00
+                                        <br>
+                                        <small class="text-navy">3小时前</small>
+                                    </div>
+                                    <div class="col-xs-7 content">
+                                        <p class="m-b-xs"><strong>修复了0.5个bug</strong>
+                                        </p>
+
+                                        <p>重启服务</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="row">
+                                    <div class="col-xs-3 date">
+                                        <i class="fa fa-coffee"></i>
+                                        8:00
+                                        <br>
+                                    </div>
+                                    <div class="col-xs-7 content">
+                                        <p class="m-b-xs"><strong>喝水、上厕所、做测试</strong>
+                                        </p>
+
+                                        <p>
+                                            喝了4杯水，上了3次厕所，控制台输出出2324个错误，神啊，带我走吧
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="row">
+                                    <div class="col-xs-3 date">
+                                        <i class="fa fa-phone"></i>
+                                        11:00
+                                        <br>
+                                        <small class="text-navy">21小时前</small>
+                                    </div>
+                                    <div class="col-xs-7 content">
+                                        <p class="m-b-xs"><strong>项目经理打电话来了</strong>
+                                        </p>
+
+                                        <p>
+                                            TMD，项目经理居然还没有起床！！！
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="row">
+                                    <div class="col-xs-3 date">
+                                        <i class="fa fa-user-md"></i>
+                                        09:00
+                                        <br>
+                                        <small>21小时前</small>
+                                    </div>
+                                    <div class="col-xs-7 content">
+                                        <p class="m-b-xs"><strong>开会</strong>
+                                        </p>
+
+                                        <p>
+                                            开你妹的会，老子还有897894个bug没有修复
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="row">
+                                    <div class="col-xs-3 date">
+                                        <i class="fa fa-comments"></i>
+                                        12:50
+                                        <br>
+                                        <small class="text-navy">讨论</small>
+                                    </div>
+                                    <div class="col-xs-7 content">
+                                        <p class="m-b-xs"><strong>…………</strong>
+                                        </p>
+
+                                        <p>
+                                            又是操蛋的一天
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                By：<a href="http://www.zi-han.net/" target="_blank">zihan's blog</a>
+            </div>
+            <div>
+                <strong>Copyright</strong> H+ © 2014
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.chart').easyPieChart({
+            barColor: '#f8ac59',
+            //                scaleColor: false,
+            scaleLength: 5,
+            lineWidth: 4,
+            size: 80
+        });
+
+        $('.chart2').easyPieChart({
+            barColor: '#1c84c6',
+            //                scaleColor: false,
+            scaleLength: 5,
+            lineWidth: 4,
+            size: 80
+        });
+
+        var d1 = [
+            [1262304000000, 1],
+            [1264982400000, 100],
+            [1267401600000, 1],
+            [1270080000000, 200],
+            [1272672000000, 1],
+            [1275350400000, 100],
+            [1277942400000, 1],
+            [1280620800000, 300]
+        ];
+        var d2 = [
+            [1262304000000, 100],
+            [1264982400000, 1],
+            [1267401600000, 150],
+            [1270080000000, 1],
+            [1272672000000, 230],
+            [1275350400000, 1],
+            [1277942400000, 150],
+            [1280620800000, 10]
+        ];
+
+        var data3 = [
+            {
+                label: "Data 1",
+                data: d1,
+                color: '#23c6c8'
+            },
+            {
+                label: "Data 2",
+                data: d2,
+                color: '#1ab394'
+            }
+        ];
+        $.plot($("#flot-chart3"), data3, {
+            xaxis: {
+                tickDecimals: 0
+            },
+            series: {
+                lines: {
+                    show: true,
+                    fill: true,
+                    fillColor: {
+                        colors: [{
+                            opacity: 1
+                        }, {
+                            opacity: 1
+                        }]
+                    },
+                },
+                curvedLines: {
+                    active: true,
+                    fit: true,
+                    apply: true
+                },
+                points: {
+                    width: 0.1,
+                    show: false
+                },
+            },
+            grid: {
+                show: false,
+                borderWidth: 0
+            },
+            legend: {
+                show: false,
+            }
+        });
+
+
+        var mapData = {
+            "US": 298,
+            "SA": 200,
+            "DE": 220,
+            "FR": 540,
+            "CN": 120,
+            "AU": 760,
+            "BR": 550,
+            "IN": 200,
+            "GB": 120,
+        };
+
+        $('#world-map').vectorMap({
+            map: 'world_mill_en',
+            backgroundColor: "transparent",
+            regionStyle: {
+                initial: {
+                    fill: '#e4e4e4',
+                    "fill-opacity": 0.9,
+                    stroke: 'none',
+                    "stroke-width": 0,
+                    "stroke-opacity": 0
+                }
+            },
+
+            series: {
+                regions: [{
+                    values: mapData,
+                    scale: ["#1ab394", "#22d6b1"],
+                    normalizeFunction: 'polynomial'
+                }]
+            },
+        });
+    });
+</script>
+<div class="theme-config">
+    <div class="theme-config-box">
+        <div class="spin-icon">
+            <i class="fa fa-cog fa-spin"></i>
+        </div>
+        <div class="skin-setttings">
+            <div class="title">主题设置</div>
+            <div class="setings-item">
+                <span>
+                        收起左侧菜单
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="collapsemenu">
+                        <label class="onoffswitch-label" for="collapsemenu">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        固定侧边栏
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedsidebar" class="onoffswitch-checkbox" id="fixedsidebar">
+                        <label class="onoffswitch-label" for="fixedsidebar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        固定顶部
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixednavbar" class="onoffswitch-checkbox" id="fixednavbar">
+                        <label class="onoffswitch-label" for="fixednavbar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        固定宽度
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="boxedlayout" class="onoffswitch-checkbox" id="boxedlayout">
+                        <label class="onoffswitch-label" for="boxedlayout">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        固定底部
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedfooter" class="onoffswitch-checkbox" id="fixedfooter">
+                        <label class="onoffswitch-label" for="fixedfooter">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        RTL模式
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="RTLmode" class="onoffswitch-checkbox" id="RTLmode">
+                        <label class="onoffswitch-label" for="RTLmode">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="title">皮肤选择</div>
+            <div class="setings-item default-skin">
+                <span class="skin-name ">
+                         <a href="http://www.zi-han.net/theme/hplus/#" class="s-skin-0">
+                             默认皮肤
+                         </a>
+                    </span>
+            </div>
+            <div class="setings-item blue-skin">
+                <span class="skin-name ">
+                        <a href="http://www.zi-han.net/theme/hplus/#" class="s-skin-1">
+                            蓝色主题
+                        </a>
+                    </span>
+            </div>
+            <div class="setings-item yellow-skin">
+                <span class="skin-name ">
+                        <a href="http://www.zi-han.net/theme/hplus/#" class="s-skin-3">
+                            黄色/紫色主题
+                        </a>
+                    </span>
+            </div>
+            <div class="setings-item ultra-skin">
+                <span class="skin-name ">
+                        <a href="http://www.zi-han.net/theme/hplus/#" class="s-skin-2">
+                            灰色主题
+                        </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // 顶部菜单固定
+    $('#fixednavbar').click(function () {
+        if ($('#fixednavbar').is(':checked')) {
+            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            $("body").removeClass('boxed-layout');
+            $("body").addClass('fixed-nav');
+            $('#boxedlayout').prop('checked', false);
+        } else {
+            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $("body").removeClass('fixed-nav');
+        }
+    });
+
+    // 左侧菜单固定
+    $('#fixedsidebar').click(function () {
+        if ($('#fixedsidebar').is(':checked')) {
+            $("body").addClass('fixed-sidebar');
+            $('.sidebar-collapse').slimScroll({
+                height: '100%',
+                railOpacity: 0.9
+            });
+        } else {
+            $('.sidebar-collapse').slimscroll({
+                destroy: true
+            });
+            $('.sidebar-collapse').attr('style', '');
+            $("body").removeClass('fixed-sidebar');
+        }
+    });
+
+    // 收起左侧菜单
+    $('#collapsemenu').click(function () {
+        if ($('#collapsemenu').is(':checked')) {
+            $("body").addClass('mini-navbar');
+            SmoothlyMenu();
+        } else {
+            $("body").removeClass('mini-navbar');
+            SmoothlyMenu();
+        }
+    });
+
+    // 自适应宽度
+    $('#boxedlayout').click(function () {
+        if ($('#boxedlayout').is(':checked')) {
+            $("body").addClass('boxed-layout');
+            $('#fixednavbar').prop('checked', false);
+            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $("body").removeClass('fixed-nav');
+            $(".footer").removeClass('fixed');
+            $('#fixedfooter').prop('checked', false);
+        } else {
+            $("body").removeClass('boxed-layout');
+        }
+    });
+
+    // 底部版权固定
+    $('#fixedfooter').click(function () {
+        if ($('#fixedfooter').is(':checked')) {
+            $('#boxedlayout').prop('checked', false);
+            $("body").removeClass('boxed-layout');
+            $(".footer").addClass('fixed');
+        } else {
+            $(".footer").removeClass('fixed');
+        }
+    });
+
+    // RTL模式
+    $('#RTLmode').click(function () {
+        if ($('#RTLmode').is(':checked')) {
+            $('head').append('<link href="css/bootstrap-rtl.css" id="rtl-mode" rel="stylesheet">');
+            $('body').addClass('rtls');
+        } else {
+            $('#rtl-mode').remove();
+            $('body').removeClass('rtls');
+        }
+    });
+
+    // 皮肤选择
+    $('.spin-icon').click(function () {
+        $(".theme-config-box").toggleClass("show");
+    });
+
+    // 默认主题
+    $('.s-skin-0').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-2");
+        $("body").removeClass("skin-3");
+    });
+
+    // 蓝色主题
+    $('.s-skin-1').click(function () {
+        $("body").removeClass("skin-2");
+        $("body").removeClass("skin-3");
+        $("body").addClass("skin-1");
+    });
+
+    // 灰色主题
+    $('.s-skin-2').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-3");
+        $("body").addClass("skin-2");
+    });
+
+    // 黄色主题
+    $('.s-skin-3').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-2");
+        $("body").addClass("skin-3");
+    });
+</script>
+
+<style>
+    .fixed-nav .slimScrollDiv #side-menu {
+        padding-bottom: 60px;
+    }
+</style>
+{% end %}

@@ -1,0 +1,301 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block other_head %}
+<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+{% end %}
+{% block content %}
+<div style="position: fixed; width: 100%; z-index: 1000; background: #fff;">
+    <div class="mbProjectMoreTitle">
+        <a href="/mobile/home" class="mbPrMoreBackBtn"></a>
+        账户资金
+
+    </div>
+</div>
+<div class="nbig_box anquan" style="padding-top: 40px;">
+    <div class="pro_nav">
+        <div class="box1 ">
+            <p><a href="mb_shejiaomp">社交名片</a></p>
+        </div>
+        <div class="box2 ">
+            <p><a href="mb_gerenjianli">个人简历</a></p>
+        </div>
+        <div class="box3 ">
+            <p><a href="mb_anquanshezhi">安全设置</a></p>
+        </div>
+        <div class="box4 onclik">
+            <p><a href="mb_zijinzhanghu">账户资金</a></p>
+        </div>
+    </div>
+
+    <div class="zhanghujine">
+			<span class="zhaunghujintext">
+				账户总金额
+			</span>
+
+        <p class="zh_jinqian">{{ account_info.get("balance", 0) }}元</p>
+
+        <div class="xmliche_a">
+  
+		   	  <span class="xmwz_biao">
+		   	  	<p>可用金额：</p>
+		   	  	<input value="{{ account_info.get("availableAmount", 0) }}元" readOnly="true"/>
+		   	  </span>
+		   	  
+		   	   <span class="xmwz_biao">
+		   	  	<p>冻结金额：</p>
+		   	  	<input value="{{ account_info.get("freezeAmount", 0) }}元" readOnly="true"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao">
+		   	  	<p>累计充值：</p>
+		   	  	<input value="{{ account_info.get("total_recharge_amount", 0) }}元" readOnly="true"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao">
+		   	  	<p>累计提现：</p>
+		   	  	<input value="{{ account_info.get("total_withdraw_amount", 0) }}元" readOnly="true"/>
+		   	  </span>
+		   	  
+		   	  <span class="xmwz_biao">
+		   	  	<p>累计投资：</p>
+		   	  	<input value="{{ account_info.get("total_invest_amount", 0) }}元" readOnly="true"/>
+		   	  </span>
+
+        </div>
+    </div>
+
+</div><!--nbig_box-->
+<div class="zijin">
+    <a href="javascript:;" class="chongzhi">充值</a>
+    <a href="javascript:;" class="tixian">提现</a>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalRecharge" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabelRecharge" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabelRecharge">
+                    充值
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p><b>充值金额：</b><input id="amount_r" name="amount" type="text" value=""/> 元</p>
+
+                <p style="color:#f63; font-size:14px; line-height: 30px;">注：<span>充值最低1元</span></p>
+
+                <form id="recharge_form" action="http://220.181.25.233:8081/member/bha/toRecharge" method="post"
+                      target="_blank">
+                    <input type="hidden" id="recharge_req" name="req" value="">
+                    <input type="hidden" id="recharge_sign" name="sign" value="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="confirm_recharge">
+                    充值
+                </button>
+                <button type="button" class="btn btn-primary" id="finish_recharge" data-dismiss="modal"
+                        style="display:none">
+                    完成
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalWithdraw" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabelWithdraw" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabelWithdraw">
+                    提现
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>可用提现金额：<span class="availableAmount">
+{#                                {{account_info.get("availableAmount", 0)}}#}
+                            </span>0元</p>
+
+                <p><b>提现金额：</b><input id="amount_w" name="amount" type="text" value=""/> 元</p>
+
+                <p style="color:#f63; font-size:14px; line-height: 30px;">
+                    当日充值的金额需要24小时之后才能提现<br>提现手续费：3元/笔
+                </p>
+
+                <form id="withdraw_form" action="http://220.181.25.233:8081/member/bha/toWithdraw" method="post"
+                      target="_blank">
+                    <input type="hidden" id="withdraw_req" name="req" value="">
+                    <input type="hidden" id="withdraw_sign" name="sign" value="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="confirm_withdraw">
+                    提现
+                </button>
+                <button type="button" class="btn btn-primary" id="finish_withdraw" data-dismiss="modal"
+                        style="display:none">
+                    完成
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="ModalBind2Yeepay" tabindex="-1" role="dialog"
+     aria-labelledby="LabelBind2Yeepay" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="LabelBind2Yeepay">
+                    绑定到易宝
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p><b>姓名：</b><span id="realname"></span></p>
+
+                <p><b>身份证：</b><span id="id_number"></span></p>
+
+                <p><b>邮箱：</b><span id="email"></span></p>
+
+                <p><b>手机：</b><span id="phone"></span></p>
+
+                <form id="bind2yeepay_form" action="http://220.181.25.233:8081/member/bha/toRegister"
+                      method="post" target="_blank">
+                    <input type="hidden" id="bind2yeepay_req" name="req" value="">
+                    <input type="hidden" id="bind2yeepay_sign" name="sign" value="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="confirm_bind2yeepay">
+                    绑定
+                </button>
+                <button type="button" class="btn btn-primary" id="finish_bind2yeepay" data-dismiss="modal"
+                        style="display:none">
+                    完成
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="ModalBindCard" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabelBindCard" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabelBindCard">
+                    绑卡到易宝账户
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p><b>姓名：</b><span id="realname_b"></span></p>
+
+                <p><b>身份证：</b><span id="id_number_b"></span></p>
+
+                <p><b>邮箱：</b><span id="email_b"></span></p>
+
+                <p><b>手机：</b><span id="phone_b"></span></p>
+
+                <p style="color:#f63; font-size:14px; line-height: 30px;">
+                    <span>在资金托管平台提现前，必须进行绑卡，绑卡会进行实名认证，只能绑定用户本人的卡。</span>
+                </p>
+
+                <form id="bind_card_form"
+                      action="http://220.181.25.233:8081/member/bha/toBindBankCard" method="post"
+                      target="_blank">
+                    <input type="hidden" id="bind_card_req" name="req" value="">
+                    <input type="hidden" id="bind_card_sign" name="sign" value="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="confirm_bind_card">
+                    绑定
+                </button>
+                <button type="button" class="btn btn-primary" id="finish_bind_card" data-dismiss="modal"
+                        style="display:none">
+                    完成
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function getCookie(name) {
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+    var data = {};
+    $(".chongzhi").click(function () {
+        data['_xsrf'] = getCookie("_xsrf");
+        $.ajax({
+            type: 'post',
+            url: '/ajax/check_personal_info',
+            data: data,
+            success: function (re) {
+                var jsons = jQuery.parseJSON(re);
+                if (jsons.result.binded == 'ok') {
+                    $('#myModalRecharge').modal("show")
+                }
+                else {
+                    handle_check_result("recharge", jsons)
+                }
+            }
+        });
+    });
+
+    $(".tixian").click(function () {
+        data['_xsrf'] = getCookie("_xsrf");
+        $.ajax({
+            type: 'post',
+            url: '/ajax/check_personal_info',
+            data: data,
+            success: function (re) {
+                var jsons = jQuery.parseJSON(re);
+                if (jsons.result.binded == 'ok' && jsons.result.bind_card == "ok") {
+                    $('#myModalWithdraw').modal("show")
+                }
+                else if (jsons.result.binded == 'ok' && jsons.result.bind_card == "error") {
+                    $("#realname_b").text(jsons.person_info.realname)
+                    $("#id_number_b").text(jsons.person_info.id_number)
+                    $("#email_b").text(jsons.person_info.email)
+                    $("#phone_b").text(jsons.person_info.phone)
+                    $('#ModalBindCard').modal("show")
+                }
+                else {
+                    handle_check_result("withdraw", jsons)
+                }
+            }
+        });
+    });
+</script>
+
+{% end %}
+{% block footer %}
+{% end %}
+
+
+

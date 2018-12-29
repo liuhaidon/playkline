@@ -1,0 +1,42 @@
+{% extends 'mbBase.html' %}
+{% block page_title %}项目|创业孵化平台{% end %}
+{% block content %}
+<div class="mbprojeDetailHead" style="border-bottom: 1px solid #EAEAEA;">
+    <table class="mbprojeDetailTab">
+        <tr class="mbprojeDetailTabTR">
+            <td class="mbprojeDetailTabTD1">
+                <img src="../../static/mobile/img/mbProjectMore/001.png" alt="" onclick="javascript:history.back(-1);">
+            </td>
+            <td>团队介绍</td>
+            <td class="mbprojeDetailTabTD2">
+                {#                    <img src="../../static/mobile/img/mbProjectMore/0022.png" alt="" onclick="location='javascript:;'">#}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="big_box">
+    {% for t in project %}
+    {% if t.get('team') %}
+    {% for i in t.get('team') %}
+    <ul class="zhuanjiapin tuandui_box">
+        <li class="zhuanjiapin_box">
+            {#            <img src="../static/imges/sanpang.png">#}
+            <img src="../../static/img/startup/avatar_sample.png">
+			<span class="zhuanjiapin_text">
+                <p><a class="zhuanjiapin_name">姓名：{{ i.get('name',"") }}</a></p>
+                <p>职务：{{ i.get('job',"") }}</p>
+            </span>
+        </li>
+        <span class="tuandui_jianjie">
+            简介：{{ i.get('desc',"无") }}
+        </span>
+    </ul>
+    {% end %}
+    {% else %}
+    暂无团队人员
+    {% end %}
+    {% end %}
+</div><!--big_class-->
+{% end %}
+

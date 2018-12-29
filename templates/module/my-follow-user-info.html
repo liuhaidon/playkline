@@ -1,0 +1,11 @@
+<tr>
+    <td><a href="/profile/{{ user['uid'] }}">
+        <img src="{{ static_url('img/person-center/14.png') }}"
+             onerror="javascript:this.src='{{ static_url('img/error.png') }}';"
+             border="none" align="absmiddle">
+        </a>
+    </td>
+    <td><a href="/profile/{{ user['uid'] }}">{{ user['name'] }}</a></td>
+    <td><a href="javascript:;" class="unfollow-user" data-id="{{ user['uid'] }}">取消关注</a></td>
+    <td><a href="/profile/{{ user['uid'] }}" class="ckxqq">查看详情</a></td>
+</tr>

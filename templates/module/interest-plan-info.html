@@ -1,0 +1,21 @@
+<div class="person-idea-list">
+    <div class="p-i-l-l">
+        <a href="/project/{{ project_info.get("id","") }}">
+            <img src="/static/media/project_img/{{ project_info.get('image',"") }}" width="100"></a>
+    </div>
+    <div class="p-i-l-r  left">
+        <ul class="per-idea-ul active">
+            <li><a href="/project/{{ project_info.get('id') }}">{{ project_info['name'] }}&emsp;</a></li>
+            <li style="width: 160px;">融资金额：￥{{ plan['info']['total_amount'] }}W(元)</li>
+            <li>出让股权：￥{{ plan['info']['out_interest'] }}%</li>
+            <li>认购份数：{{ plan['info']['piece'] }}</li>
+            {% if plan['status'] =='online' or  plan['status'] =='completed' or plan['status'] =='offline' %}
+            <li>完成率：{{ percent(plan.get('progress',0),plan['info']['total_amount']) *100 }}%</li>
+            {% end %}
+            <li class="color-blue">状态：{{ status.get(plan['status']) }}</li>
+            {% if plan['status']=='preheating' %}
+            <li>上线时间：{{ plan['start_date'] }}</li>
+            {% end %}
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,343 @@
+{% extends "../base.html" %}
+{% block page_title %}我的账户|创业孵化平台{% end %}
+{% block content %}
+<script type="text/javascript"  src=" {{ static_url('plupload/js/plupload.full.min.js') }}"></script>
+<div class="content_width1 person-center">
+    {% include '../user_nav.html' %}
+    <div class="person-right">
+        <div>
+            {% include 'account_nav.html' %}
+        </div>
+        <div class="uesr-zhanghu">
+            <form action="/user/profile" method="post" enctype="multipart/form-data" name="self_info_form"
+                  id="self_info_form">
+                {% module xsrf_form_html() %}
+                <div class="userinfo-list-div">
+                    <div class="uesrinfo">
+                        <div class="jbxx">基本信息</div>
+                        <div class="rsaquo info-click1" id="rqin">&rsaquo;</div>
+                        <p style="clear: both;"></p>
+                    </div>
+                    <div class="list-div-item" style="display: block">
+                        <div class="info-line"></div>
+                        <div class="item1 avatar-wap">
+                            <img style="width:100px;height:100px;border-radius:50%;" src="/static/media/avatar/{{ user.get('avatar') }}"
+                                 onerror="javascript:this.src='{{ static_url('img/startup/avatar_sample.png') }}'" alt=""
+                                 border="none" align="absmiddle"/>
+                        </div>
+                        <div class="item2">
+                            <a class="item2-input" href="#" id="upload_avatar">上传头像</a>
+                            <input type="text" id="avatar_url" style="display: none" name="avatar"
+                                   value="{{ user.get('avatar') or '/static/img/startup/avatar_sample.png' }}">
+
+                            <p class="it2-p">支持jpg、jpeg、png、gif格式，大小不超过2M。</p>
+                            <p class="upload-error-info"></p>
+                        </div>
+
+                        <div class="uesrinfo-table">
+                            <div style="font-family:'Microsoft Yahei';font-size: 16px; color:#00A0EA; padding-left:65px; ">注意：点击文本进行修改</div>
+                            <table width="100%">
+                                <tr>
+                                    <td>姓名：</td>
+                                    <td>
+                                        <input id="cc" type="text" value="{{ user.get("name", '') }}" style="line-height: 20px; border: none; background: #F9F9F9;"
+                                               name="name" placeholder="请输入您的真实姓名" class="sjrzit" readOnly="true"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>手机：</td>
+                                    <td>
+                                        <input style="background: #F9F9F9; border: none;" readOnly="true" type="text" value="{{ user.get("mobile", {"0":""}).values()[0] }}"
+                                               name="mobile" placeholder="请输入您的手机号" class="sjrzit"/>
+                                        <a href="javascript:;" class="sjrzit1 sendcode" id="sjrzit1"
+                                           style="display: none">获取验证码</a>
+                                        <a href="/user/settings?type=reset_phone" class="sjrzit1" id="sjrzit2" style="display: block">修改</a>
+                                    </td>
+                                </tr>
+                                <!--
+                                <script>
+                                    if ($('[name="mobile"]').val() != '') {
+                                        $('#sjrzit2').show();
+                                    }
+                                    $('#sjrzit2').click(function () {
+                                        if ($('[name="mobile"]').val() == '') {
+                                            alert('手机号不能为空!');
+                                            return false;
+                                        } else {
+                                            $(this).hide();
+                                            $('#sjrzit1').show();
+                                            $('#editCode').show();
+                                        }
+                                    });
+                                </script> -->
+                                <tr id="editCode" style="display: none">
+                                    <td>验证码：</td>
+                                    <td>
+                                        <input id="yzm" type="text" value="" name="code" placeholder="请输入您的验证码" class="sjrzit"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>邮箱：</td>
+                                    <td>
+                                        <input type="text" value="{{ user.get("email", {"0":""}).values()[0] }}" style="background: #F9F9F9; border: none;" readOnly="true"
+                                               name="email" placeholder="请输入您的邮箱" class="sjrzit"/>
+                                        <a href="/user/settings?type=reset_email" class="sjrzit1" id="sjrzit3" style="display: block">修改</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>性别：</td>
+                                    <td>
+                                        {% if user.get('sex', 'male') == 'male' %}
+                                        <input type="radio" value="male" name="sex"  checked/>&nbsp;男&emsp;&emsp;
+                                        <input type="radio" value="female"  name="sex"/>&nbsp;女
+                                        {% else %}
+                                        <input type="radio" value="male"   name="sex"/>&nbsp;男&emsp;&emsp;
+                                        <input type="radio" value="female"  name="sex"  checked/>&nbsp;女
+                                        {% end %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>出生年月：</td>
+                                    {% set now = datetime.datetime.today() %}
+                                    {% set birth = user.get('birth',now.strftime("%Y-%m-%d")).split('-') %}
+                                    <td class="select">
+                                        <select  name="year" id="year">
+                                            {% for year in range(1950, now.year+1) %}
+                                            <option {% if int(birth[0]) == unicode(year) %}selected{% end %}>{{ year }}</option>
+                                            {% end %}
+                                        </select>
+                                        <select name="month" id="month">
+                                            {% for month in range(1, 13) %}
+                                            <option {% if int(birth[1]) == unicode(month) %}selected{% end %}>{{ month }}</option>
+                                            {% end %}
+                                        </select>
+                                       <select name="day" id="day">
+                                            {% for day in range(1, 32) %}
+                                            <option {% if int(birth[2]) == unicode(day) %}selected{% end %}>{{ day }}</option>
+                                            {% end %}
+                                        </select>
+                                    </td>
+                                </tr>
+
+{#                                <tr>#}
+{#                                    <td>所在地区：</td>#}
+{#                                    <td class="select">#}
+{#                                        <select  name="province" id="province">#}
+{#                                            {% for p in provinces %}#}
+{#                                            <option value="{{ p['id'] }}" data-id="{{ p['id'] }}"#}
+{#                                                    {% if user.get('pid', '') == p['id'] %} selected {% end %}#}
+{#                                                    >{{ p['name'] }}</option>#}
+{#                                            {% end %}#}
+{#                                        </select>#}
+{#                                        <select name="city" id="city">#}
+{#                                            {% for c in cities %}#}
+{#                                            <option value="{{ c['id'] }}" data-id="{{ c['id'] }}"#}
+{#                                                    {% if user.get('cid', '') == c['id'] %} selected {% end %}#}
+{#                                                    >{{ c['name'] }}</option>#}
+{#                                            {% end %}#}
+{#                                        </select>#}
+{#                                        <select name="region" id="region">#}
+{#                                            {% for r in regions %}#}
+{#                                            <option value="{{ r['id'] }}" data-id="{{ r['id'] }}"#}
+{#                                                    {% if user.get('rid', '') == r['id'] %} selected {% end %}#}
+{#                                                    >{{ r['name'] }}</option>#}
+{#                                            {% end %}#}
+{#                                        </select>#}
+{#                                    </td>#}
+{##}
+{#                                </tr>#}
+{#                                <!--#}
+{#                                <tr>#}
+{#                                    <td>详细地址：</td>#}
+{#                                    <td>#}
+{#                                        <input type="text" value="{{ myuser.get('address','') }}" name="address"#}
+{#                                               placeholder="详细地址"#}
+{#                                               class="input-adds"/>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                                -->#}
+                                <tr>
+                                    <td style="vertical-align: top">个人介绍：</td>
+                                    <td>
+                                        <textarea readonly="readonly" placeholder="用几句话介绍自己，不多于25个字"
+                                                  style="background: none; border: none;" name="desc">{{ user.get('brief','') }}</textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="100"></td>
+                                    <td style="vertical-align: top">
+                                        <input type="button" class="button button-primary button-small save-profile" value="保存">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+
+        </div>
+    </div>
+    <p class="clear"></p>
+</div>
+<script>
+    $('.uesrinfo-table textarea').click(function(){
+        $(this).css({"border":"1px solid #DEDEDE","background":"#fff"});
+        $(this).removeAttr("readOnly");
+    });
+
+    $('.uesrinfo-table textarea').mouseleave(function(){
+        $(this).css({"border":"none","background":"#F9F9F9"});
+        $(this).attr('readOnly','readOnly');
+    })
+</script>
+ <script>
+    $(function () {
+        var uploader = new plupload.Uploader({
+            browse_button: 'upload_avatar',
+            url: "/user/upload-avatar",
+            multipart_params: {
+                '_xsrf': $("input[name='_xsrf']").val()
+            }
+        });
+
+        uploader.init();
+
+        // 文件添加后立即上传
+        uploader.bind('FilesAdded', function (up, files) {
+            plupload.each(files, function (file) {
+                uploader.start();
+            });
+        });
+
+        // 上传头像
+        uploader.bind('FileUploaded', function (up, file, info) {
+            var response = $.parseJSON(info.response);
+            if (response.status === 'ok') {
+                $('.avatar-wap img').attr('src', "/static/media/avatar/" + response.avatar_url);
+                $('#avatar_url').val(response.avatar_url)
+            } else {
+                $('.upload-error-info').text(response.error.message);
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $(function () {
+        $('#province').change(function () {
+            var pid = $(this).find('option:selected').attr('data-id');
+            if (!pid) {
+                alert('请选择省份！');
+            } else {
+                $.getJSON('/ajax/city.json?pid=' + pid, function (json) {
+                    var city = '';
+                    var region = '';
+                    //console.log(JSON.stringify(json));
+                    //console.log(json);
+
+                    $.each(json['city'], function (k, v) {
+                        city += '<option value="' + v.id + '" data-id=' + v.id + '>' + v.name + '</option>';
+                    });
+                    $('#city').html(city);
+                    $.each(json['region'], function (k, v) {
+                        region += '<option value="' + v.id + '" data-id=' + v.id + '>' + v.name + '</option>';
+                    });
+                    $('#region').html(region);
+
+                });
+            }
+        });
+        $('#city').change(function () {
+            var pid = $('#province').find('option:selected').attr('data-id');
+            var cid = $(this).find('option:selected').attr('data-id');
+            if (!pid) {
+                alert('请选择省份！');
+            }
+            else if (!cid) {
+                alert('请选择市！');
+            }
+            else {
+                $.getJSON('/ajax/city.json?pid=' + pid + '&cid=' + cid, function (json) {
+                    var region = '';
+                    //console.log(JSON.stringify(json));
+                    //console.log(json);
+
+                    $.each(json['region'], function (k, v) {
+                        region += '<option value="' + v.id + '"  data-id=' + v.id + '>' + v.name + '</option>';
+                    });
+                    $('#region').html(region);
+                });
+            }
+        });
+    })
+</script>
+<script>
+$('#cc').click(function(){
+    $(this).css({"border":"1px solid #DEDEDE","background":"#fff"});
+    $(this).removeAttr("readOnly");
+});
+
+$('#cc').mouseleave(function(){
+    $(this).css({"border":"none","background":"#F9F9F9"});
+    $(this).attr('readOnly','readOnly');
+});
+</script>
+
+<script type="text/javascript">
+    $(".save-profile").click(function () {
+        $("#self_info_form").submit()
+    });
+
+    $(function () {
+        var wait;
+        $(".sendcode").click(function () {
+            wait = 60;
+            var data = {};
+            var number = $("input[name='phone']").val();
+            check_mobile(number);
+            $(this).attr("href", "javascript:;").text("等待" + wait + "秒");
+            time($(this));
+            data['mobile_number'] = number;
+            $.ajax({
+                type: 'get',
+                url: '/smscode',
+                data: data,
+                success: function (data) {
+                }
+            });
+
+        });
+        function check_mobile(mobile_number) {
+            var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            if (!myreg.test(mobile_number)) {
+                alert("手机号码格式不正确！");
+                $("input[name='phone']").focus();
+                return false;
+            }
+            else {
+                return true
+            }
+        }
+
+        function time(o) {
+            if (wait == 0) {
+                o.removeAttr("href");
+                wait = 60;
+                o.text("重新获取");
+            } else {
+                o.attr("href", "javascript:void(0)");
+                o.text("等待" + wait + "秒");
+                wait--;
+                setTimeout(function () {
+                            time(o)
+                        },
+                        1000)
+            }
+        }
+    })
+</script>
+
+{% end %}

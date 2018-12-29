@@ -1,0 +1,163 @@
+<nav class="navbar-default navbar-static-side" role="navigation" data-nav="{{ admin_nav }}">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span>
+                        <img alt="image" class="img-circle" src="{{ static_url('img/default_avatar.png') }}">
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs"> <strong
+                                    class="font-bold">{{ myuser.get('userid') }}</strong>
+                            </span>
+                            <span class="text-muted text-xs block">超级管理员 <b class="caret"></b></span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="#">修改头像</a>
+                        </li>
+                        <li><a href="#">个人资料</a>
+                        </li>
+                        <li><a href="#">联系我们</a>
+                        </li>
+                        <li><a href="#">信箱</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/admin/logout">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    H+
+                </div>
+
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-home"></i> <span class="nav-label">主页</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href="#">消息报告</a></li>
+                    <li><a href="#">数据统计</a></li>
+                </ul>
+            </li>
+
+            <!--<li>-->
+                <!--<a href="#"><i class="fa fa-user"></i> <span class="nav-label">用户管理</span> <span class="fa arrow"></span></a>-->
+                <!--<ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">-->
+                    <!--<li><a href="/admin/users">用户列表</a></li>-->
+                    <!--{% if myuser.get('role') == "superadmin" %}-->
+                    <!--<li><a href="/admin/sysusers">系统用户</a></li>-->
+                    <!--{% end %}-->
+                    <!--&lt;!&ndash;<li><a href="/admin/user_add">添加用户</a></li>&ndash;&gt;-->
+                <!--</ul>-->
+            <!--</li>-->
+            <li>
+                <a href="#"><i class="fa fa-user"></i> <span class="nav-label">用户管理</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href="/admin/users">用户列表</a></li>
+                    {% if myuser.get('role') == "superadmin" %}
+                    <li><a href="/admin/sysusers">系统用户</a></li>
+                    {% end %}
+                </ul>
+            </li>
+
+            <li>
+                <a href="/admin/activities?status=online"><i class="fa fa-flag"></i> <span class="nav-label">活动管理</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href=/admin/activities>活动列表</a></li>
+                    <!--<li><a href=/admin/activity_add>发布活动</a></li>-->
+                </ul>
+            </li>
+
+            <li>
+                <a href="/admin/tasks?type=everyday"><i class="fa fa-film"></i> <span class="nav-label">任务管理</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href=/admin/tasks?type=everyday>每日任务</a>
+                    </li>
+                    <li><a href=/admin/tasks?type=challenge>挑战任务</a>
+                    </li>
+                    <li><a href=/admin/tasks?type=continue>连续任务</a>
+                    </li>
+                    <!--<li><a href=/admin/task_add>发布任务</a>-->
+                    <!--</li>-->
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">商品管理</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href=/admin/shops>商品列表</a></li>
+                    <li><a href=/admin/orders>订单列表</a></li>
+                    <!--<li><a href=/admin/shop_add>商品发布</a></li>-->
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">系统公告</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href='/admin/notices'>公告列表</a></li>
+                    <!--<li><a href='/admin/notice_add'>发布公告</a></li>-->
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-tags"></i> <span class="nav-label">反馈信息</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href='/admin/feedbacks'>信息列表</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-inbox"></i> <span class="nav-label">复盘情况</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href=/admin/histories>复盘列表</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+
+<script>
+    $(function () {
+        Load_Options();
+
+        function Load_Options(){
+            var op = $('nav').data("nav");
+            var idx = parseInt(op/10);
+            var idx2 = op%10-1;
+            console.log(op,idx,idx2,699);
+
+            var li = $('#side-menu').children('li').eq(idx);
+            var liul = li.children("ul");
+            liul.addClass("in");
+            var ulli = liul.children("li").eq(idx2);
+
+            ulli.addClass("active");
+            li.addClass("active");
+        }
+
+//            $('#side-menu li .active').each(function (index) {
+//                alert(index);
+////                if(index == idx)
+////                    $(this).addClass("active");
+////                else
+//                    $(this).removeClass("active");
+//            });
+
+//            $('#side-menu li .active').removeClass("active");
+////            alert($('#side-menu li').eq(idx));
+//            alert($('#side-menu li').eq(2).attr('id'));
+//            $('#side-menu li').eq(2).addClass("active");
+
+//            var li = $('#side-menu li').eq(idx);
+//            var sub = $('.nav.nav-second-level.collapse li').eq(idx);
+//            sub.attr("aria-expanded", true);
+//            sub.removeClass("active");
+//            sub.eq(idx2).addClass("active");
+    });
+</script>

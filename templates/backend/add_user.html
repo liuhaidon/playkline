@@ -1,0 +1,439 @@
+{% extends "base.html" %}
+{% block title %}添加用户{% end %}
+{% block content %}
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {% include 'admin_nav.html' %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include 'header_nav.html' %}
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>数据表格</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">主页</a>
+                    </li>
+                    <li>
+                        <a>表格</a>
+                    </li>
+                    <li>
+                        <strong>数据表格</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>基本
+                                <small>分类，查找</small>
+                            </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+
+                            <div style="background: white;box-shadow: 0px 5px 5px #E0DEDF">
+
+                                <form id="form_reg" method="post">
+                                    {% module xsrf_form_html() %}
+                                    <table width="50%" cellspacing="0" cellpadding="0" border="0">
+                                        <tr>
+                                            <td align="right">用户名：</td>
+                                            <td><input class="form-control"  type="text" id="username" name="username" onkeyup="keydownfun()"
+                                                       placeholder="4-16位字符，字母/中文/数字/下划线"/>
+                                                <span></span>
+                                            </td>
+                                        </tr>
+                                        <tr height="35"></tr>
+                                        <tr>
+                                            <td align="right">密码：</td>
+                                            <td>
+                                                <input  class="form-control" type="password" id="pwd" name="pwd"
+                                                       onKeyUp="ps.update(this.value);"
+                                                       placeholder="6-20位字符，字母与数字组合"/>
+                                                <span></span>
+                                            </td>
+                                        </tr>
+                                        <tr height="35"></tr>
+                                        <tr>
+                                            <td align="right">确认密码：</td>
+                                            <td><input class="form-control"  type="password" id="pwd2" name="pwd2" placeholder="请再次输入密码"/>
+                                                <span></span></td>
+                                        </tr>
+                                        <tr height="35"></tr>
+                                        <tr>
+                                            <td align="right">身份：</td>
+                                            <td>
+                                                <select  class="form-control" name="role">
+                                                    <option value="maker">创客</option>
+                                                    <option value="investor">投资人</option>
+                                                    <option value="jury">评审员</option>
+                                                    <option value="gm">客服</option>
+                                                    <option value="scientist">科学家</option>
+                                                    <option value="other">其他</option>
+                                                    <option value="admin">管理员</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+
+                                        {% if type=='investor' %}
+                                        <tr height="35"></tr>
+                                            <tr>
+                                                <td align="right">擅长领域：</td>
+                                                <td>
+                                                    {% for t in tags %}
+                                                    <input  class="form-control" type="checkbox" name="area" value="{{ t['name'] }}">{{ t['name'] }}
+                                                    {% end %}
+                                                </td>
+                                            </tr>
+                                        {% end %}
+                                         <tr height="35"></tr>
+                                        <tr>
+                                            <td align="right">邮箱：</td>
+                                            <td><input class="form-control"  type="text" id="email" name="email" placeholder="输入你的邮箱"/>
+                                                <span></span>
+                                            </td>
+                                        </tr>
+                                        <tr height="35"></tr>
+                                        <tr>
+                                            <td align="right">手机号：</td>
+                                            <td><input class="form-control"  type="text" id="phone" name="phone" maxlength="11"
+                                                       onkeyup="usertitle()"
+                                                       placeholder="请输入您的手机号完成验证"/>
+                                                <span></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><div class="col-sm-4 col-sm-offset-2">
+                                                <p class="showInfo"></p>
+                                                <a class="btn btn-primary modifyBtn" type="submit">注册</a></div>
+{#                                                <button type="submit" id="register"#}
+{#                                                        style="height: 40px;#}
+{#                                  width: 100%;#}
+{#                                  text-align: center;#}
+{#                                  background: #00a0ea;#}
+{#                                  color: white;#}
+{#                                  font-size: 18px;#}
+{#                                  line-height: 40px;#}
+{#                                  margin: 30px auto;">注册#}
+{#                                                </button>#}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var arr = {};//装载每项资料的对错
+    /*  用户名的验证*/
+    function keydownfun() {
+        var sttr = $("#username").val();
+        var srr = checkusername(sttr, /^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){3,19}$/);
+        arr['username'] = false;
+        if (sttr == "") {
+            $("#rwdata1 #rwpic").html('');
+            $("#rwdata1 #rwtxt").text("");
+            return;
+        }
+        if (srr == false) {
+            $("#username + span").html('<img src="/static/img/wrong.png"/>用户名格式不对');
+        } else {
+            $("#username + span").html('<img src="/static/img/rightPic.png"/>用户名格式正确');
+        }
+        if (sttr.length < 3) {
+            $("#username + span").html('<img src="/static/img/wrong.png"/>用户名长度小于3');
+        }
+        else if (sttr.length > 20) {
+            $("#username + span").html('<img src="/static/img/wrong.png"/>用户名长度大于20');
+        }
+
+    }
+
+    function checkusername(str, pat) {
+        var patrn = pat;
+        if (!patrn.exec(str)) return false;
+        return true;
+    }
+
+    /*密码验证1*/
+    function psskeydown1() {
+        var sttr = $("#pwd").val();
+        var srr = checkusername(sttr, /^([a-zA-Z0-9]){5,19}$/);
+        var pwd = '.pwdErrMsg';
+        arr['pwd1'] = srr;
+        if (sttr == "") {
+            $("#pwd + span").html('');
+            $("#pwd + span").text("");
+            return;
+        }
+        if (srr == false) {
+            $("#pwd + span").html('<img src="/static/img/wrong.png"/>密码格式错误');
+            return;
+        } else {
+            $("#pwd + span").html('<img src="/static/img/rightPic.png"/>');
+        }
+        if (sttr.length < 6) {
+            $("#pwd + span").html('<img src="/static/img/wrong.png"/>密码长度小于6');
+        }
+        else if (sttr.length > 20) {
+            $("#pwd + span").html('<img src="/static/img/wrong.png"/>密码长度大于20');
+        }
+    }
+
+    /*密码验证2*/
+    function psskeydown2() {
+        var sttr = $("#pwd2").val();
+        if (arr['pwd1'] == false || sttr == "") {
+            arr['pwd2'] = false;
+            $("#pwd2 + span").html('');
+            $("#pwd2 + span").text("");
+            return;
+        }
+        if (sttr != $("#pwd").val()) {
+            arr['pwd2'] = false;
+            $("#pwd2 + span").html('<img src="/static/img/wrong.png"/>两次输入的密码不一致');
+        } else {
+            arr['pwd2'] = true;
+            $("#pwd2 + span").html('<img src="/static/img/rightPic.png"/>');
+        }
+    }
+
+    function usertitle() {
+        var sttr = $("#nick").val();
+        var srr = checkusername(sttr, /^([u4e00-u9fa5]|[ufe30-uffa0]|[a-za-z0-9_]){3,12}$/);
+        var sum = 0;
+        arr['usertitle'] = false;
+        if (sttr == "") {
+            $("#pwd2 + span").html('');
+        }
+        for (var i = 0; i < sttr.length; i++) {
+            var c = sttr.charCodeAt(i);
+            if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+                sum++;
+            }
+            else {
+                sum += 2;
+            }
+        }
+        if (sum < 4) {
+            $("#pwd2 + span").html('<img src="/static/img/wrong.png"/>');
+            $("#pwd2 + span").text("昵称长度小于4");
+        }
+        else if (sum > 14) {
+            $("#pwd2 + span").html('<img src="/static/img/wrong.png"/>');
+            $("#pwd2 + span").text("昵称长度大于14");
+        } else {
+            arr['usertitle'] = true;
+            $("#pwd2 + span").html('<img src="/static/img/rightPic.png"/>');
+            $("#pwd2 + span").text("昵称正确");
+        }
+    }
+
+    $("#phone").keyup(function () {
+        var mobile_number = $("#phone").val();
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+
+        if (myreg.test(mobile_number)) {
+            $("#phone + span").html('<img src="/static/img/rightPic.png"/>');
+            $("#phone").focus();
+        }
+        else {
+            $("#phone + span").html('<img src="/static/img/wrong.png"/>格式不正确，请检查');
+        }
+    });
+
+    $("#pwd").focusout(function () {
+        $("#pwd + span").html("");
+        psskeydown1();
+    });
+    $("#pwd2").focusout(function () {
+        $("#pwd2 + span").html("");
+        psskeydown2();
+    });
+
+
+</script>
+<script>
+    var arr = {};//装载每项资料的对错
+    /*  用户名的验证*/
+    function keydownfun() {
+        var sttr = $("#username").val();
+        var srr = checkusername(sttr, /^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){3,19}$/);
+        arr['username'] = false;
+        if (sttr == "") {
+            $("#rwdata1 #rwpic").html('');
+            $("#rwdata1 #rwtxt").text("");
+            return;
+        }
+        if (srr == false) {
+            $("#username + span").html('<img src="/static/img/wrong.png"/>用户名格式不对');
+        } else {
+            $("#username + span").html('<img src="/static/img/rightPic.png"/>用户名格式正确');
+        }
+        if (sttr.length < 3) {
+            $("#username + span").html('<img src="/static/img/wrong.png"/>用户名长度小于3');
+        }
+        else if (sttr.length > 20) {
+            $("#username + span").html('<img src="/static/img/wrong.png"/>用户名长度大于20');
+        }
+
+    }
+
+    function checkusername(str, pat) {
+        var patrn = pat;
+        if (!patrn.exec(str)) return false;
+        return true;
+    }
+
+    /*密码验证1*/
+    function psskeydown1() {
+        var sttr = $("#pwd").val();
+        var srr = checkusername(sttr, /^([a-zA-Z0-9]){5,19}$/);
+        var pwd = '.pwdErrMsg';
+        arr['pwd1'] = srr;
+        if (sttr == "") {
+            $("#pwd + span").html('');
+            $("#pwd + span").text("");
+            return;
+        }
+        if (srr == false) {
+            $("#pwd + span").html('<img src="/static/img/wrong.png"/>密码格式错误');
+            return;
+        } else {
+            $("#pwd + span").html('<img src="/static/img/rightPic.png"/>');
+        }
+        if (sttr.length < 6) {
+            $("#pwd + span").html('<img src="/static/img/wrong.png"/>密码长度小于6');
+        }
+        else if (sttr.length > 20) {
+            $("#pwd + span").html('<img src="/static/img/wrong.png"/>密码长度大于20');
+        }
+    }
+
+    /*密码验证2*/
+    function psskeydown2() {
+        var sttr = $("#pwd2").val();
+        if (arr['pwd1'] == false || sttr == "") {
+            arr['pwd2'] = false;
+            $("#pwd2 + span").html('');
+            $("#pwd2 + span").text("");
+            return;
+        }
+        if (sttr != $("#pwd").val()) {
+            arr['pwd2'] = false;
+            $("#pwd2 + span").html('<img src="/static/img/wrong.png"/>两次输入的密码不一致');
+        } else {
+            arr['pwd2'] = true;
+            $("#pwd2 + span").html('<img src="/static/img/rightPic.png"/>');
+        }
+    }
+
+    function usertitle() {
+        var sttr = $("#nick").val();
+        var srr = checkusername(sttr, /^([u4e00-u9fa5]|[ufe30-uffa0]|[a-za-z0-9_]){3,12}$/);
+        var sum = 0;
+        arr['usertitle'] = false;
+        if (sttr == "") {
+            $("#pwd2 + span").html('');
+        }
+        for (var i = 0; i < sttr.length; i++) {
+            var c = sttr.charCodeAt(i);
+            if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+                sum++;
+            }
+            else {
+                sum += 2;
+            }
+        }
+        if (sum < 4) {
+            $("#pwd2 + span").html('<img src="/static/img/wrong.png"/>');
+            $("#pwd2 + span").text("昵称长度小于4");
+        }
+        else if (sum > 14) {
+            $("#pwd2 + span").html('<img src="/static/img/wrong.png"/>');
+            $("#pwd2 + span").text("昵称长度大于14");
+        } else {
+            arr['usertitle'] = true;
+            $("#pwd2 + span").html('<img src="/static/img/rightPic.png"/>');
+            $("#pwd2 + span").text("昵称正确");
+        }
+    }
+
+    $("#phone").keyup(function () {
+        var mobile_number = $("#phone").val();
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+
+        if (myreg.test(mobile_number)) {
+            $("#phone + span").html('<img src="/static/img/rightPic.png"/>');
+            $("#phone").focus();
+        }
+        else {
+            $("#phone + span").html('<img src="/static/img/wrong.png"/>格式不正确，请检查');
+        }
+    });
+
+    $("#pwd").focusout(function () {
+        $("#pwd + span").html("");
+        psskeydown1();
+    });
+    $("#pwd2").focusout(function () {
+        $("#pwd2 + span").html("");
+        psskeydown2();
+    });
+
+
+</script>
+
+<style>
+    th:first-child,
+    .gradeX td:first-child {
+        width: 20px;
+        cursor: pointer;
+    }
+
+    th:first-child input,
+    .gradeX td:first-child input {
+        cursor: pointer;
+    }
+</style>
+
+{% end %}
