@@ -96,10 +96,10 @@
                                         <td><input type="checkbox" class="i-checks"></td>
                                         <td class="userListId">{{ c.get('_id') }}</td>
                                         <td><a href="/admin/feedback/{{ c.get('_id') }}">{{ c.get('title') }}</a></td>
-                                        <td>{{ c.get('content',"未知") }}</td>
-                                        <td>{{ c.get('contact',"未知") }}</td>
+                                        <td>{{ c.get('content',"") }}</td>
+                                        <td>{{ c.get('contact',"") }}</td>
                                         <td>{{ c.get('userid') }}</td>
-                                        <td>{{ c.get('time','未知') }}</td>
+                                        <td>{{ c.get('atime','') }}</td>
                                         <td><a  onclick="deltr('{{ c.get('_id') }}',this)">删除</a></td>
                                     </tr>
                                     {% end %}
@@ -197,11 +197,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -209,11 +205,6 @@
         </div>
     </div>
 </div>
-
-
-</div>
-
-
 <script>
     function getCookie(name) {
         var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");

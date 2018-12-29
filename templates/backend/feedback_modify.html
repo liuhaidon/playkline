@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %}公告信息修改{% end %}
+{% block content %}
+<script type="text/javascript" src="{{ static_url('WdatePicker/WdatePicker.js') }}"></script>
+<style>
+    #video_tags{ float: left; padding: 0;}
+    #video_tags li{ float: left; padding: 5px; margin-right: 5px; list-style: none;}
+</style>
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {% include 'admin_nav.html' %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include 'header_nav.html' %}
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>公告信息管理</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/admin/home">主页</a>
+                    </li>
+                    <li>
+                        <a>公告信息管理</a>
+                    </li>
+                    <li>
+                        <strong>公告信息修改</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>基本信息
+                                <!--<small>共计：</small>-->
+                            </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+
+        <form method="post" enctype="multipart/form-data" name="issueCourseForm" id="issueCourseForm">
+        <div class="issueActiveCotent1">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tr >
+                    <td>公告标题：</td>
+                    <td>
+                        <input type="hidden" value="{{ feedback.get('_id')}}" name="id" id="id">
+                        <input class="form-control" placeholder="不多于32个字" id="title" name="title" value="{{ feedback.get('title','')}}">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td valign="top" style="vertical-align: top">公告内容：</td>
+                    <td>
+                        <textarea class="form-control" id="content" name="content" rows="10" cols="76" placeholder="不多于256字">{{feedback.get('content','')}}</textarea>
+                        <p class="textarea"></p>
+                    </td>
+                </tr>
+
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>联系方式 :</td>
+                    <td>
+                        <input class="form-control" id="contact" name="contact" value="{{feedback.get('contact','')}}">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>发布人:</td>
+                    <td>
+                        <input class="form-control" placeholder="请输入发布人" id="user_id" name="user_id" value="{{feedback.get('userid')}}">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+
+                <tr class="tr-margin"></tr>
+                <tr>
+                    <td>发布时间：</td>
+                    <td>
+                        <input  class="form-control" placeholder="发布日期" id="atime" onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+                               onblur="$('.showInfo1').text('')" value="{{ feedback.get('atime','') }}" name="atime">
+                        <p class="showInfo"></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+                                </li>
+                                <li class="list-group-item">
+                                    <p class="submitsc" align="center">
+                                        <button type="button" class="btn btn-primary modifyVideoProfile" onclick="postmessage()">更新</button>
+                                        <button class="btn btn-white"
+                                                onclick="javascript:window.history.go(-1);return false;">返回
+                                        </button>
+                                    </p>
+                                </li>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function postmessage() {
+        if ($("#content").val() == '') {
+            alert('公告内容不能为空！');
+            return false;
+        }
+
+        if ($('#title').val() == '') {
+            alert("公告名称不能为空！");
+            return false;
+        }
+
+        var xjson = {
+            "id": $("#id").val(),
+            "title": $("#title").val(),
+            "content": $("#content").val(),
+            "contact": $("#contact").val(),
+            "userid" : $("#user_id").val(),
+            "atime" : $("#atime").val(),
+            '_xsrf': $("input[name='_xsrf']").val(),
+        };
+
+        $.ajax({
+            url: window.location.pathname,
+            type: 'post',
+            data: xjson,
+            success: function (data) {
+               var json=jQuery.parseJSON(data);
+                alert(json.msg);
+                if(json.status!='ok'){
+                    return false;
+                }
+                window.location.href = '/admin/feedbacks';
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+        return true;
+    }
+</script>
+<style>
+    .active {
+        background-color: #2a8ce6 !important;
+        color: white !important;
+    }
+
+    th:first-child,
+    .gradeX td:first-child {
+        width: 20px;
+        cursor: pointer;
+    }
+
+    th:first-child input,
+    .gradeX td:first-child input {
+        cursor: pointer;
+    }
+    .labels{ padding: 5px 10px 5px 10px; background: #ddd; position: relative; cursor: pointer;margin-left: 10px}
+    .labels i{ cursor: pointer; width: 14px; height: 14px;
+            background: #999; border-radius: 50%; opacity: 0.8;
+            position: absolute; right: -5px; top: 50%; margin-top: -7px;
+            text-align: center; line-height: 14px; font-style: normal; color: #fff;
+
+    }
+
+</style>
+{% end %}

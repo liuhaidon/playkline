@@ -83,6 +83,7 @@ class Application(tornado.web.Application):
             (r"/admin/feedbacks", AdminFeedbackList),
             (r"/admin/feedback/add", AdminAddFeedback),
             (r"/admin/feedback/delete", AdminDeleteFeedback),
+            (r"/admin/feedback/([0-9a-z]{24})", AdminModifyFeedback),
 
             (r"/admin/shops", AdminShopList),
             (r"/admin/shop/add", AdminAddShop),

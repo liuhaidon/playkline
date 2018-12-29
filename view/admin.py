@@ -291,7 +291,7 @@ class AdminAddNotice(BaseHandler):
     """发布公告"""
     # @BaseHandler.admin_authed
     def get(self):
-        self.render("backend/notice_add.html", myuser=self.admin, admin_nav=3)
+        self.render("backend/notice_list.html", myuser=self.admin, admin_nav=61)
 
     # @BaseHandler.admin_authed
     def post(self):
@@ -321,7 +321,7 @@ class AdminModifyNotice(BaseHandler):
     @BaseHandler.admin_authed
     def get(self, id):
         record = self.db.tb_notice_profile.find_one({"_id": ObjectId(id)})
-        self.render("backend/notice_modify.html", myuser=self.admin, admin_nav=91, notice=record)
+        self.render("backend/notice_modify.html", myuser=self.admin, admin_nav=61, notice=record)
 
     @BaseHandler.admin_authed
     def post(self, noticeid):
@@ -351,26 +351,17 @@ class AdminModifyNotice(BaseHandler):
 
 class AdminFeedbackList(BaseHandler):
     """用户反馈列表"""
-
     # @BaseHandler.admin_authed
     def get(self):
-        feedbacks = self.db.tb_feedback_profile.find().sort("_id", pymongo.DESCENDING)
+        feedbacks = self.db.tb_feedback_profile.find().sort("atime", pymongo.ASCENDING)
         self.render("backend/feedback_list.html", myuser=self.admin, admin_nav=71, feedbacks=feedbacks)
 
-    # @BaseHandler.admin_authed
-    def post(self):
-        datas = self.request.arguments
-        del datas['_xsrf']
-        for key, value in datas.items():
-            self.db.tb_feedback_profile.remove({"_id": ObjectId(value[0])})
-        return self.write(json.dumps({"status": "ok", "msg": u'删除反馈信息成功'}))
 
 class AdminAddFeedback(BaseHandler):
     """发布反馈"""
-
     # @BaseHandler.admin_authed
     def get(self):
-        self.render("backend/notice_add.html", myuser=self.admin, admin_nav=3)
+        self.render("backend/feedback_list.html", myuser=self.admin, admin_nav=71)
 
     # @BaseHandler.admin_authed
     def post(self):
@@ -381,14 +372,12 @@ class AdminAddFeedback(BaseHandler):
         info['contact'] = self.get_argument('contact')
         info['status'] = 1
         info['userid'] = self.admin['userid']
-        info['time'] = time.strftime("%Y-%m-%d %H:%M:%S")
+        info['atime'] = time.strftime("%Y-%m-%d %H:%M:%S")
         self.db.tb_feedback_profile.insert(info)
-
         return self.write(json.dumps({"status": "ok", "msg": u'增加反馈成功'}))
 
 class AdminDeleteFeedback(BaseHandler):
     """删除反馈"""
-
     # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
@@ -396,6 +385,40 @@ class AdminDeleteFeedback(BaseHandler):
         for key, value in datas.items():
             self.db.tb_feedback_profile.remove({"_id": ObjectId(value[0])})
         return self.write(json.dumps({"status": "ok", "msg": u'删除反馈信息成功'}))
+
+
+class AdminModifyFeedback(BaseHandler):
+    """修改公告"""
+    @BaseHandler.admin_authed
+    def get(self, id):
+        print "id==",id
+        record = self.db.tb_feedback_profile.find_one({"_id": ObjectId(id)})
+        self.render("backend/feedback_modify.html", myuser=self.admin, admin_nav=71, feedback=record)
+
+    @BaseHandler.admin_authed
+    def post(self, noticeid):
+        print "noticeid=", noticeid
+        record = self.db.tb_feedback_profile.find_one({"_id": ObjectId(noticeid)})
+        print record
+        if not record:
+            return self.write(json.dumps({"status": 'error', "msg": "修改的公告不存在！"}))
+
+        newprofile = {
+            'title': self.get_argument("title", None),
+            'content': self.get_argument("content", None),
+            'contact': self.get_argument("contact", None),
+            'userid': self.get_argument("userid", None),
+            'atime': self.get_argument("atime", None),
+        }
+        for k, v in newprofile.iteritems():
+            if not v:
+                return self.write(json.dumps({"status": 'error', "msg": k + "为必选项，请输入信息！"}))
+
+        newprofile['status'] = self.get_argument("status", 1)
+
+        m = self.db.tb_feedback_profile.update({"_id": record.get('_id')}, {"$set": newprofile})
+        return self.write(json.dumps({"status": 'ok', "msg": "修改公告成功！"}))
+
 
 class AdminShopList(BaseHandler):
     """商品列表"""
