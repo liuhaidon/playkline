@@ -12,7 +12,6 @@ from passlib.hash import pbkdf2_sha512
 
 class AdminLoginHandler(BaseHandler):
     """登录"""
-
     def get(self):
         # tornado.web.RequestHandler._template_loaders.clear()
         nexts = self.request.arguments.get("next")
@@ -82,14 +81,14 @@ class AdminHomeHandler(BaseHandler):
 
 class AdminUserList(BaseHandler):
     """用户列表"""
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         print "进来啦"
         user_list = self.db.tb_user_profile.find().sort("regtime", pymongo.DESCENDING)
         print user_list
         self.render("backend/user_list.html", myuser=self.admin, admin_nav=21, users=user_list)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -105,7 +104,7 @@ class AdminSysUsers(BaseHandler):
         print user_list
         self.render("backend/system_user_query.html", myuser=self.admin, admin_nav=22, users=user_list)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -116,7 +115,7 @@ class AdminSysUsers(BaseHandler):
 
 class AdminSysUserAdd(BaseHandler):
     """添加用户"""
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         userid = self.get_argument("userid", None)
         pwd = self.get_argument("passwd", None)
@@ -158,7 +157,7 @@ class AdminSysUserAdd(BaseHandler):
 
 class AdminDeleteSysUser(BaseHandler):
     """删除后端用户"""
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         print datas
@@ -170,7 +169,7 @@ class AdminDeleteSysUser(BaseHandler):
 
 class AdminModifySysUser(BaseHandler):
     """修改后端用户"""
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self, id):
         print "libraryid=", id
         record = self.db.tb_system_user.find_one({"_id": ObjectId(id)})
@@ -178,7 +177,7 @@ class AdminModifySysUser(BaseHandler):
         # print "question==>", type(record.get('questions', []))
         return self.render("backend/system_user_modify.html", myuser=self.admin, admin_nav=22, sysuser=record)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self, id):
         print "userid=", id
         record = self.db.tb_system_user.find_one({"_id": ObjectId(id)})
@@ -211,7 +210,7 @@ class AdminModifySysUser(BaseHandler):
 
 class AdminRepassSystem(BaseHandler):
     """删除密码"""
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
 
@@ -230,7 +229,7 @@ class AdminRepassSystem(BaseHandler):
 class AdminUserAdd(BaseHandler):
     """添加用户"""
     
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         users = self.db.tb_user_profile.find({"role": {"$ne": 'superadmin'}})
         type = self.get_argument("type", None)
@@ -240,7 +239,7 @@ class AdminUserAdd(BaseHandler):
         print "sssssssssssssssss"
         self.render("backend/add_user.html", myuser=self.admin, admin_nav=22, type=type, tags=tags, users=users)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         username = self.get_argument("username", None)
         email = self.get_argument('email', None)
@@ -284,48 +283,17 @@ class AdminNoticeList(BaseHandler):
     """系统公告列表"""
     # @BaseHandler.admin_authed
     def get(self):
-        notice_info = self.db.tb_notice_profile.find({"status": 1}).sort("_id", pymongo.DESCENDING)
+        notice_info = self.db.tb_notice_profile.find({"status": 1}).sort("atime", pymongo.ASCENDING)
         self.render("backend/notice_list.html", myuser=self.admin, admin_nav=61, notices=notice_info)
 
-    @BaseHandler.admin_authed
-    def post(self):
-        datas = self.request.arguments
-        del datas['_xsrf']
-        for key, value in datas.items():
-            self.db.tb_notice_profile.remove({"id": int(value[0]), "ispublic": 1})
-        return self.write(json.dumps({"status": "success", "error": "", "msg": u'删除系统公告成功'}))
-
-
-class AdminNoticeAdd(BaseHandler):
-    """发布公告"""
-
-    @BaseHandler.admin_authed
-    def get(self):
-        self.render("backend/notice_add.html", myuser=self.admin, admin_nav=3)
-
-    @BaseHandler.admin_authed
-    def post(self):
-        info = dict()
-        last = self.db.tb_notice_profile.find().sort("id", pymongo.DESCENDING).limit(1)
-        info['title'] = self.get_argument('title')
-        info['content'] = self.get_argument('content')
-        info['userid'] = self.admin['userid']
-        info['status'] = 1
-        info['platform'] = 0
-        info['time'] = time.strftime("%Y-%m-%d %H:%M:%S")
-        self.db.tb_notice_profile.insert(info)
-
-        return self.write(json.dumps({"status": "ok", "msg": u'增加系统公告成功'}))
-        # self.redirect("/admin/sys_notice")
 
 class AdminAddNotice(BaseHandler):
     """发布公告"""
-
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         self.render("backend/notice_add.html", myuser=self.admin, admin_nav=3)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         info = dict()
         info['title'] = self.get_argument('title')
@@ -333,35 +301,63 @@ class AdminAddNotice(BaseHandler):
         info['userid'] = self.admin['userid']
         info['status'] = 1
         info['platform'] = 0
-        info['time'] = time.strftime("%Y-%m-%d %H:%M:%S")
+        info['atime'] = time.strftime("%Y-%m-%d %H:%M:%S")
         self.db.tb_notice_profile.insert(info)
-
         return self.write(json.dumps({"status": "ok", "msg": u'增加系统公告成功'}))
 
 class AdminDeleteNotice(BaseHandler):
     """删除公告"""
-
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
-        # notice = self.settings['notice']
         for key, value in datas.items():
-            # course = self.db.tb_notice_profile.find_one({"_id": ObjectId(value[0])})
             self.db.tb_notice_profile.remove({"_id": ObjectId(value[0])})
-            # self.db.tb_banner_profile.remove({"pid": value[0], "type": "information"})
-            # notice.send(course['uid'], 16, course['id'], 'deleted', course['name'], '')
         self.write(json.dumps({"status": 'ok'}))
+
+
+class AdminModifyNotice(BaseHandler):
+    """修改公告"""
+    @BaseHandler.admin_authed
+    def get(self, id):
+        record = self.db.tb_notice_profile.find_one({"_id": ObjectId(id)})
+        self.render("backend/notice_modify.html", myuser=self.admin, admin_nav=91, notice=record)
+
+    @BaseHandler.admin_authed
+    def post(self, noticeid):
+        print "noticeid=", noticeid
+        record = self.db.tb_notice_profile.find_one({"_id": ObjectId(noticeid)})
+        print record
+        if not record:
+            return self.write(json.dumps({"status": 'error', "msg": "修改的公告不存在！"}))
+
+        newprofile = {
+            'title': self.get_argument("title", None),
+            'content': self.get_argument("content", None),
+            'userid': self.get_argument("userid", None),
+            'atime': self.get_argument("atime", None),
+        }
+        for k, v in newprofile.iteritems():
+            if not v:
+                return self.write(json.dumps({"status": 'error', "msg": k + "为必选项，请输入信息！"}))
+
+        newprofile['status'] = self.get_argument("status", 1)
+
+        m = self.db.tb_notice_profile.update({"_id": record.get('_id')}, {"$set": newprofile})
+        print m
+
+        return self.write(json.dumps({"status": 'ok', "msg": "修改公告成功！"}))
+
 
 class AdminFeedbackList(BaseHandler):
     """用户反馈列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         feedbacks = self.db.tb_feedback_profile.find().sort("_id", pymongo.DESCENDING)
         self.render("backend/feedback_list.html", myuser=self.admin, admin_nav=71, feedbacks=feedbacks)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -372,11 +368,11 @@ class AdminFeedbackList(BaseHandler):
 class AdminAddFeedback(BaseHandler):
     """发布反馈"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         self.render("backend/notice_add.html", myuser=self.admin, admin_nav=3)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         self.request.arguments
         info = dict()
@@ -393,7 +389,7 @@ class AdminAddFeedback(BaseHandler):
 class AdminDeleteFeedback(BaseHandler):
     """删除反馈"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -404,12 +400,12 @@ class AdminDeleteFeedback(BaseHandler):
 class AdminShopList(BaseHandler):
     """商品列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         shop_list = self.db.tb_recharge_package.find().sort("time", pymongo.ASCENDING)
         self.render("backend/shop_list.html", myuser=self.admin, admin_nav=51, shop_list=shop_list)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -421,11 +417,11 @@ class AdminShopList(BaseHandler):
 class AdminShopAdd(BaseHandler):
     """商品发布"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         self.render("backend/shop_add.html", myuser=self.admin, admin_nav=7)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         info = dict()
         info['gold'] = self.get_argument('gold')
@@ -441,11 +437,11 @@ class AdminShopAdd(BaseHandler):
 class AdminAddShop(BaseHandler):
     """商品发布"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         self.render("backend/shop_add.html", myuser=self.admin, admin_nav=7)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         info = dict()
         info['gold'] = self.get_argument('gold')
@@ -461,7 +457,7 @@ class AdminAddShop(BaseHandler):
 class AdminDeleteShop(BaseHandler):
     """删除商品"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -476,13 +472,13 @@ class AdminDeleteShop(BaseHandler):
 class AdminOrderList(BaseHandler):
     """订单列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         pay_list = self.db.transaction_record.find()
         print pay_list
         self.render("backend/order_list.html", myuser=self.admin, admin_nav=52, orders=pay_list)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -494,7 +490,7 @@ class AdminOrderList(BaseHandler):
 class AdminActivityList(BaseHandler):
     """活动列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         activity_list = self.db.tb_activity_profile.find().sort("time", pymongo.DESCENDING)
 
@@ -505,7 +501,7 @@ class AdminActivityList(BaseHandler):
         self.render("backend/activity_list.html", myuser=self.admin, admin_nav=31, activities=activity_list,
                     add_user=add_user)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         print datas
@@ -514,7 +510,7 @@ class AdminActivityList(BaseHandler):
             self.db.tb_activity_profile.remove({"_id": ObjectId(value[0])})
         return self.write(json.dumps({"status": "ok", "msg": u'删除活动成功'}))
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def put(self):
         handler = self.get_argument("handler", "")
         id = self.get_argument("id", 0)
@@ -531,11 +527,11 @@ class AdminActivityList(BaseHandler):
 class AdminActivityAdd(BaseHandler):
     """活动发布"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         self.render("backend/activity_add.html", myuser=self.admin, admin_nav=2)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         info = self.request.arguments
         for key, value in info.items():
@@ -567,7 +563,7 @@ class AdminActivityAdd(BaseHandler):
 class AdminDeleteActivity(BaseHandler):
     """删除商品"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -582,7 +578,7 @@ class AdminDeleteActivity(BaseHandler):
 class AdminTaskList(BaseHandler):
     """任务列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         t_type = self.get_argument("type", "")
         query = dict()
@@ -602,7 +598,7 @@ class AdminTaskList(BaseHandler):
         print task_list
         self.render("backend/task_list.html", myuser=self.admin, admin_nav=nav.get(t_type,"everyday"), tasks=task_list)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         print datas
@@ -611,7 +607,7 @@ class AdminTaskList(BaseHandler):
             self.db.tb_task_profile.remove({"id": int(value[0])})
         return self.write(json.dumps({"status": "success", "error": "", "msg": u'删除活动成功'}))
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def put(self):
         handler = self.get_argument("handler", "")
         id = self.get_argument("id", 0)
@@ -628,11 +624,11 @@ class AdminTaskList(BaseHandler):
 class AdminTaskAdd(BaseHandler):
     """任务发布"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         self.render("backend/task_add.html", myuser=self.admin, admin_nav=4)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         info = self.request.arguments
         for key, value in info.items():
@@ -665,7 +661,7 @@ class AdminTaskAdd(BaseHandler):
 class AdminDeleteTask(BaseHandler):
     """删除商品"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -680,13 +676,13 @@ class AdminDeleteTask(BaseHandler):
 class AdminHistoryList(BaseHandler):
     """股票列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         histories = self.db.tb_history_profile.find().sort("time", pymongo.DESCENDING)
 
         self.render("backend/history_list.html", myuser=self.admin, admin_nav=81, histories=histories)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         print datas
@@ -698,7 +694,7 @@ class AdminHistoryList(BaseHandler):
 class AdminDeleteHistory(BaseHandler):
     """删除商品"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         del datas['_xsrf']
@@ -713,7 +709,7 @@ class AdminDeleteHistory(BaseHandler):
 class AdminStock_list(BaseHandler):
     """股票列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         stock_list = self.db.stock.find().sort("time", pymongo.DESCENDING)
 
@@ -722,7 +718,7 @@ class AdminStock_list(BaseHandler):
 
         self.render("backend/stock_list.html", myuser=self.admin, admin_nav=2, stock_list=stock_list, add_user=add_user)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         print datas
@@ -735,7 +731,7 @@ class AdminStock_list(BaseHandler):
 class AdminDayline_list(BaseHandler):
     """日K线列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         dayline_list = self.db.dayline.find().sort("time", pymongo.DESCENDING)
 
@@ -744,7 +740,7 @@ class AdminDayline_list(BaseHandler):
 
         self.render("backend/dayline_list.html", myuser=self.admin, admin_nav=2, dayline_list=dayline_list, add_user=add_user)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         print datas
@@ -756,7 +752,7 @@ class AdminDayline_list(BaseHandler):
 class AdminExdividend_list(BaseHandler):
     """股票列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         exdividend_list = self.db.exdividend.find().sort("time", pymongo.DESCENDING)
 
@@ -765,7 +761,7 @@ class AdminExdividend_list(BaseHandler):
 
         self.render("backend/exdividend_list.html", myuser=self.admin, admin_nav=2, exdividend_list=exdividend_list, add_user=add_user)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         print datas
@@ -777,7 +773,7 @@ class AdminExdividend_list(BaseHandler):
 class AdminPackage_list(BaseHandler):
     """股票包列表"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         package_list = self.db.package.find().sort("time", pymongo.DESCENDING)
 
@@ -786,7 +782,7 @@ class AdminPackage_list(BaseHandler):
 
         self.render("backend/package_list.html", myuser=self.admin, admin_nav=2, stock_list=stock_list, add_user=add_user)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
         print datas
@@ -798,11 +794,11 @@ class AdminPackage_list(BaseHandler):
 class AdminPackage_add(BaseHandler):
     """任务发布"""
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def get(self):
         self.render("backend/package_add.html", myuser=self.admin, admin_nav=4)
 
-    @BaseHandler.admin_authed
+    # @BaseHandler.admin_authed
     def post(self):
         info = self.request.arguments
         for key, value in info.items():

@@ -78,6 +78,7 @@ class Application(tornado.web.Application):
             (r"/admin/notices", AdminNoticeList),
             (r"/admin/notice/add", AdminAddNotice),
             (r"/admin/notice/delete", AdminDeleteNotice),
+            (r"/admin/notice/([0-9a-z]{24})", AdminModifyNotice),
 
             (r"/admin/feedbacks", AdminFeedbackList),
             (r"/admin/feedback/add", AdminAddFeedback),

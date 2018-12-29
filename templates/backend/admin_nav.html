@@ -42,23 +42,11 @@
                 </ul>
             </li>
 
-            <!--<li>-->
-                <!--<a href="#"><i class="fa fa-user"></i> <span class="nav-label">用户管理</span> <span class="fa arrow"></span></a>-->
-                <!--<ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">-->
-                    <!--<li><a href="/admin/users">用户列表</a></li>-->
-                    <!--{% if myuser.get('role') == "superadmin" %}-->
-                    <!--<li><a href="/admin/sysusers">系统用户</a></li>-->
-                    <!--{% end %}-->
-                    <!--&lt;!&ndash;<li><a href="/admin/user_add">添加用户</a></li>&ndash;&gt;-->
-                <!--</ul>-->
-            <!--</li>-->
             <li>
                 <a href="#"><i class="fa fa-user"></i> <span class="nav-label">用户管理</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
                     <li><a href="/admin/users">用户列表</a></li>
-                    {% if myuser.get('role') == "superadmin" %}
                     <li><a href="/admin/sysusers">系统用户</a></li>
-                    {% end %}
                 </ul>
             </li>
 
