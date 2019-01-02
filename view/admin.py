@@ -83,11 +83,62 @@ class AdminUserList(BaseHandler):
     """用户列表"""
     # @BaseHandler.admin_authed
     def get(self):
-        print "进来啦"
-        user_list = self.db.tb_user_profile.find().sort("regtime", pymongo.DESCENDING)
-        print user_list
-        self.render("backend/user_list.html", myuser=self.admin, admin_nav=21, users=user_list)
+        user_list = list(self.db.tb_user_profile.find().sort("regtime", pymongo.ASCENDING))
+        self.render("backend/front_user_list.html", myuser=self.admin, admin_nav=21, users=user_list)
 
+
+class AdminUserAdd(BaseHandler):
+    """添加用户"""
+    # @BaseHandler.admin_authed
+    def get(self):
+        users = self.db.tb_user_profile.find({"role": {"$ne": 'superadmin'}})
+        type = self.get_argument("type", None)
+        role = self.get_argument("role", None)
+        # nav = {"0": 21, "jury": 22, "scientist": 23, "investor": 24, "gm": 25}
+        tags = self.db.iptag.find()
+        print "sssssssssssssssss"
+        self.render("backend/front_user_list.html", myuser=self.admin, admin_nav=22, type=type, tags=tags, users=users)
+
+    # @BaseHandler.admin_authed
+    def post(self):
+        username = self.get_argument("username", None)
+        email = self.get_argument('email', None)
+        phone = self.get_argument('phone', None)
+
+        pwd = self.get_argument("pwd", None)
+        role = self.get_argument("role", "")
+        user = self.db.tb_user_profile.find_one({'uid': username})
+        area = self.request.arguments.get("area")
+        print area
+        if user:
+            self.logging.info(u'该帐号已经注册')
+            return self.write(json.dumps({"msg": u'该帐号已经注册', "error": 'error'}))
+        else:
+            # baseurl = "http://cdn.zi-han.net/im/temp/"
+            img_arr = ['1.jpg', '3.jpg', '3.jpg', '2.jpg', '7.jpg', '8.jpg', '5.jpg', '6.jpg']
+            user = {
+                'userid': username,
+                'passwd': pwd,
+                'name': username,
+                'role': role,
+                'regtime': time.strftime('%Y-%m-%d', time.localtime(time.time())),
+                'phone': phone,
+                'email': email,
+                'avatar': random.choice(img_arr),
+                'pay_pwd': pwd,  # 支付密码，默认与登录密码一样
+            }
+            if area:
+                user.update({"area": area})
+            # print 'user%s'%user
+            self.logging.info(('register user %s %s' % (user['uid'], user['pwd'])))
+            res = self.application.auth.register(user)
+            if not res:
+                print "register error"
+                return self.write(json.dumps({"msg": u'注册失败', "error": 'error'}))
+
+
+class AdminDeleteUser(BaseHandler):
+    """删除后端用户"""
     # @BaseHandler.admin_authed
     def post(self):
         datas = self.request.arguments
@@ -96,6 +147,69 @@ class AdminUserList(BaseHandler):
             self.db.tb_user_profile.remove({"userid": ObjectId(value[0])})
         return self.write(json.dumps({"status": "success", "error": "", "msg": u'删除用户成功'}))
 
+
+class AdminModifyUser(BaseHandler):
+    """修改端用户"""
+    @BaseHandler.admin_authed
+    def get(self, id):
+        print "libraryid=", id
+        record = self.db.tb_user_profile.find_one({"_id": ObjectId(id)})
+        return self.render("backend/front_user_modify.html", myuser=self.admin, admin_nav=21, user=record)
+
+    @BaseHandler.admin_authed
+    def post(self, id):
+        print "userid=", id
+        record = self.db.tb_user_profile.find_one({"_id": ObjectId(id)})
+        print record
+        if not record:
+            return self.write(json.dumps({"status": 'error', "msg": "修改的后端用户不存在！"}))
+        pass3 = pbkdf2_sha512.encrypt(self.get_argument("pwd", None))
+        print pass3
+        newprofile = {
+            'create_time': self.get_argument("create_time", None),
+            'last_visit_time': self.get_argument("last_visit_time", None),
+            'phone': self.get_argument("phone", None),
+            'passwd': pass3,
+        }
+        print "newprofile===>", newprofile
+        user_info = {
+            'phone': self.get_argument("phone", None),
+            'degree': self.get_argument("degree", None),
+            'score': self.get_argument("score", None),
+            'exp': self.get_argument("exp", None),
+            'win': self.get_argument("win", None),
+            'lose': self.get_argument("lose", None),
+            'runaway': self.get_argument("runaway", None),
+            'status': self.get_argument("status"),
+        }
+        for k, v in newprofile.iteritems():
+            if not v:
+                return self.write(json.dumps({"status": 'error', "msg": k + "为必选项，请输入信息！"}))
+        userinfo = record.get("user_info", "")
+        user_info["openid"] = userinfo.get("openid")
+        user_info["nickName"] = userinfo.get("nickName")
+        user_info["gender"] = userinfo.get("gender")
+        user_info["language"] = userinfo.get("language")
+        user_info["city"] = userinfo.get("city")
+        user_info["province"] = userinfo.get("province")
+        user_info["country"] = userinfo.get("country")
+        user_info["avatarUrl"] = userinfo.get("avatarUrl")
+        user_info["watermark"] = userinfo.get("watermark", "")
+        user_info["rate"] = userinfo.get("rate")
+        user_info["push"] = userinfo.get("push")
+        user_info["voice"] = userinfo.get("voice")
+        user_info["title"] = userinfo.get("title")
+        user_info["from"] = userinfo.get("from")
+        user_info["gates"] = userinfo.get("gates", "")
+
+        print "new record==>", record.get("user_info")
+        print "new user_info==>", user_info
+        m = self.db.tb_user_profile.update_one({"_id": record.get('_id')}, {"$set": newprofile})
+        m = self.db.tb_user_profile.update_one({"_id": record.get('_id')}, {"$set": {"user_info": user_info}})
+
+        return self.write(json.dumps({"status": 'ok', "msg": "修改的后端用户成功！"}))
+
+
 class AdminSysUsers(BaseHandler):
     """用户列表"""
     # @BaseHandler.admin_authed
@@ -103,14 +217,6 @@ class AdminSysUsers(BaseHandler):
         user_list = self.db.tb_system_user.find().sort("time", pymongo.DESCENDING)
         print user_list
         self.render("backend/system_user_query.html", myuser=self.admin, admin_nav=22, users=user_list)
-
-    # @BaseHandler.admin_authed
-    def post(self):
-        datas = self.request.arguments
-        del datas['_xsrf']
-        for key, value in datas.items():
-            self.db.tb_system_user.remove({"userid": ObjectId(value[0])})
-        return self.write(json.dumps({"status": "success", "error": "", "msg": u'删除用户成功'}))
 
 
 class AdminSysUserAdd(BaseHandler):
@@ -224,59 +330,6 @@ class AdminRepassSystem(BaseHandler):
 
         m = self.db.tb_system_user.update_one({"_id": ObjectId(userid)}, {"$set": {"passwd":pass3}})
         self.write(json.dumps({"status": 'ok', "msg": u'修改密码成功'}))
-
-
-class AdminUserAdd(BaseHandler):
-    """添加用户"""
-    
-    # @BaseHandler.admin_authed
-    def get(self):
-        users = self.db.tb_user_profile.find({"role": {"$ne": 'superadmin'}})
-        type = self.get_argument("type", None)
-        role = self.get_argument("role", None)
-        # nav = {"0": 21, "jury": 22, "scientist": 23, "investor": 24, "gm": 25}
-        tags = self.db.iptag.find()
-        print "sssssssssssssssss"
-        self.render("backend/add_user.html", myuser=self.admin, admin_nav=22, type=type, tags=tags, users=users)
-
-    # @BaseHandler.admin_authed
-    def post(self):
-        username = self.get_argument("username", None)
-        email = self.get_argument('email', None)
-        phone = self.get_argument('phone', None)
-
-        pwd = self.get_argument("pwd", None)
-        role = self.get_argument("role", "")
-        user = self.db.tb_user_profile.find_one({'uid': username})
-        area = self.request.arguments.get("area")
-        print area
-        if user:
-            self.logging.info(u'该帐号已经注册')
-            return self.write(json.dumps({"msg": u'该帐号已经注册', "error": 'error'}))
-        else:
-            # baseurl = "http://cdn.zi-han.net/im/temp/"
-            img_arr = ['1.jpg', '3.jpg', '3.jpg', '2.jpg', '7.jpg', '8.jpg', '5.jpg', '6.jpg']
-            user = {
-                'userid': username,
-                'passwd': pwd,
-                'name': username,
-                'role': role,
-                'regtime': time.strftime('%Y-%m-%d', time.localtime(time.time())),
-                'phone': phone,
-                'email': email,
-                'avatar': random.choice(img_arr),
-                'pay_pwd': pwd,  # 支付密码，默认与登录密码一样
-            }
-            if area:
-                user.update({"area": area})
-            # print 'user%s'%user
-            self.logging.info(('register user %s %s' % (user['uid'], user['pwd'])))
-            res = self.application.auth.register(user)
-            if not res:
-                print "register error"
-                return self.write(json.dumps({"msg": u'注册失败', "error": 'error'}))
-        self.redirect('/admin/users')
-
 
 
 class AdminNoticeList(BaseHandler):

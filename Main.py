@@ -68,12 +68,28 @@ class Application(tornado.web.Application):
 
             (r"/admin/users", AdminUserList),
             (r"/admin/user/add", AdminUserAdd),
+            (r"/admin/user/delete", AdminDeleteUser),
+            (r"/admin/user/([0-9a-z]{24})", AdminModifyUser),
 
             (r"/admin/sysusers", AdminSysUsers),
             (r"/admin/sysuser/add", AdminSysUserAdd),
             (r"/admin/sysuser/delete", AdminDeleteSysUser),
             (r"/admin/sysuser/([0-9a-z]{24})", AdminModifySysUser),
             (r"/admin/system/repass", AdminRepassSystem),
+
+            (r"/admin/activities", AdminActivityList),
+            (r"/admin/activity/add", AdminActivityAdd),
+            (r"/admin/activity/delete", AdminDeleteActivity),
+
+            (r"/admin/tasks", AdminTaskList),
+            (r"/admin/task/add", AdminTaskAdd),
+            (r"/admin/task/delete", AdminDeleteTask),
+
+            (r"/admin/shops", AdminShopList),
+            (r"/admin/shop/add", AdminAddShop),
+            (r"/admin/shop/delete", AdminDeleteShop),
+
+            (r"/admin/orders", AdminOrderList),
 
             (r"/admin/notices", AdminNoticeList),
             (r"/admin/notice/add", AdminAddNotice),
@@ -84,20 +100,6 @@ class Application(tornado.web.Application):
             (r"/admin/feedback/add", AdminAddFeedback),
             (r"/admin/feedback/delete", AdminDeleteFeedback),
             (r"/admin/feedback/([0-9a-z]{24})", AdminModifyFeedback),
-
-            (r"/admin/shops", AdminShopList),
-            (r"/admin/shop/add", AdminAddShop),
-            (r"/admin/shop/delete", AdminDeleteShop),
-
-            (r"/admin/orders", AdminOrderList),
-
-            (r"/admin/activities", AdminActivityList),
-            (r"/admin/activity/add", AdminActivityAdd),
-            (r"/admin/activity/delete", AdminDeleteActivity),
-
-            (r"/admin/tasks", AdminTaskList),
-            (r"/admin/task/add", AdminTaskAdd),
-            (r"/admin/task/delete", AdminDeleteTask),
 
             (r"/admin/histories", AdminHistoryList),
             (r"/admin/history/delete", AdminDeleteHistory),

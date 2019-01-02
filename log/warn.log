@@ -1,71 +1,71 @@
-Sat, 29 Dec 2018 16:44:10 web.py[line:2854] ERROR Could not open static file 'F:\\kline\\static\\img\\a7.jpg'
-Sat, 29 Dec 2018 16:44:10 web.py[line:2854] ERROR Could not open static file 'F:\\kline\\static\\img\\a4.jpg'
-Sat, 29 Dec 2018 16:44:10 web.py[line:2162] INFO 200 GET /admin/notices (127.0.0.1) 32.00ms
-Sat, 29 Dec 2018 16:44:11 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:44:11 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:11 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:44:11 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:11 web.py[line:2162] WARNING 404 GET /admin/skin-config.html (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:14 web.py[line:2162] INFO 200 GET /admin/notice/5c272399be5f3754dc88c0eb (127.0.0.1) 19.00ms
-Sat, 29 Dec 2018 16:44:14 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 6.00ms
-Sat, 29 Dec 2018 16:44:14 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:14 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:44:14 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:14 web.py[line:2162] WARNING 404 GET /admin/notice/skin-config.html (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:19 web.py[line:2162] INFO 200 POST /admin/notice/5c272399be5f3754dc88c0eb (127.0.0.1) 5.00ms
-Sat, 29 Dec 2018 16:44:20 web.py[line:2162] INFO 200 GET /admin/notices (127.0.0.1) 5.00ms
-Sat, 29 Dec 2018 16:44:20 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 3.00ms
-Sat, 29 Dec 2018 16:44:20 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 2.00ms
-Sat, 29 Dec 2018 16:44:20 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:20 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:20 web.py[line:2162] WARNING 404 GET /admin/skin-config.html (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:25 web.py[line:2162] INFO 200 GET /admin/notice/5c272399be5f3754dc88c0eb (127.0.0.1) 3.00ms
-Sat, 29 Dec 2018 16:44:25 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:44:25 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 2.00ms
-Sat, 29 Dec 2018 16:44:25 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:44:25 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 2.00ms
-Sat, 29 Dec 2018 16:44:25 web.py[line:2162] WARNING 404 GET /admin/notice/skin-config.html (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:44:39 web.py[line:2162] INFO 200 GET /admin/feedbacks (127.0.0.1) 32.00ms
-Sat, 29 Dec 2018 16:44:39 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 3.00ms
-Sat, 29 Dec 2018 16:44:39 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:39 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:39 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:39 web.py[line:2162] WARNING 404 GET /admin/skin-config.html (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:43 web.py[line:2162] INFO 200 GET /admin/feedback/5c272a7fbe5f374f4006cea2 (127.0.0.1) 17.00ms
-Sat, 29 Dec 2018 16:44:43 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 7.00ms
-Sat, 29 Dec 2018 16:44:43 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:43 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:44:43 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 2.00ms
-Sat, 29 Dec 2018 16:44:43 web.py[line:2162] WARNING 404 GET /admin/feedback/skin-config.html (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:47 web.py[line:2162] INFO 200 POST /admin/feedback/5c272a7fbe5f374f4006cea2 (127.0.0.1) 3.00ms
-Sat, 29 Dec 2018 16:44:48 web.py[line:2162] INFO 200 GET /admin/feedbacks (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:44:48 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:44:48 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:48 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:48 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:48 web.py[line:2162] WARNING 404 GET /admin/skin-config.html (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:55 web.py[line:2162] INFO 200 GET /admin/notices (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:44:55 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 5.00ms
-Sat, 29 Dec 2018 16:44:55 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:55 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:55 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 2.00ms
-Sat, 29 Dec 2018 16:44:55 web.py[line:2162] WARNING 404 GET /admin/skin-config.html (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:44:58 web.py[line:2162] INFO 200 GET /admin/notice/5c272399be5f3754dc88c0eb (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:44:58 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:44:58 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 2.00ms
-Sat, 29 Dec 2018 16:44:58 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:44:58 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:44:58 web.py[line:2162] WARNING 404 GET /admin/notice/skin-config.html (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:45:04 web.py[line:2162] INFO 200 GET /admin/notice/5c272399be5f3754dc88c0eb (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:45:04 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:45:04 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:45:04 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:45:04 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:45:04 web.py[line:2162] WARNING 404 GET /admin/notice/skin-config.html (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:45:11 web.py[line:2162] INFO 200 POST /admin/notice/5c272399be5f3754dc88c0eb (127.0.0.1) 3.00ms
-Sat, 29 Dec 2018 16:45:13 web.py[line:2162] INFO 200 GET /admin/notices (127.0.0.1) 6.00ms
-Sat, 29 Dec 2018 16:45:13 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 4.00ms
-Sat, 29 Dec 2018 16:45:13 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:45:13 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 0.00ms
-Sat, 29 Dec 2018 16:45:13 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
-Sat, 29 Dec 2018 16:45:13 web.py[line:2162] WARNING 404 GET /admin/skin-config.html (127.0.0.1) 0.00ms
+Sat, 29 Dec 2018 17:51:43 web.py[line:2854] ERROR Could not open static file 'F:\\kline\\static\\img\\a7.jpg'
+Sat, 29 Dec 2018 17:51:43 web.py[line:2854] ERROR Could not open static file 'F:\\kline\\static\\img\\a4.jpg'
+Sat, 29 Dec 2018 17:51:43 web.py[line:2162] INFO 200 GET /admin/users (127.0.0.1) 30.00ms
+Sat, 29 Dec 2018 17:51:43 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 4.00ms
+Sat, 29 Dec 2018 17:51:43 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 2.00ms
+Sat, 29 Dec 2018 17:51:43 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 0.00ms
+Sat, 29 Dec 2018 17:51:43 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 3.00ms
+Sat, 29 Dec 2018 17:51:43 web.py[line:2162] WARNING 404 GET /admin/skin-config.html (127.0.0.1) 0.00ms
+Sat, 29 Dec 2018 17:51:45 web.py[line:1670] ERROR Uncaught exception GET /admin/user/56c94518648b77169e9eb8ef (127.0.0.1)
+HTTPServerRequest(protocol='http', host='127.0.0.1:8001', method='GET', uri='/admin/user/56c94518648b77169e9eb8ef', version='HTTP/1.1', remote_ip='127.0.0.1')
+Traceback (most recent call last):
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 1590, in _execute
+    result = method(*self.path_args, **self.path_kwargs)
+  File "F:\kline\BaseHandler.py", line 235, in wrapper
+    return method(self, *args, **kwargs)
+  File "F:\kline\view\admin.py", line 160, in get
+    return self.render("backend/front_user_modify.html", myuser=self.admin, admin_nav=21, user=record)
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 766, in render
+    html = self.render_string(template_name, **kwargs)
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 907, in render_string
+    return t.generate(**namespace)
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\template.py", line 346, in generate
+    return execute()
+  File "backend/front_user_modify_html.generated.py", line 125, in _tt_execute
+    _tt_tmp = game.get('nickName','')  # backend/front_user_modify.html:86 (via backend\base.html:31)
+AttributeError: 'NoneType' object has no attribute 'get'
+Sat, 29 Dec 2018 17:51:45 web.py[line:2162] ERROR 500 GET /admin/user/56c94518648b77169e9eb8ef (127.0.0.1) 21.00ms
+Sat, 29 Dec 2018 18:00:28 web.py[line:2162] INFO 200 GET /admin/users (127.0.0.1) 7.00ms
+Sat, 29 Dec 2018 18:00:28 web.py[line:2162] WARNING 404 GET /static/img/a7.jpg (127.0.0.1) 3.00ms
+Sat, 29 Dec 2018 18:00:28 web.py[line:2162] WARNING 404 GET /static/img/a4.jpg (127.0.0.1) 1.00ms
+Sat, 29 Dec 2018 18:00:28 web.py[line:2162] WARNING 404 GET /fonts.useso.com/css-family=Open+Sans-300,400,600,700&lang=en.css (127.0.0.1) 1.00ms
+Sat, 29 Dec 2018 18:00:28 web.py[line:2162] WARNING 404 GET /static/backend/patterns/header-profile.png (127.0.0.1) 1.00ms
+Sat, 29 Dec 2018 18:00:28 web.py[line:2162] WARNING 404 GET /admin/skin-config.html (127.0.0.1) 0.00ms
+Sat, 29 Dec 2018 18:00:30 web.py[line:1670] ERROR Uncaught exception GET /admin/user/56c94518648b77169e9eb8ef (127.0.0.1)
+HTTPServerRequest(protocol='http', host='127.0.0.1:8001', method='GET', uri='/admin/user/56c94518648b77169e9eb8ef', version='HTTP/1.1', remote_ip='127.0.0.1')
+Traceback (most recent call last):
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 1590, in _execute
+    result = method(*self.path_args, **self.path_kwargs)
+  File "F:\kline\BaseHandler.py", line 235, in wrapper
+    return method(self, *args, **kwargs)
+  File "F:\kline\view\admin.py", line 160, in get
+    return self.render("backend/front_user_modify.html", myuser=self.admin, admin_nav=21, user=record)
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 766, in render
+    html = self.render_string(template_name, **kwargs)
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 907, in render_string
+    return t.generate(**namespace)
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\template.py", line 346, in generate
+    return execute()
+  File "backend/front_user_modify_html.generated.py", line 125, in _tt_execute
+    _tt_tmp = game.get('nickName','')  # backend/front_user_modify.html:86 (via backend\base.html:31)
+AttributeError: 'NoneType' object has no attribute 'get'
+Sat, 29 Dec 2018 18:00:30 web.py[line:2162] ERROR 500 GET /admin/user/56c94518648b77169e9eb8ef (127.0.0.1) 7.00ms
+Sat, 29 Dec 2018 18:17:19 web.py[line:1670] ERROR Uncaught exception GET /admin/user/56c94518648b77169e9eb8ef (127.0.0.1)
+HTTPServerRequest(protocol='http', host='127.0.0.1:8001', method='GET', uri='/admin/user/56c94518648b77169e9eb8ef', version='HTTP/1.1', remote_ip='127.0.0.1')
+Traceback (most recent call last):
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 1590, in _execute
+    result = method(*self.path_args, **self.path_kwargs)
+  File "F:\kline\BaseHandler.py", line 235, in wrapper
+    return method(self, *args, **kwargs)
+  File "F:\kline\view\admin.py", line 160, in get
+    def post(self, id):
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 766, in render
+    html = self.render_string(template_name, **kwargs)
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\web.py", line 907, in render_string
+    return t.generate(**namespace)
+  File "C:\Users\deseka\PycharmProjects\tornado\venv\lib\site-packages\tornado\template.py", line 346, in generate
+    return execute()
+  File "backend/front_user_modify_html.generated.py", line 125, in _tt_execute
+    _tt_tmp = game.get('nickName','')  # backend/front_user_modify.html:86 (via backend\base.html:31)
+AttributeError: 'NoneType' object has no attribute 'get'
+Sat, 29 Dec 2018 18:17:19 web.py[line:2162] ERROR 500 GET /admin/user/56c94518648b77169e9eb8ef (127.0.0.1) 48.00ms

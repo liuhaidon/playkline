@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block title %}系统用户编辑{% end %}
+{% block content %}
+<script type="text/javascript" src="{{ static_url('WdatePicker/WdatePicker.js') }}"></script>
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {% include 'admin_nav.html' %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include 'header_nav.html' %}
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>系统用户</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/admin/home">主页</a>
+                    </li>
+                    <li>
+                        <a href="/admin/users">系统用户管理</a>
+                    </li>
+                    <li>
+                        <strong>系统用户编辑</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>用户信息
+                                <small>用户，查找</small>
+                            </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">选项1</a>
+                                    </li>
+                                    <li><a href="#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content">
+                            <form method="post" id="alb_setting_form" class="form-horizontal">
+                                <input name="id" type="hidden" value="{{ user.get('_id','') }}">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">编号</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" readonly="true" placeholder="不多于32个字" id="openid" name="openid" value="{{ user.get('_id','') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">UUID</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly="true" placeholder="名称" id="uuid" name="uuid" class="form-control" value="{{ user.get('uid','') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">昵称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly=true placeholder="名称" id="nickName" name="nickName" class="form-control" value="{{ game.get('nickName','') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="手机号" id="phone" name="phone" class="form-control" value="{{ game.get('phone','') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" placeholder="密码" id="pwd" name="pwd" class="form-control" value="{{ game.get('passwd','') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分数</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" placeholder="分数"  id="score" name="score" value="{{ game.get('score','') }}">
+                                    </div>
+                                </div>
+
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">最近登录时间</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" placeholder="注册时间" id="last_visit_time" name="last_visit_time" onclick="WdatePicker({lang:'zh-cn', dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{ user.get('lasttime','') }}">
+                                    </div>
+                                </div>
+
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">用户状态</label>
+                                    <div class="col-sm-10">
+                                        <select  class="form-control" id="status" name="status" data-status="{{ user.get('status','') }}">
+                                            <option value="1">在线</option>
+                                            <option value="0">离线</option>
+                                            <option value="-1">禁止</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <a class="btn btn-primary modifyBtn" type="submit">保存内容</a>
+                                        <button class="btn btn-white" onclick="javascript:window.history.go(-1);return false;">返回</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function initiate() {
+        var role = $("#role").data("role");
+        $("#role").val(role);
+
+        var status = $("#status").data("status");
+        var sts = {"online":"在线","open":"有效","prohibit":"禁止"};
+        var st = status;
+        if(isNaN(status))
+            st = sts[status];
+
+        $("#status").find("option:contains(st)").attr("selected",true);
+    }
+
+    $(function () {
+        initiate();
+    });
+
+    $('.btn.btn-primary.modifyBtn').click(function () {
+        var json = {
+            'phone': $("#phone").val(),
+            'pwd': $("#pwd").val(),
+            'degree': $('#degree').val(),
+            'score': $("#score").val(),
+            'exp': $("#exp").val(),
+            'win': $("#win").val(),
+            'lose': $("#lose").val(),
+            'runaway': $("#runaway").val(),
+            'create_time': $("#create_time").val(),
+            'last_visit_time': $("#last_visit_time").val(),
+            'status': $("#status").val(),
+            '_xsrf': $("input[name='_xsrf']").val()
+        };
+
+        // if (json['name'] == '') {
+        //     alert("系统用户名称不能为空！");
+        //     return false;
+        // }
+        // if (json['userid'] == '') {
+        //     alert("系统用户id不能为空！");
+        //     return false;
+        // }
+        // if (json['mobile'] == '') {
+        //     alert("手机号不能为空！");
+        //     return false;
+        // }
+        // if (json['email'] == '') {
+        //     alert("电子邮件不能为空！");
+        //     return false;
+        // }
+        // var n = /^[1-9]\d*$/;
+        // if(!n.test(json["admission"])){
+        //     alert('入场券请输入正整数');
+        // }
+        // if(!n.test(json["rewards"])){
+        //     alert('奖金请输入正整数');
+        // }
+        // if(!n.test(json["star"])){
+        //     alert('星数请输入正整数');
+        // }
+        // else {
+        console.log("++==")
+        $.ajax({
+            url: window.location.pathname,
+            type: 'post',
+            data: json,
+            success: function (re) {
+                var json = jQuery.parseJSON(re);
+                alert(json.msg);
+                if(json.status!='ok'){
+                    return false;
+                }
+                window.location.href = '/admin/users';
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+        // }
+    });
+</script>
+
+<style>
+    th:first-child,
+    .gradeX td:first-child {
+        width: 20px;
+        cursor: pointer;
+    }
+
+    th:first-child input,
+    .gradeX td:first-child input {
+        cursor: pointer;
+    }
+</style>
+{% end %}
